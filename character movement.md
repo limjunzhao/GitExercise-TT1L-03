@@ -41,7 +41,6 @@ class Player (pygame.sprite.Sprite):
     def move(self): 
         self.pos += pygame.math.Vector2(self.velocity_x, self.velocity_y)
 
-
 player = Player()
 
 while True: 
