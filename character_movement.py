@@ -30,8 +30,7 @@ class Player (pygame.sprite.Sprite):
 
         if keys[pygame.K_UP]: 
             self.velocity_y = -self.speed 
-        if keys[pygame.K_LEFT]: 
-                
+        if keys[pygame.K_LEFT]:   
             self.velocity_x = -self.speed 
         if keys[pygame.K_DOWN]: 
             self.velocity_y = self.speed 
