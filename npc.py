@@ -10,19 +10,17 @@ screen_height = 600
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Interacting with NPCs")
 
-# Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 
 font = pygame.font.SysFont(None, 24)
 
-# Player image
+
 player_image = pygame.Surface((50, 50))
 player_image.fill((255, 0, 0))  # Red color for player
 player_rect = player_image.get_rect(center=(screen_width // 2, screen_height // 2))
 
-# NPC data (position, name, and speech text)
 npc_data = [
     {"name": "Maria", "position": (100, 100), "speech": "Hi there, adventurer!"},
     {"name": "Amber", "position": (600, 100), "speech": "Greetings, traveler!"},
@@ -41,8 +39,7 @@ def check_npc_collision(player_rect, npc_rect):
 
 clock = pygame.time.Clock()
 while True:
-    screen.fill(BLACK)  # Clear the screen
-
+    screen.fill(BLACK)  
   
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -52,7 +49,7 @@ while True:
     
     keys = pygame.key.get_pressed()
 
-    # Move the player based on arrow key inputs
+ 
     if keys[pygame.K_UP]:
         player_rect.y -= 5
     if keys[pygame.K_DOWN]:
@@ -81,15 +78,15 @@ while True:
         npc_name_rect = npc_name_surface.get_rect(center=(npc_rect.centerx, npc_rect.bottom + 10))
         screen.blit(npc_name_surface, npc_name_rect)
 
-    # Draw the speech bubble if there's text
+    
     if speech_text:
         pygame.draw.rect(screen, WHITE, speech_rect, 0, 10)
         pygame.draw.rect(screen, BLACK, speech_rect, 2, 10)
 
-        # Draw the speech text
+        
         speech_surface = font.render(speech_text, True, BLACK)
         speech_text_rect = speech_surface.get_rect(center=speech_rect.center)
         screen.blit(speech_surface, speech_text_rect)
 
     pygame.display.flip()
-    clock.tick(60)  # Limit frame rate to 60 FPS
+    clock.tick(60)  
