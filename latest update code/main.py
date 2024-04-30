@@ -1,6 +1,7 @@
 import pygame, sys
 from settings import *
 from level import Level 
+from camera import CameraGroup
 
 class Game:
 	def __init__(self):
@@ -12,7 +13,7 @@ class Game:
 		self.clock = pygame.time.Clock()
 		#bring the level page here 
 		self.level = Level()
-
+		self.camera_group = CameraGroup()
 
 	def run(self):
 		while True:
@@ -23,6 +24,7 @@ class Game:
 			
 			self.screen.fill('black')
 			self.level.run()
+			self.camera_group.update()
 			pygame.display.update()
 			self.clock.tick(FPS)
 
