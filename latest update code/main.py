@@ -1,7 +1,6 @@
 import pygame, sys
 from settings import *
-from level import Level
-
+from level import Level 
 
 class Game:
 	def __init__(self):
@@ -13,7 +12,6 @@ class Game:
 		self.clock = pygame.time.Clock()
 		#bring the level page here 
 		self.level = Level()
-		
 
 
 	def run(self):
