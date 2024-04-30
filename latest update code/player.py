@@ -4,15 +4,17 @@ from settings import *
 class Player(pygame.sprite.Sprite):
 	def __init__(self,pos,groups,obstacle_sprites):
 		super().__init__(groups)
-		self.image = pygame.image.load('MyGame/Character/player_single.png').convert_alpha()
+		self.image = pygame.image.load('MyGame/Character/chick.png').convert_alpha()
+		self.scale_image = pygame.transform.rotozoom (self.image,0 , 4)
 		self.rect = self.image.get_rect(topleft = pos)
+
 
 		#if we didnt put any argument inside this Vector2(), it will default as (0,0) 
 		self.direction = pygame.math.Vector2()
 		self.speed = 3
 		
 		self.obstacle_sprites = obstacle_sprites
-
+		pygame.display.update
 	def input(self): 
 
 		keys = pygame.key.get_pressed()
@@ -71,3 +73,4 @@ class Player(pygame.sprite.Sprite):
 		self.input()
 		#we update the move thingy to main.py and put the self.speed = speed = 5 into argument 
 		self.move (self.speed)
+	  
