@@ -188,7 +188,7 @@ def option():
     SCREEN_HEIGHT = 1280
     SCREEN_WIDTH = 720
 
-    # Load images
+    # load images
     image = volup_static = pygame.image.load('vol_up.png')
     image = volup_hover = pygame.image.load('vol_up-hover.png')
     image = voldown_static = pygame.image.load('vol_down-static.png')
@@ -197,15 +197,15 @@ def option():
     image = volmute_hover = pygame.image.load('vol_mute-hover.png')
     image = back_static = pygame.image.load('back_static.png')
     image = back_hover = pygame.image.load('back_hover.png')
+
+
+    # later got img for background alrdt=y put hereeee!!!
     # # background_image = pygame.image.load('background43.jpg')
     # # background_image = pygame.transform.scale(background_image, (SCREEN_HEIGHT, SCREEN_WIDTH))
 
 
     image_rect = image.get_rect()
     image_x = (SCREEN_HEIGHT - image_rect.width) // 2
-
-    # x = SCREEN_HEIGHT
-    # y = SCREEN_WIDTH
 
     # Main screen
     screen = pygame.display.set_mode((SCREEN_HEIGHT, SCREEN_WIDTH))
@@ -256,22 +256,7 @@ def option():
     run = True
     while run:
         screen.fill('grey')
-        # screen.blit(background_image, (0,0))
 
-
-        
-<<<<<<< HEAD
-=======
-        timer.tick(60)
-        pygame.draw.rect(screen, 'black', [500, 50, 350, 150 ])
-        if counter < speed * len(message):
-            counter += 1
-        elif counter >= speed * len(message):
-            done = True
-
-        snip = font.render(message[0:counter//speed], True, 'white')
-        screen.blit(snip, (510, 100))
->>>>>>> 198356ef1d0635348ddaa613af3007c9035edf86
         
 
         if vol_up_button.draw():
