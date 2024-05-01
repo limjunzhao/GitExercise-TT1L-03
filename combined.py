@@ -8,7 +8,8 @@ screen_width = 800
 screen_height = 600
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-font = pygame.font.SysFont(None, 20)
+font = pygame.font.SysFont(None, 24)  # Larger font size for NPC names
+speech_font = pygame.font.SysFont(None, 28)  # Larger font size for NPC speech
 clock = pygame.time.Clock()
 
 # Define player image and rect
@@ -42,11 +43,11 @@ def draw_text(surface, text, color, rect, font):
             lines.append(line)
             line = word + ' '
     lines.append(line)
-    y = rect.top
+    y = rect.top + 10  # Move text down by 10 pixels
     for line in lines:
         text_surface = font.render(line, True, color)
         text_rect = text_surface.get_rect()
-        text_rect.topleft = (rect.left, y)
+        text_rect.topleft = (rect.left + 5, y)  # Adjusted position to the right and down
         surface.blit(text_surface, text_rect)
         y += font.get_linesize()
 
@@ -59,6 +60,7 @@ def render_typewriter_npc_speech(surface, text, color, rect, font):
         draw_text(surface, text[:i], BLACK, rect, font)
         pygame.display.flip()
         clock.tick(20)
+    pygame.time.wait(8000)
 
 # Main loop
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -77,8 +79,8 @@ while True:
             pygame.quit()
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                hide_speech = True
+            if event.key == pygame.K_RETURN and hide_speech:
+                hide_speech = False
 
     # Get the state of all keyboard buttons
     keys = pygame.key.get_pressed()
@@ -94,7 +96,7 @@ while True:
         player_rect.x += 5
 
     # Reset speech text if player is not colliding with any NPC
-    speech_text = ""
+    # speech_text = ""
 
     # Draw the player
     screen.blit(player_image, player_rect)
@@ -110,11 +112,12 @@ while True:
                 speech_text = npc["speech"]
                 npc_index = i
                 # Render NPC speech with typewriter effect
-                render_typewriter_npc_speech(screen, speech_text, BLACK, speech_rect, font)
+                render_typewriter_npc_speech(screen, speech_text, BLACK, speech_rect, speech_font)
+                hide_speech = True  # Hide speech after displaying once
 
         # Draw NPC name below them
         npc_name_surface = font.render(npc["name"], True, WHITE)
-        npc_name_rect = npc_name_surface.get_rect(center=(npc_rect.centerx, npc_rect.bottom + 10))
+        npc_name_rect = npc_name_surface.get_rect(center=(npc_rect.centerx + 2, npc_rect.bottom + 20))  # Adjusted position to the right
         screen.blit(npc_name_surface, npc_name_rect)
 
     pygame.display.flip()
