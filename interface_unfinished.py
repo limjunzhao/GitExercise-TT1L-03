@@ -30,7 +30,7 @@ def story_info():
                 'blaaa bla bla heeee heeeeeee']
     snip = font.render('' , True, 'white')
     counter = 0 
-    speed = 3
+    speed = 1
     active_message = 0
     message = messages[active_message]
     done = False
@@ -260,6 +260,18 @@ def option():
 
 
         
+<<<<<<< HEAD
+=======
+        timer.tick(60)
+        pygame.draw.rect(screen, 'black', [500, 50, 350, 150 ])
+        if counter < speed * len(message):
+            counter += 1
+        elif counter >= speed * len(message):
+            done = True
+
+        snip = font.render(message[0:counter//speed], True, 'white')
+        screen.blit(snip, (510, 100))
+>>>>>>> 198356ef1d0635348ddaa613af3007c9035edf86
         
 
         if vol_up_button.draw():
