@@ -1,4 +1,5 @@
 import pygame
+
 pygame.init()
 
 
@@ -21,7 +22,7 @@ def adjust_volume(vol_change):
 
 
 def story_info(): 
-
+    import pygame
     font =  pygame.font.Font('freesansbold.ttf', 35)
     screen = pygame.display.set_mode([1280, 720])
     timer = pygame.time.Clock()
@@ -32,7 +33,9 @@ def story_info():
                 'and the blood was still damped which means the killing happened not long ago ',
 
                 'You, as a seasoned detective, are tasked with unraveling the mystery behind these brutal '
-                'killings. Come on detective, let’s not waste any time and find the murderer before it’s too late!']
+                'killings. Come on detective, let’s not waste any time and find the murderer before it’s too late!'
+                ]
+    
     snip = font.render('' , True, 'white')
     counter = 0 
     speed = 1
