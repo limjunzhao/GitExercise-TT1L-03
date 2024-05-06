@@ -5,7 +5,7 @@ pygame.init()
 music_sfx = pygame.mixer.Sound("music_background.mp3")
 
 
-vol = 0.01
+vol = 0.1
 
 music_sfx.play(loops = -1)
 music_sfx.set_volume(vol)
@@ -19,15 +19,20 @@ def adjust_volume(vol_change):
 
 
 
+
 def story_info(): 
 
-    font =  pygame.font.Font('freesansbold.ttf', 24)
+    font =  pygame.font.Font('freesansbold.ttf', 35)
     screen = pygame.display.set_mode([1280, 720])
     timer = pygame.time.Clock()
-    messages = ['write game backstory and context here'
-                '(click enter to see next page)',
-                'this is another page',
-                'blaaa bla bla heeee heeeeeee']
+    messages = [' In the fog-drenched streets of Arcadia, a series of grisly murder'
+                ' shatters the tranquility of its residents.',
+
+                'Its’s 7am in the morning and you discovered the victim’s body laying (outside a house/bar)'
+                'and the blood was still damped which means the killing happened not long ago ',
+
+                'You, as a seasoned detective, are tasked with unraveling the mystery behind these brutal '
+                'killings. Come on detective, let’s not waste any time and find the murderer before it’s too late!']
     snip = font.render('' , True, 'white')
     counter = 0 
     speed = 1
@@ -40,7 +45,7 @@ def story_info():
         screen.fill('grey')
         timer.tick(60)
         # this is a box for the text, first two numbers are x y coordinate for the text, last two numbers are for the box sizes 
-        pygame.draw.rect(screen, 'black', [0, 300, 800, 200])
+        # pygame.draw.rect(screen, 'black', [50, 300, 800, 200])
         if counter < speed * len(message):
             counter += 1
         elif counter >= speed*len(message):
@@ -57,15 +62,21 @@ def story_info():
                     message = messages[active_message]
                     counter = 0
 
-            
-        snip = font.render(message[0:counter//speed], True, 'white')
+        
+
+        snip = font.render(message[0:counter//speed], '', True, 'white')
         screen.blit(snip, (10, 310))
+
+        
+
+
         pygame.display.flip()
+
 
 def main_menu():
     SCREEN_HEIGHT = 1280
     SCREEN_WIDTH = 720
-
+ 
 
 
     font =  pygame.font.Font('freesansbold.ttf', 50)
@@ -172,7 +183,7 @@ def main_menu():
 
         if quit_button.draw():
             button_sfx.play()
-            run = False
+            pygame.quit()
 
         if option_button.draw():
             button_sfx.play()
@@ -261,12 +272,12 @@ def option():
 
         if vol_up_button.draw():
             button_sfx.play()
-            adjust_volume(0.01)
+            adjust_volume(0.1)
           
 
         if vol_down_button.draw():
             button_sfx.play()
-            adjust_volume(-0.01)
+            adjust_volume(-0.1)
 
         if vol_mute_button.draw():
             button_sfx.play()
