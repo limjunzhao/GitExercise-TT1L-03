@@ -22,58 +22,90 @@ def adjust_volume(vol_change):
 
 
 def story_info(): 
-    import pygame
-    font =  pygame.font.Font('freesansbold.ttf', 35)
-    screen = pygame.display.set_mode([1280, 720])
-    timer = pygame.time.Clock()
-    messages = [' In the fog-drenched streets of Arcadia, a series of grisly murder'
-                ' shatters the tranquility of its residents.',
 
-                'Its’s 7am in the morning and you discovered the victim’s body laying (outside a house/bar)'
-                'and the blood was still damped which means the killing happened not long ago ',
+    WIDTH, HEIGHT = 1280, 720
+    SCREEN_SIZE = (WIDTH, HEIGHT)
 
-                'You, as a seasoned detective, are tasked with unraveling the mystery behind these brutal '
-                'killings. Come on detective, let’s not waste any time and find the murderer before it’s too late!'
-                ]
-    
-    snip = font.render('' , True, 'white')
-    counter = 0 
-    speed = 1
+    # Set colors
+    WHITE = (255, 255, 255)
+    BLACK = (0, 0, 0)
+
+    # Set the text font and size
+    FONT_SIZE = 35
+    font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
+
+    # Define messages with multiple layers
+    messages = [
+        [
+            {"text": "In the fog-drenched streets of Arcadia, a series of grisly murder shatters",
+            "color": WHITE,
+            "position": (25, 250)},
+            {"text": "the tranquility of its residents.",
+            "color": WHITE,
+            "position": (400, 300)},
+        ],
+        [
+            {"text": "Its’s 7am in the morning and you discovered the victim’s body laying",
+            "color": WHITE,
+            "position": (60, 250)},
+            {"text": "(outside a house/bar) and the blood was still damped which means.",
+            "color": WHITE,  
+            "position": (70, 300)},
+            {"text": "the killing happened not long ago",
+            "color": WHITE,  
+            "position": (380, 350)}
+        ],
+        [
+            {"text": "You, as a seasoned detective, are tasked with unraveling the mystery",
+            "color": WHITE,
+            "position": (70, 250)},
+            {"text": "behind these brutal killings. Come on detective,",
+            "color": WHITE,  
+            "position": (260, 300)},
+            {"text": "let’s not waste any time and find the murderer before it’s too late!",
+            "color": WHITE,  
+            "position": (100, 350)}
+        ]
+    ]
+
+
+    # Create the screen
+    screen = pygame.display.set_mode(SCREEN_SIZE)
+    pygame.display.set_caption("Text with Multiple Layers")
+
+    # Main loop
+    run = True
     active_message = 0
-    message = messages[active_message]
-    done = False
+    layer_counter = 0
+    speed = 12  # Adjust the speed of typewriter effect
 
-    run = True 
     while run:
-        screen.fill('grey')
-        timer.tick(60)
-        # this is a box for the text, first two numbers are x y coordinate for the text, last two numbers are for the box sizes 
-        # pygame.draw.rect(screen, 'black', [50, 300, 800, 200])
-        if counter < speed * len(message):
-            counter += 1
-        elif counter >= speed*len(message):
-            done = True 
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
 
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN and done and active_message < len(messages) -1:
+                if event.key == pygame.K_RETURN and active_message < len(messages) - 1:
                     active_message += 1
-                    done = False
-                    message = messages[active_message]
-                    counter = 0
+                    layer_counter = 0  # Reset the layer counter when changing message
 
-        
+        # Clear the screen
+        screen.fill(BLACK)
 
-        snip = font.render(message[0:counter//speed], '', True, 'white')
-        screen.blit(snip, (10, 310))
+        # Display messages for the active layer
+        for i, layer in enumerate(messages[active_message]):
+            text = layer["text"]
+            color = layer["color"]
+            position = layer["position"]
 
-        
+            if layer_counter < speed * len(text):
+                layer_counter += 1
 
+            text_surface = font.render(text[0:layer_counter // speed], True, color)
+            screen.blit(text_surface, position)
 
         pygame.display.flip()
+
 
 
 def main_menu():
