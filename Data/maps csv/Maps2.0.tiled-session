@@ -1,0 +1,75 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps draft.tmx": {
+            "scale": 0.7230555555555555,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 641.0295812524012,
+                "y": 360.2766039185556
+            }
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps draft.tmx#spr_terrains": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx": {
+            "scale": 1,
+            "selectedLayer": 7,
+            "viewCenter": {
+                "x": 571.5,
+                "y": 643.5
+            }
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx#spr_terrains": {
+            "scaleInDock": 1.5
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/house set.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 2
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_02.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_03.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 4
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_04.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_05.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_06.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_10.tsx": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/player.tsx": {
+            "scaleInDock": 1.5
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/spr_structures_exterior.tsx": {
+            "scaleInDock": 1.5
+        }
+    },
+    "last.exportedFilePath": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/maps csv",
+    "map.lastUsedExportFilter": "CSV files (*.csv)",
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx"
+    ],
+    "project": "Maps2.0.tiled-project",
+    "recentFiles": [
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps draft.tmx"
+    ],
+    "resizeMap.removeObjects": false
+}
