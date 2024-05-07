@@ -130,8 +130,10 @@ def main_menu():
     image = quithover_img = pygame.image.load('quit_hover.png')
     image = optionhover_img = pygame.image.load('opt_hover.png')
     image = optionstatic_img = pygame.image.load('opt_static.png')
-    # # background_image = pygame.image.load('background43.jpg')
-    # # background_image = pygame.transform.scale(background_image, (SCREEN_HEIGHT, SCREEN_WIDTH))
+    background_image = pygame.image.load('mane_background1.jpg')
+    background_image = pygame.transform.scale(background_image, (SCREEN_HEIGHT, SCREEN_WIDTH))
+    title_img = pygame.image.load('title.png')
+    title_img = pygame.transform.scale(title_img, (600,350))
 
 
     image_rect = image.get_rect()
@@ -190,25 +192,26 @@ def main_menu():
 
     run = True
     while run:
-        screen.fill('grey')
-        # screen.blit(background_image, (0,0))
+        # screen.fill('grey')
+        screen.blit(background_image, (0,0))
+        screen.blit(title_img, (400,80))
 
 
 
         
-        timer.tick(60)
-        pygame.draw.rect(screen, 'black', [500, 50, 350, 150 ])
-        if counter < speed * len(message):
-            counter += 1
-        elif counter >= speed * len(message):
-            done = True
+        # timer.tick(60)
+        # pygame.draw.rect(screen, 'black', [500, 50, 350, 150 ])
+        # if counter < speed * len(message):
+        #     counter += 1
+        # elif counter >= speed * len(message):
+        #     done = True
 
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                run = False
+        # for event in pygame.event.get():
+        #     if event.type == pygame.QUIT:
+        #         run = False
 
-        snip = font.render(message[0:counter//speed], True, 'white')
-        screen.blit(snip, (510, 100))
+        # snip = font.render(message[0:counter//speed], True, 'white')
+        # screen.blit(snip, (510, 100))
         
 
         if start_button.draw():
@@ -243,6 +246,8 @@ def option():
     image = volmute_hover = pygame.image.load('vol_mute-hover.png')
     image = back_static = pygame.image.load('back_static.png')
     image = back_hover = pygame.image.load('back_hover.png')
+    background_image = pygame.image.load('mane_background1.jpg')
+    background_image = pygame.transform.scale(background_image, (SCREEN_HEIGHT, SCREEN_WIDTH))
 
 
     # later got img for background alrdt=y put hereeee!!!
@@ -302,7 +307,7 @@ def option():
     run = True
     while run:
         screen.fill('grey')
-
+        screen.blit(background_image, (0,0))
         
 
         if vol_up_button.draw():
