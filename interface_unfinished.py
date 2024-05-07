@@ -113,16 +113,6 @@ def main_menu():
     SCREEN_WIDTH = 720
  
 
-
-    font =  pygame.font.Font('freesansbold.ttf', 50)
-    screen = pygame.display.set_mode([800, 500])
-    timer = pygame.time.Clock()
-    message = 'game title !!!'
-    snip = font.render('' , True, 'white')
-    counter = 0 
-    speed = 3
-    done = False
-
     # Load images
     image = startstatic_img = pygame.image.load('start_static.png')
     image = starthover_img = pygame.image.load('start_hover.png')
@@ -196,22 +186,6 @@ def main_menu():
         screen.blit(background_image, (0,0))
         screen.blit(title_img, (400,80))
 
-
-
-        
-        # timer.tick(60)
-        # pygame.draw.rect(screen, 'black', [500, 50, 350, 150 ])
-        # if counter < speed * len(message):
-        #     counter += 1
-        # elif counter >= speed * len(message):
-        #     done = True
-
-        # for event in pygame.event.get():
-        #     if event.type == pygame.QUIT:
-        #         run = False
-
-        # snip = font.render(message[0:counter//speed], True, 'white')
-        # screen.blit(snip, (510, 100))
         
 
         if start_button.draw():
