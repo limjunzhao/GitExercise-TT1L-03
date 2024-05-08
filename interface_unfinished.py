@@ -77,7 +77,7 @@ def story_info():
     run = True
     active_message = 0
     layer_counter = 0
-    speed = 12  # Adjust the speed of typewriter effect
+    speed = 10  # Adjust the speed of typewriter effect
 
     while run:
         for event in pygame.event.get():
