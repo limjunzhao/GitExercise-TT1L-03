@@ -50,7 +50,7 @@ while True:
             pygame.quit()
             exit()
 
-#     if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT:  
+#     if event.type == pygame.KEYDOWN and event.key == pygame.K_LEFT: 
 #             player.pos[0] -= PLAYER_SPEED
 #     if event.type == pygame.KEYDOWN and event.key == pygame.K_RIGHT: 
 #             player.pos[0] += PLAYER_SPEED

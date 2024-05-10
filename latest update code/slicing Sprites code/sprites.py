@@ -9,7 +9,7 @@ SCREEN_HEIGHT = 720
 screen = pygame.display.set_mode ((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption ('sprites sheet')
 
-sprite_sheet_image = pygame.image.load('../sprites sheet for maps/sprites/characters/player.png').convert_alpha()
+sprite_sheet_image = pygame.image.load('sprites sheet for maps/sprites/characters/player.png').convert_alpha()
                 #def __init__          (self, image): from spritesheets
 sprite_sheet = spritesheets.SpriteSheets(sprite_sheet_image)
 
