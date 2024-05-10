@@ -13,7 +13,7 @@ class CameraGroup (pygame.sprite.Group):
     self.offset = pygame.math.Vector2()
 
     #creating the floor 
-    self.floor_surf = pygame.image.load('../Data/tmx/maps2.0.png')
+    self.floor_surf = pygame.image.load('Data/tmx/maps2.0.png')
     self.floor_rect = self.floor_surf.get_rect (topleft = (0,0))
 
 
