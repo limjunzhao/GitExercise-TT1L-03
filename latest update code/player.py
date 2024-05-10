@@ -4,7 +4,7 @@ from settings import *
 class Player(pygame.sprite.Sprite):
 	def __init__(self,pos,groups,obstacle_sprites):
 		super().__init__(groups)
-		self.image = pygame.image.load('MyGame/Character/chick.png').convert_alpha()
+		self.image = pygame.image.load('sprites sheet for maps/sprites/characters/player_single.png').convert_alpha()
 		self.scale_image = pygame.transform.rotozoom (self.image,0 , 4)
 		self.rect = self.image.get_rect(topleft = pos)
 
@@ -15,6 +15,7 @@ class Player(pygame.sprite.Sprite):
 		
 		self.obstacle_sprites = obstacle_sprites
 		pygame.display.update
+		
 	def input(self): 
 
 		keys = pygame.key.get_pressed()
