@@ -16,7 +16,7 @@ pygame.display.set_caption('Mystery Case')
 clock = pygame.time.Clock()
 
 # Background
-background = pygame.transform.scale(pygame.image.load('plain_white.jpg').convert(), (WIDTH, HEIGHT))
+background = pygame.transform.scale(pygame.image.load('image/background/plain_white.jpg').convert(), (WIDTH, HEIGHT))
 
 # Player
 class Player(pygame.sprite.Sprite):

@@ -2,7 +2,6 @@ import pygame
 
 class Button():
         def __init__(self, x, y, static_image, hover_image, scale):
-            
             self.static_image = pygame.transform.scale(static_image, scale)
             self.hover_image = pygame.transform.scale(hover_image, scale)
             self.image = self.static_image

@@ -3,7 +3,7 @@ import pygame
 pygame.init()
 
 
-music_sfx = pygame.mixer.Sound("images/music_background.mp3")
+music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
 
 
 vol = 0.1
@@ -11,33 +11,6 @@ vol = 0.1
 music_sfx.play(loops = -1)
 music_sfx.set_volume(vol)
 
-# class Button():
-#         def __init__(self, x, y, static_image, hover_image, scale):
-#             self.static_image = pygame.transform.scale(static_image, scale)
-#             self.hover_image = pygame.transform.scale(hover_image, scale)
-#             self.image = self.static_image
-#             self.rect = self.image.get_rect()
-#             self.rect.topleft = (x, y)
-#             self.clicked = False
-
-#         def draw(self):
-#             action = False
-#             pos = pygame.mouse.get_pos()
-
-#             if self.rect.collidepoint(pos):
-#                 self.image = self.hover_image
-#                 if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
-#                     self.clicked = True
-#                     action = True
-#             else:
-#                 self.image = self.static_image
-            
-#             if pygame.mouse.get_pressed()[0] == 0:
-#                 self.clicked = False
-
-#             screen.blit(self.image, (self.rect.x, self.rect.y))
-
-#             return action
 
 
 
@@ -144,13 +117,13 @@ def main_menu():
  
 
     # Load images
-    image = startstatic_img = pygame.image.load('images/start_static.png')
-    image = starthover_img = pygame.image.load('images/start_hover.png')
-    image = quitstatic_img = pygame.image.load('images/quit_static.png')
-    image = quithover_img = pygame.image.load('images/quit_hover.png')
-    image = optionhover_img = pygame.image.load('images/opt_hover.png')
-    image = optionstatic_img = pygame.image.load('images/opt_static.png')
-    background_image = pygame.image.load('images/mane_background1.jpg')
+    image = startstatic_img = pygame.image.load('images/button/start_static.png')
+    image = starthover_img = pygame.image.load('images/button/start_hover.png')
+    image = quitstatic_img = pygame.image.load('images/button/quit_static.png')
+    image = quithover_img = pygame.image.load('images/button/quit_hover.png')
+    image = optionhover_img = pygame.image.load('images/button/opt_hover.png')
+    image = optionstatic_img = pygame.image.load('images/button/opt_static.png')
+    background_image = pygame.image.load('images/background/mane_background1.jpg')
     background_image = pygame.transform.scale(background_image, (SCREEN_HEIGHT, SCREEN_WIDTH))
     title_img = pygame.image.load('images/title.png')
     title_img = pygame.transform.scale(title_img, (600,350))
@@ -206,7 +179,7 @@ def main_menu():
     start_button = Button(image_x, 400, startstatic_img, starthover_img, (200, 100))
     quit_button = Button(image_x, 500, quitstatic_img, quithover_img, (200, 100))
     option_button = Button(10, 10, optionstatic_img, optionhover_img, (75, 75))
-    button_sfx = pygame.mixer.Sound("images/button_sfx.mp3")
+    button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
  
 
 
@@ -242,15 +215,15 @@ def option():
     SCREEN_WIDTH = 720
 
     # load images
-    image = volup_static = pygame.image.load('images/vol_up.png')
-    image = volup_hover = pygame.image.load('images/vol_up-hover.png')
-    image = voldown_static = pygame.image.load('images/vol_down-static.png')
-    image = voldown_hover = pygame.image.load('images/vol_down-hover.png')
-    image = volmute_static = pygame.image.load('images/vol_mute-static.png')
-    image = volmute_hover = pygame.image.load('images/vol_mute-hover.png')
-    image = back_static = pygame.image.load('images/back_static.png')
-    image = back_hover = pygame.image.load('images/back_hover.png')
-    background_image = pygame.image.load('images/mane_background1.jpg')
+    image = volup_static = pygame.image.load('images/button/vol_up.png')
+    image = volup_hover = pygame.image.load('images/button/vol_up-hover.png')
+    image = voldown_static = pygame.image.load('images/button/vol_down-static.png')
+    image = voldown_hover = pygame.image.load('images/button/vol_down-hover.png')
+    image = volmute_static = pygame.image.load('images/button/vol_mute-static.png')
+    image = volmute_hover = pygame.image.load('images/button/vol_mute-hover.png')
+    image = back_static = pygame.image.load('images/button/back_static.png')
+    image = back_hover = pygame.image.load('images/button/back_hover.png')
+    background_image = pygame.image.load('images/background/mane_background1.jpg')
     background_image = pygame.transform.scale(background_image, (SCREEN_HEIGHT, SCREEN_WIDTH))
 
 
@@ -267,7 +240,7 @@ def option():
     pygame.display.set_caption('platform game')
 
     # load music
-    button_sfx = pygame.mixer.Sound("images/button_sfx.mp3")
+    button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
     
 
    

@@ -1,19 +1,32 @@
-import pygame, sys
-from settings import *
-from level import Level 
-from camera import CameraGroup
-from button import Button 
+import pygame
+import sys
+from button import Button
+
+pygame.init()
+
+HEIGHT = 1280
+WIDTH = 720
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+# Set the text font and size
+FONT_SIZE = 35
+font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
+
+#music 
+music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
+vol = 0.1
+music_sfx.play(loops = -1)
+music_sfx.set_volume(vol)
+
+
+SCREEN = pygame.display.set_mode((HEIGHT, WIDTH))
+pygame.display.set_caption('Menu')
+
 
 class Interface:
     def __init__(self):
-        self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
         self.button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
-        self.font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
-        self.music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
-        self.vol = 0.1
-        self.music_sfx.play(loops = -1)
-        self.music_sfx.set_volume(self.vol)
-       
 
     def main_menu(self):
         # Load images
@@ -25,13 +38,13 @@ class Interface:
         optionstatic_img = pygame.image.load('images/button/opt_static.png')
 
         background_image = pygame.image.load('images/background/mane_background1.jpg')
-        background_image = pygame.transform.scale(background_image, (WIDTH,HEIGHT))
+        background_image = pygame.transform.scale(background_image, (HEIGHT, WIDTH))
 
         title_img = pygame.image.load('images/title.png')
         title_img = pygame.transform.scale(title_img, (600, 350))
 
         image_rect = startstatic_img.get_rect()
-        image_x = (WIDTH - image_rect.width) // 2
+        image_x = (HEIGHT - image_rect.width) // 2
 
         start_button = Button(image_x, 400, startstatic_img, starthover_img, (200, 100))
         quit_button = Button(image_x, 500, quitstatic_img, quithover_img, (200, 100))
@@ -40,26 +53,20 @@ class Interface:
 
         
         while True:
-            self.screen.blit(background_image, (0, 0))
-            self.screen.blit(title_img, (400, 80))
+            SCREEN.blit(background_image, (0, 0))
+            SCREEN.blit(title_img, (400, 80))
 
-            """
-            If possible, return state = "start" / "quit" / "option" 
-            States are very usefull for compelx games btw, learn how to use them more oftenly
-            
-            """
-            if start_button.draw(self.screen):
+            if start_button.draw(SCREEN):
                 self.button_sfx.play()
-                return "start"
-                
+                self.story_info()
 
-            if quit_button.draw(self.screen):
+            if quit_button.draw(SCREEN):
                 self.button_sfx.play()
-                return "quit"
+                pygame.quit()
 
-            if option_button.draw(self.screen):
+            if option_button.draw(SCREEN):
                 self.button_sfx.play()
-                return "option"
+                self.option()
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -80,7 +87,7 @@ class Interface:
         back_hover = pygame.image.load('images/button/back_hover.png')
 
         background_image = pygame.image.load('images/background/mane_background1.jpg')
-        background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
+        background_image = pygame.transform.scale(background_image, (HEIGHT, WIDTH))
 
         vol_up_button = Button(425, 200, volup_static, volup_hover, (200, 100))
         vol_down_button = Button(625, 200, voldown_static, voldown_hover, (200, 100))
@@ -88,24 +95,24 @@ class Interface:
         back_button = Button(5, 640, back_static, back_hover, (150, 80))
 
         while True:
-            self.screen.fill('grey')
-            self.screen.blit(background_image, (0, 0))
+            SCREEN.fill('grey')
+            SCREEN.blit(background_image, (0, 0))
 
-            if vol_up_button.draw(self.screen):
+            if vol_up_button.draw(SCREEN):
                 self.button_sfx.play()
-                self.adjust_volume(0.1)
+                adjust_volume(0.1)
 
-            if vol_down_button.draw(self.screen):
+            if vol_down_button.draw(SCREEN):
                 self.button_sfx.play()
-                self.adjust_volume(-0.1)
+                adjust_volume(-0.1)
 
-            if vol_mute_button.draw(self.screen):
+            if vol_mute_button.draw(SCREEN):
                 self.button_sfx.play()
-                self.music_sfx.set_volume(0)
+                music_sfx.set_volume(0)
 
-            if back_button.draw(self.screen):
+            if back_button.draw(SCREEN):
                 self.button_sfx.play()
-                return "back" # name option back button as back 
+                return  # Return to main menu
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -163,16 +170,12 @@ class Interface:
                     sys.exit()
 
                 if event.type == pygame.KEYDOWN:
-                  if event.key == pygame.K_RETURN and active_message < len(messages) - 1:
+                    if event.key == pygame.K_RETURN and active_message < len(messages) - 1:
                         active_message += 1
-                        layer_counter = 0  # Reset the layer counter when changing message 
-                  elif event.key == pygame.K_RETURN and active_message == len(messages) - 1 and layer_counter >= speed * len(messages[active_message][-1]["text"]):
-                        print("run")
-                        return "start_game"  # Signal to start the game
-
+                        layer_counter = 0  # Reset the layer counter when changing message
 
             # Clear the screen
-            self.screen.fill(BLACK)
+            SCREEN.fill(BLACK)
 
             # Display messages for the active layer
             for i, layer in enumerate(messages[active_message]):
@@ -183,77 +186,17 @@ class Interface:
                 if layer_counter < speed * len(text):
                     layer_counter += 1
 
-                text_surface = self.font.render(text[0:layer_counter // speed], True, color)
-                self.screen.blit(text_surface, position)
+                text_surface = font.render(text[0:layer_counter // speed], True, color)
+                SCREEN.blit(text_surface, position)
 
             pygame.display.flip()
 
-    def adjust_volume(self, vol_change):
-        self.vol += vol_change 
-        self.vol = max(0.0, min(1.0, self.vol))
-        self.music_sfx.set_volume(self.vol)
+    def adjust_volume(vol_change):
+        global vol
+        vol += vol_change 
+        vol = max(0.0, min(1.0, vol))
+        music_sfx.set_volume(vol)
 
 
-
-class Game:
-    def __init__(self):
-        # general setup
-        pygame.init()
-        self.screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
-        pygame.display.set_caption('Mystery Case')
-        self.clock = pygame.time.Clock()
-
-        # bring the page here
-        self.level = Level()
-        self.camera_group = CameraGroup()
-        self.interface = Interface()
-
-        # main menu setup
-        self.main_menu = self.interface.main_menu()
-        
-
-    def run_game(self):
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-
-            self.screen.fill('black')
-            self.level.run()
-            self.camera_group.update()
-            pygame.display.update()
-            self.clock.tick(FPS)
-
-    def run_menu(self):
-        
-        """
-        Check the state of the action
-        If possible, run each states in the main code of the game
-        Your main code should consist of all the possible states and the actions that should be taken
-        """
-        
-        if self.main_menu == "start":
-            action = self.interface.story_info()
-            if action == "start_game":
-                self.run_game()
-           
-        elif self.main_menu == "quit":
-            pygame.quit()
-            sys.exit()
-        
-        elif self.main_menu == "option":
-            option_action = self.interface.option()                    
-            if option_action == "back":
-                self.interface.main_menu ()
-
-
-if __name__ == '__main__':
-            game = Game()
-            game.run_menu()
-            
-else: 
-            game = Game()
-            game.run_game()
-
-
+interface = Interface()
+interface.main_menu()

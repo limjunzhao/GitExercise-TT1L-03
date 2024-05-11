@@ -19,11 +19,11 @@
             "scaleInDock": 1
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx": {
-            "scale": 1,
-            "selectedLayer": 7,
+            "scale": 0.33,
+            "selectedLayer": 12,
             "viewCenter": {
-                "x": 571.5,
-                "y": 643.5
+                "x": -313.63636363636397,
+                "y": 719.6969696969696
             }
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx#spr_terrains": {
@@ -31,7 +31,7 @@
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/house set.tsx": {
             "dynamicWrapping": true,
-            "scaleInDock": 2
+            "scaleInDock": 0.5
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_02.tsx": {
             "dynamicWrapping": false,
@@ -48,7 +48,8 @@
             "scaleInDock": 1
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_06.tsx": {
-            "scaleInDock": 1
+            "scaleInDock": 1,
+            "scaleInEditor": 1
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_10.tsx": {
             "scaleInDock": 1
@@ -57,19 +58,22 @@
             "scaleInDock": 1.5
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/spr_structures_exterior.tsx": {
-            "scaleInDock": 1.5
+            "scaleInDock": 1
         }
     },
     "last.exportedFilePath": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/maps csv",
     "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
     "openFiles": [
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx"
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_06.tsx"
     ],
     "project": "Maps2.0.tiled-project",
     "recentFiles": [
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_06.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps draft.tmx"
     ],
-    "resizeMap.removeObjects": false
+    "resizeMap.removeObjects": false,
+    "tileset.type": 1
 }
