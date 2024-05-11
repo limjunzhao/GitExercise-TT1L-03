@@ -73,4 +73,5 @@ class Player(pygame.sprite.Sprite):
 		self.input()
 		#we update the move thingy to main.py and put the self.speed = speed = 5 into argument 
 		self.move (self.speed)
-	  
+	
+

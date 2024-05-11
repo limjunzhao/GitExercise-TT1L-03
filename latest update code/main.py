@@ -14,7 +14,6 @@ class Interface:
         self.music_sfx.play(loops = -1)
         self.music_sfx.set_volume(self.vol)
        
-
     def main_menu(self):
         # Load images
         startstatic_img = pygame.image.load('images/button/start_static.png')
@@ -194,7 +193,6 @@ class Interface:
         self.music_sfx.set_volume(self.vol)
 
 
-
 class Game:
     def __init__(self):
         # general setup
@@ -211,7 +209,6 @@ class Game:
         # main menu setup
         self.main_menu = self.interface.main_menu()
         
-
     def run_game(self):
         while True:
             for event in pygame.event.get():
