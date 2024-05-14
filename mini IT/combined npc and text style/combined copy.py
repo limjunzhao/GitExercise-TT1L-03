@@ -60,7 +60,7 @@ def render_typewriter_npc_speech(surface, text, color, rect, font):
         draw_text(surface, text[:i], BLACK, rect, font)
         pygame.display.flip()
         clock.tick(20)
-    pygame.time.wait(8000)
+    pygame.time.wait(1000)
 
 # Main loop
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -78,9 +78,6 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN and hide_speech:
-                hide_speech = False
 
     # Get the state of all keyboard buttons
     keys = pygame.key.get_pressed()

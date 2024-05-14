@@ -16,17 +16,15 @@ player_image.fill((255, 0, 0))
 player_rect = player_image.get_rect(center=(screen_width // 2, screen_height // 2))
 
 npc_data = [
-    {"name": "Maria", "position": (100, 100), "speech": "In the morning, I made breakfast for my husband, then proceeded to do house chores until afternoon. After lunch with my husband, I engaged in a pleasant chit-chat with our neighbor, Amber. Later, I eagerly awaited my husband’s return from work, and once he was back, we cooked dinner together and went to sleep afterwards.", "interaction_count": 0},
-    {"name": "Willie", "position": (600, 400), "speech": "Breakfast with my wife started the day, followed by me heading to work. Proceeds to head to lunch with my wife and returned to work. Finally, I came back home and got the ingredients ready and cooked dinner with my wife. Lastly, we went to bed before 10pm.", "interaction_count": 0},
-    {"name": "Amber", "position": (600, 100), "speech": "In the day, I exercised in the park. And after that I had my coffee and breakfast. Meanwhile I watched TV for the time to pass. During lunch, I ate my leftover dinner from yesterday as my lunch. After lunch, me and Maria had our usual chit-chat but it was shorter than usual. And we were supposed to get groceries after that. So I went to buy the groceries myself and made dinner. As night falls, I took my dog for a night walk and went to bed.", "interaction_count": 0},
+    {"name": "Maria", "position": (100, 100), "speech": "In the morning, I made breakfast for my husband...", "interaction_count": 0},
+    {"name": "Willie", "position": (600, 400), "speech": "Breakfast with my wife started the day...", "interaction_count": 0},
+    {"name": "Amber", "position": (600, 100), "speech": "In the day, I exercised in the park...", "interaction_count": 0},
     {"name": "Officer Marlowe", "position": (100, 400), "speech": "Please help me find the killer before it's too late!", "interaction_count": 0}
 ]
 
 speech_rect_width = screen_width - 40
 speech_rect_height = screen_height // 4
 speech_rect = pygame.Rect(20, screen_height - speech_rect_height - 20, speech_rect_width, speech_rect_height)
-
-task_rect = pygame.Rect(screen_width - 200, 20, 180, 100)
 
 def draw_text(surface, text, color, rect, font):
     words = text.split(' ')
@@ -64,6 +62,21 @@ def display_new_text(surface, text, color, rect, font):
     pygame.display.flip()
     pygame.time.wait(3000)
 
+def end_game(selected_option):
+    pygame.draw.rect(screen, WHITE, speech_rect, 0, 10)
+    pygame.draw.rect(screen, BLACK, speech_rect, 2, 10)
+
+    if selected_option == "A":
+        text = "Congratulations! You found the killer."
+    else:
+        text = "Incorrect! Game Over."
+
+    draw_text(screen, text, BLACK, speech_rect, speech_font)
+    pygame.display.flip()
+    pygame.time.wait(5000)  # Wait for 5 seconds before quitting the game
+    pygame.quit()
+    sys.exit()
+
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("Interacting with NPCs")
 
@@ -71,7 +84,7 @@ speech_text = ""
 npc_index = None  
 hide_speech = False  
 interaction_counts = {npc["name"]: npc["interaction_count"] for npc in npc_data}
-task_list = ["Talk to Officer Marlowe first"]
+player_has_chosen = False  # Flag to track whether player has made a choice
 
 while True:
     screen.fill(BLACK) 
@@ -81,9 +94,7 @@ while True:
             pygame.quit()
             sys.exit()
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN and hide_speech:
-                hide_speech = False
-            elif event.key in (pygame.K_a, pygame.K_b, pygame.K_c, pygame.K_d) and hide_speech:
+            if event.key in (pygame.K_a, pygame.K_b, pygame.K_c, pygame.K_d) and hide_speech and not player_has_chosen:
                 pygame.quit()
                 sys.exit()
 
@@ -114,29 +125,17 @@ while True:
 
                 interaction_counts[npc["name"]] += 1
 
-                if all(count > 0 for count in interaction_counts.values()) and npc["name"] == "Officer Marlowe":
+                if all(count > 0 for count in interaction_counts.values()) and npc["name"] == "Officer Marlowe" and not player_has_chosen:
                     new_text = "Who do you think is the killer?\nA. Maria\nB. Willie\nC. Amber\nD. Officer"
                     display_new_text(screen, new_text, BLACK, speech_rect, speech_font)
+                    player_has_chosen = True
 
         npc_name_surface = font.render(npc["name"], True, WHITE)
         npc_name_rect = npc_name_surface.get_rect(center=(npc_rect.centerx + 2, npc_rect.bottom + 20))
         screen.blit(npc_name_surface, npc_name_rect)
-
-    # Display task list
-    pygame.draw.rect(screen, BLACK, task_rect)
-    for i, task in enumerate(task_list):
-        task_surface = font.render(task, True, WHITE)
-        task_rect = task_surface.get_rect(topleft=(screen_width - 200 + 10, 20 + i * 20))
-        screen.blit(task_surface, task_rect)
 
     pygame.display.flip()
     clock.tick(60) 
 
     if npc_index is not None and not player_rect.colliderect(pygame.Rect(npc_data[npc_index]["position"][0], npc_data[npc_index]["position"][1], 50, 50)):
         hide_speech = False
-
-        # Remove "Talk to Officer Marlowe" from the task list once it's completed
-        if "Talk to Officer Marlowe first" in task_list:
-            task_list.remove("Talk to Officer Marlowe first")
-
-        # Press enter to repeat function works but not yet display for the player to acknowledge that feature
