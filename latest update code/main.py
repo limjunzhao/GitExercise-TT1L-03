@@ -216,7 +216,7 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
-            self.screen.fill('black')
+            self.screen.fill('#2D99E2')
             self.level.run()
             self.camera_group.update()
             pygame.display.update()

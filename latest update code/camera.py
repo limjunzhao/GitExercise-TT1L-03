@@ -16,9 +16,8 @@ class CameraGroup (pygame.sprite.Group):
     self.floor_surf = pygame.image.load('Data/tmx/maps2.0.png')
     self.floor_rect = self.floor_surf.get_rect (topleft = (0,0))
 
-
     #zoom 
-    self.zoom_scale = 2.2
+    self.zoom_scale = 2.0
     self.internal_surf_size = (1200, 1200)
     self.internal_surf = pygame.Surface (self.internal_surf_size, pygame.SRCALPHA)
     self.internal_rect = self.internal_surf.get_rect (center = (self.half_w, self.half_h))
@@ -42,13 +41,13 @@ class CameraGroup (pygame.sprite.Group):
 
     self.center_target_camera(player)
     self.zoom_keyboard_control()
-    
-    self.internal_surf.fill('black')
+    self.internal_surf.fill('#2D99E2')
 
 
     #drawing floor 
     floor_offset_pos = self.floor_rect.topleft - self.offset + self.internal_offset
     self.internal_surf.blit (self.floor_surf, floor_offset_pos)
+
 
     for sprite in sorted(self.sprites(), key = lambda sprite: sprite.rect.centery): 
       offset_pos = sprite.rect.topleft - self.offset + self.internal_offset

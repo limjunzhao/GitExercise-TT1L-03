@@ -4,6 +4,7 @@ from tile import Tile
 from player import Player
 from camera import CameraGroup
 from support import *
+from random import choice
 
 class Level:
 	def __init__(self):
@@ -20,31 +21,47 @@ class Level:
 
 	def create_map(self):
 		layout = {
-						'boundary': import_csv_layout('Data/maps csv/maps2_Floorblocks.csv'),
-						
-
+					'boundary': import_csv_layout('Data/maps csv/maps2_Floorblocks.csv'),
+					'tree' : import_csv_layout('Data/maps csv/maps2_Tree.csv'),
+					'house': import_csv_layout('Data/maps csv/maps2_HouseBuilding.csv'),
+					'rock': import_csv_layout('Data/maps csv/maps2_rock_bush.csv')
+					
+		}	
+		graphics = {
+					'trees': import_folder('sprites sheet for maps/Terrains/object'),
+					'houses': import_folder ('sprites sheet for maps/Terrains/buildings'),
+					'rocks': import_folder ('sprites sheet for maps/Terrains/rocks_bush'),
 		}
 
-		#style is boundary and layout is the csv file we import 
-		for style,layout in layout.items():
-			#this is to check the row and helps to coordinates the pos.y
-			for row_index,row in enumerate(layout):
-				#check each of the column elements (x,p or empty) and helps to coordinate pos.x
-				for col_index, col in enumerate(row):
-					#multiply the col and row with the size of our tile so that it can fit
+		 
+		for style,layout in layout.items(): #style is boundary and layout is the csv file we import
+			for row_index,row in enumerate(layout): #this is to check the row and helps to coordinates the pos.y
+				for col_index, col in enumerate(row): #check each of the column elements (x,p or empty) and helps to coordinate pos.x
 					if col != '-1':
-						x = col_index * TILESIZE
+						x = col_index * TILESIZE #multiply the col and row with the size of our tile so that it can fit
 						y = row_index * TILESIZE
 						if style == 'boundary':
-							Tile((x,y),[self.obstacle_sprites], 'invisible ')
+							Tile((x,y),[self.obstacle_sprites], 'invisible ')	
 
-		# 		if col == 'x':
-		# 			#check the pos of column and row and group it under the visible_sprites
-		# 			#since the rock will have collision with the player, so we also put it under obstacle_sprites
-		# 			Tile((x,y),[self.visible_sprites, self.obstacle_sprites])
-		# 		if col == 'p':
-		# 			self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
-			self.player = Player((500,420),[self.visible_sprites], self.obstacle_sprites)
+						if style == 'tree':
+							house_index = int(col) 
+							if 0 <= house_index < len(graphics['trees']):
+								surf = graphics['trees'][house_index]
+								Tile((x,y),[self.visible_sprites],'tree',surf)
+
+						if style == 'rock':
+							random_rock_image = choice(graphics['rocks'])
+							Tile((x,y),[self.visible_sprites],'rock and bushes',random_rock_image)
+
+						if style == 'house':
+							house_index = int(col) 
+							if 0 <= house_index < len(graphics['houses']):
+								surf = graphics['houses'][house_index]
+								Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house',surf)
+						
+
+		
+			self.player = Player((500,1420),[self.visible_sprites], self.obstacle_sprites)
 				
 
 	def run(self):
