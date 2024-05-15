@@ -4,7 +4,7 @@
   <export target="../maps csv/maps2.tsx" format="tsx"/>
  </editorsettings>
  <grid orientation="orthogonal" width="1" height="1"/>
- <tile id="0" probability="0.2">
+ <tile id="0" probability="0.1">
   <image width="32" height="32" source="../../sprites sheet for maps/Terrains/object/0.png"/>
  </tile>
  <tile id="1">
