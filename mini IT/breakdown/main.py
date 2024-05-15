@@ -1,6 +1,6 @@
 import pygame
 import sys
-from npc import NPC, npc_data, handle_npc_interaction
+from npc import *
 from game_logic import identify_killer, game_over, you_win
 from text_rendering import render_typewriter_npc_speech
 
