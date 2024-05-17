@@ -51,7 +51,7 @@ class Level:
 
 						if style == 'rock':
 							random_rock_image = choice(graphics['rocks'])
-							Tile((x,y),[self.visible_sprites],'rock and bushes',random_rock_image)
+							Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'rock and bushes',random_rock_image)
 
 						if style == 'house':
 							house_index = int(col) 
