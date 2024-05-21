@@ -3,6 +3,8 @@ from settings import *
 from level import Level 
 from camera import CameraGroup
 from button import Button 
+import sys
+from pause import *
 
 class Interface:
     def __init__(self):
@@ -35,6 +37,7 @@ class Interface:
         start_button = Button(image_x, 400, startstatic_img, starthover_img, (200, 100))
         quit_button = Button(image_x, 500, quitstatic_img, quithover_img, (200, 100))
         option_button = Button(10, 10, optionstatic_img, optionhover_img, (75, 75))
+        
         
 
         
@@ -207,20 +210,47 @@ class Game:
         self.interface = Interface()
 
         # main menu setup
-        self.main_menu = self.interface.main_menu()
+        self.main_menu = self.interface.main_menu()   
+
         
+
     def run_game(self):
+        pause = False
+        menustatic_img = pygame.image.load('images/button/opt_hover.png')
+        menuhover_img = pygame.image.load('images/button/opt_static.png')
+        resumestatic_img = pygame.image.load('images/button/opt_hover.png')
+        resumehover_img = pygame.image.load('images/button/opt_static.png')
+
+        menu_button = Button(WIDTH / 2, HEIGHT / 2, menuhover_img, menustatic_img, (75, 75))
+        resume_button = Button(50, 10, resumestatic_img, resumehover_img, (75, 75))
+
+
+        def pause_game():
+            screen.blit(pause_surface, (0, 0))
+            pygame.display.update()
+
         while True:
-            for event in pygame.event.get():
+            for event in pygame.event.get(): 
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    pause = not pause  # Toggle the pause state
+                    if pause:
+                        pause_game()
+                        menu_button.draw(self.screen)
+                        pygame.display.update()
+                         
+                    else:
+                        screen.fill('black')  # Clear the screen when unpausing
 
-            self.screen.fill('black')
-            self.level.run()
-            self.camera_group.update()
-            pygame.display.update()
-            self.clock.tick(FPS)
+            if not pause:
+                screen.fill('black')
+                self.level.run() 
+                self.camera_group.update()  
+                pygame.display.update()
+
+            clock.tick(FPS)
 
     def run_menu(self):
         
