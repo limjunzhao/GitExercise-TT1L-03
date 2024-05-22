@@ -37,7 +37,7 @@
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx#spr_terrains": {
             "dynamicWrapping": false,
             "scaleInDock": 2,
-            "scaleInEditor": 1
+            "scaleInEditor": 5.5
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Test.tsx": {
             "dynamicWrapping": true,
@@ -64,6 +64,9 @@
             "scaleInDock": 0.75,
             "scaleInEditor": 4
         },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/npc.tsx": {
+            "dynamicWrapping": true
+        },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_02.tsx": {
             "dynamicWrapping": false,
             "scaleInDock": 1
@@ -77,6 +80,7 @@
             "scaleInDock": 1
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_05.tsx": {
+            "dynamicWrapping": true,
             "scaleInDock": 1
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_06.tsx": {
@@ -85,6 +89,7 @@
             "scaleInEditor": 4
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_10.tsx": {
+            "dynamicWrapping": true,
             "scaleInDock": 1
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/player.tsx": {

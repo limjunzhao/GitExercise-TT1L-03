@@ -24,13 +24,15 @@ class Level:
 					'boundary': import_csv_layout('Data/maps csv/maps2_Floorblocks.csv'),
 					'tree' : import_csv_layout('Data/maps csv/maps2_Tree.csv'),
 					'house': import_csv_layout('Data/maps csv/maps2_HouseBuilding.csv'),
-					'rock': import_csv_layout('Data/maps csv/maps2_rock_bush.csv')
+					'rock': import_csv_layout('Data/maps csv/maps2_rock_bush.csv'),
+					'player' : import_csv_layout ('Data/maps csv/maps2_players.csv')
 					
 		}	
 		graphics = {
 					'trees': import_folder('sprites sheet for maps/Terrains/object'),
 					'houses': import_folder ('sprites sheet for maps/Terrains/buildings'),
 					'rocks': import_folder ('sprites sheet for maps/Terrains/rocks_bush'),
+					'npcs': import_folder ('sprites sheet for maps/sprites/characters/players sprites')
 		}
 
 		 
@@ -44,10 +46,10 @@ class Level:
 							Tile((x,y),[self.obstacle_sprites], 'invisible ')	
 
 						if style == 'tree':
-							house_index = int(col) 
-							if 0 <= house_index < len(graphics['trees']):
-								surf = graphics['trees'][house_index]
-								Tile((x,y),[self.visible_sprites],'tree',surf)
+							tree_index = int(col) 
+							if 0 <= tree_index < len(graphics['trees']):
+								tree_img = graphics['trees'][tree_index]
+								Tile((x,y),[self.visible_sprites],'tree',tree_img)
 
 						if style == 'rock':
 							random_rock_image = choice(graphics['rocks'])
@@ -56,12 +58,20 @@ class Level:
 						if style == 'house':
 							house_index = int(col) 
 							if 0 <= house_index < len(graphics['houses']):
-								surf = graphics['houses'][house_index]
-								Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house',surf)
-						
+								house_img = graphics['houses'][house_index]
+								Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house',house_img)
+
+						if style == 'player': 
+							if col == '771':
+								self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
+							else: 
+								npc_index = int(col) 
+								if 0 <= npc_index < len(graphics['npcs']):
+									npc_img = graphics['npcs'][house_index]
+									Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'npc',npc_img)
 
 		
-			self.player = Player((500,1420),[self.visible_sprites], self.obstacle_sprites)
+			
 				
 
 	def run(self):
