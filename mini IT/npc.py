@@ -58,13 +58,14 @@ class NPC:
         self.name = name
         self.position = position
         self.speech = speech
-        self.rect = pygame.Rect(position[0], position[1], 50, 50)
+        self.image = pygame.image.load('sprites sheet for maps/sprites/characters/player_single.png').convert_alpha()
+        self.rect = self.image.get_rect (topleft = position)
         self.interaction_count = 0
 
     def draw(self, surface):
-        pygame.draw.rect(surface, GREEN, self.rect)
         name_surface = FONT.render(self.name, True, WHITE)
         name_rect = name_surface.get_rect(center=(self.rect.centerx, self.rect.bottom + 20))
+        surface.blit(self.image, self.rect)
         surface.blit(name_surface, name_rect)
 
 class Dialogue:

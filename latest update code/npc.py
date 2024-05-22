@@ -6,7 +6,7 @@ from support import *
 
 
 
-class NPC(Entity):
+class NPC(pygame.sprite,Sprite):
     def __init__(self, name, position, speech, groups):
 
         #general setup 
