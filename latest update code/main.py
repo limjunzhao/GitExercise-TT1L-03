@@ -216,18 +216,6 @@ class Game:
 
     def run_game(self):
         pause = False
-        menustatic_img = pygame.image.load('images/button/opt_hover.png')
-        menuhover_img = pygame.image.load('images/button/opt_static.png')
-        resumestatic_img = pygame.image.load('images/button/opt_hover.png')
-        resumehover_img = pygame.image.load('images/button/opt_static.png')
-
-        menu_button = Button(WIDTH / 2, HEIGHT / 2, menuhover_img, menustatic_img, (75, 75))
-        resume_button = Button(50, 10, resumestatic_img, resumehover_img, (75, 75))
-
-
-        def pause_game():
-            screen.blit(pause_surface, (0, 0))
-            pygame.display.update()
 
         while True:
             for event in pygame.event.get(): 
@@ -238,7 +226,7 @@ class Game:
                     pause = not pause  # Toggle the pause state
                     if pause:
                         pause_game()
-                        menu_button.draw(self.screen)
+                     
                         pygame.display.update()
                          
                     else:
