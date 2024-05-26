@@ -58,6 +58,8 @@ class NPC:
         self.name = name
         self.position = position
         self.speech = speech
+
+
         self.image = pygame.image.load('sprites sheet for maps/sprites/characters/player_single.png').convert_alpha()
         self.rect = self.image.get_rect (topleft = position)
         self.interaction_count = 0
@@ -160,10 +162,10 @@ while True:
     for i, npc in enumerate(npcs):
         npc.draw(screen)
         if player.rect.colliderect(npc.rect):
+            print(interaction_counts.values())
             if not hide_speech:
                 speech_text = npc.speech
                 npc_index = i
-                npc.interaction_count += 1
                 interaction_counts[npc.name] += 1
 
                 if npc.name != "Officer Marlowe":

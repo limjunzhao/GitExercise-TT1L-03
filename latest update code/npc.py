@@ -1,38 +1,11 @@
-import pygame 
+import pygame , sys
 from settings import *
 from entity import Entity
-from support import *
+from support import * 
 
 
 
-
-class NPC(pygame.sprite,Sprite):
-    def __init__(self, name, position, speech, groups):
-
-        #general setup 
-        super().__init__(groups)
-        # self.sprite_type = 'npc'
-
-
-        self.name = name
-        self.position = position
-        self.speech = speech
-        self.interaction_count = 0
-        
-        #graphics setup 
-        self.image   = pygame.image.load('sprites sheet for maps/sprites/characters/player_single.png').convert_alpha()
-        self.rect = self.image.get_rect ()
-        self.hitbox = self.rect.inflate(0,-10)
-
-
-    def draw(self, surface):
-        name_surface = FONT.render(self.name, True, WHITE)
-        name_rect = name_surface.get_rect(center=(self.rect.centerx, self.rect.bottom + 20))
-        surface.blit(self.image, self.rect)
-        surface.blit(name_surface, name_rect)
-
-
-class Dialogue: 
+class Dialogue(): 
     def __init__(self):
         self.speech_rect_width = WIDTH - 40
         self.speech_rect_height = HEIGHT // 4
@@ -76,68 +49,88 @@ class Dialogue:
             clock.tick(20)
         pygame.time.wait(3000)
 
-class Execution:
+class Execution():
     def __init__(self):
         self.dialogue = Dialogue()
 
-    def identify_killer(self):
-        new_text = "Who do you think is the killer?\nA. Maria\nB. Willie\nC. Amber\nD. Officer Marlowe"
-        self.dialogue.render_typewriter_new_text(screen, new_text, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+    def identify_killer(self,screen):
+        killer_dialogue = "Who do you think is the killer?\nA. Maria\nB. Willie\nC. Amber\nD. Officer Marlowe"
+        self.dialogue.render_typewriter_new_text(screen, killer_dialogue, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
 
-    def game_over(self):
+    def game_over(self, screen):
         self.dialogue.render_typewriter_new_text(screen, "Incorrect! Game Over.", BLACK, self.dialogue.speech_rect, SPEECH_FONT)
         pygame.quit()
         sys.exit()
 
-    def you_win(self):
+    def you_win(self, screen):
         self.dialogue.render_typewriter_new_text(screen, "Congratulations! You've identified the killer!", BLACK, self.dialogue.speech_rect, SPEECH_FONT)
         pygame.quit()
         sys.exit()
 
 
+class NPC(Entity):
+    interaction_counts = {npc: 0 for npc in npc_data}
 
-# npcs = [NPC(npc["name"], npc["position"], npc["speech"], npc['groups']) for npc in npc_data]
-# interaction_counts = {npc["name"]: 0 for npc in npc_data}
-# dialogue = Dialogue()
-# execution = Execution()
+    def __init__(self, npc_name, pos, speech, groups, obstacle_sprites):
+        
+        #general setup 
+        super().__init__(groups)
+        self.display_surface = pygame.display.get_surface()
+        self.sprite_type = 'npc'
+        
+        #import Dialogue and Exucution 
+        self.dialogue = Dialogue()
+        self.execution = Execution()
 
-# while True:
-#     self.screen.fill(BLACK)
+        #stats  
+        self.npc_name = npc_name
+        npc_info = npc_data[self.npc_name]
+        self.pos = npc_info['position']
+        self.speech = npc_info['speech']
+        
+        self.image = pygame.Surface((16,16))
+        self.rect = self.image.get_rect(topleft = pos)
+        self.hitbox = self.rect.inflate(0,-10)
+        self.obstacle_sprites = obstacle_sprites
 
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             pygame.quit()
-#             sys.exit()
-#         elif event.type == pygame.KEYDOWN:
-#             if event.key == pygame.K_a:
-#                 execution.you_win()
-#             elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d) and hide_speech:
-#                 execution.game_over()
+        self.speech_shown = False # Flag to track if speech is currently shown
+        
 
-#     player.update()
+        #graphics setup 
+    def draw(self):
+            self.name_surface = FONT.render(self.npc_name, True, WHITE)
+            self.name_rect = self.name_surface.get_rect(center=(self.rect.centerx, self.rect.top + 20))
+            self.display_surface.blit(self.name_surface, self.name_rect)
 
-#     for i, npc in enumerate(npcs):
-#         npc.draw(screen)
-#         if player.rect.colliderect(npc.rect):
-#             if not hide_speech:
-#                 speech_text = npc.speech
-#                 npc_index = i
-#                 npc.interaction_count += 1
-#                 interaction_counts[npc.name] += 1
 
-#                 if npc.name != "Officer Marlowe":
-#                     dialogue.render_typewriter_npc_speech(screen, speech_text, BLACK, dialogue.speech_rect, SPEECH_FONT)
-#                 else:
-#                     if all(count > 0 for count in interaction_counts.values()):
-#                         execution.identify_killer()
-#                     else:
-#                         dialogue.render_typewriter_npc_speech(screen, speech_text, BLACK, dialogue.speech_rect, SPEECH_FONT)
 
-#                 hide_speech = True  
 
-#     screen.blit(player.image, player.rect)
-#     pygame.display.flip()
-#     clock.tick(60)
+    def npc_collision (self, player):
+        npc_index = None
+        
+        
+        for i, npc in enumerate(npc_data): #i represented row of the list 
+            # self.draw()
+            if player.rect.colliderect (self.rect): 
 
-#     if npc_index is not None and not player.rect.colliderect(npcs[npc_index].rect):
-#         hide_speech = False
+                if not self.speech_shown:
+                        self.speech_shown = True
+                        speech_text = self.speech
+                        npc_index = i
+                        NPC.interaction_counts[self.npc_name] += 1
+
+                        if self.npc_name != "officer":
+                            self.dialogue.render_typewriter_npc_speech(self.display_surface, self.speech, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+                        
+                        else:
+                            if all(count > 0 for count in self.interaction_counts.values()):
+                                self.execution.identify_killer(self.display_surface)
+                            else:
+                                self.dialogue.render_typewriter_npc_speech(self.display_surface, self.speech, BLACK, self.dialogue.speech_rect, SPEECH_FONT)                        
+               
+            else:
+                self.speech_shown = False  # Reset the flag when the player moves away
+
+
+    def npc_update(self, player): 
+        self.npc_collision(player)

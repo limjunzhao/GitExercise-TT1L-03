@@ -1,7 +1,8 @@
 import pygame 
 from settings import *
+from entity import Entity
 
-class Player(pygame.sprite.Sprite):
+class Player(Entity):
 	def __init__(self,pos,groups,obstacle_sprites):
 		super().__init__(groups)
 		self.image = pygame.image.load('sprites sheet for maps/sprites/characters/player_single.png').convert_alpha()
@@ -48,24 +49,6 @@ class Player(pygame.sprite.Sprite):
 		self.hitbox.y += self.direction.y * speed
 		self.collision('vertical')
 		self.rect.center = self.hitbox.center
-
-	def collision(self,direction):
-		if direction == 'horizontal':
-			for sprite in self.obstacle_sprites:
-				#detect if the obstacles collide w the player
-				if sprite.hitbox.colliderect(self.hitbox):
-					if self.direction.x > 0: #player moving right 
-							self.hitbox.right = sprite.hitbox.left
-					if self.direction.x < 0: #player moving left
-							self.hitbox.left = sprite.hitbox.right #the rect of player will not overlap w the obstacles sprite
-
-		if direction == 'vertical':
-			for sprite in self.obstacle_sprites:
-				if sprite.hitbox.colliderect(self.hitbox):
-					if self.direction.y > 0: #player moving down
-						self.hitbox.bottom = sprite.hitbox.top
-					if self.direction.y < 0: #player moving up
-						self.hitbox.top = sprite.hitbox.bottom
 
 	def update(self):
 		self.input()

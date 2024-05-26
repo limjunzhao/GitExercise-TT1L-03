@@ -24,4 +24,6 @@ class Entity(pygame.sprite.Sprite):
               if self.direction.y < 0: #player moving up
                 self.hitbox.top = sprite.hitbox.bottom
           
-        
+
+
+

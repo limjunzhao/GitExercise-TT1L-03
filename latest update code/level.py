@@ -5,6 +5,8 @@ from player import Player
 from camera import CameraGroup
 from support import *
 from random import choice
+from npc import NPC 	
+
 
 class Level:
 	def __init__(self):
@@ -25,7 +27,7 @@ class Level:
 					'tree' : import_csv_layout('Data/maps csv/maps2_Tree.csv'),
 					'house': import_csv_layout('Data/maps csv/maps2_HouseBuilding.csv'),
 					'rock': import_csv_layout('Data/maps csv/maps2_rock_bush.csv'),
-					'player' : import_csv_layout ('Data/maps csv/maps2_players.csv')
+					'entities' : import_csv_layout ('Data/maps csv/maps2_players.csv')
 					
 		}	
 		graphics = {
@@ -61,15 +63,16 @@ class Level:
 								house_img = graphics['houses'][house_index]
 								Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house',house_img)
 
-						if style == 'player': 
+						if style == 'entities': 
 							if col == '771':
 								self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
-							else: 
-								npc_index = int(col) 
-								if 0 <= npc_index < len(graphics['npcs']):
-									npc_img = graphics['npcs'][house_index]
-									Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'npc',npc_img)
 
+							else: 
+								if col == '0': npc_name = 'maria'
+								elif col == '1': npc_name ='willie'
+								elif col == '2': npc_name = 'amber'
+								else: npc_name = 'officer'
+								NPC(npc_name, (x,y), 'speech', [self.visible_sprites],self.obstacle_sprites)
 		
 			
 				
@@ -77,5 +80,9 @@ class Level:
 	def run(self):
 		# update and draw the game(display)
 		self.visible_sprites.custom_draw(self.player)
+		self.visible_sprites.npc_update(self.player)
 		self.visible_sprites.update()
+
+		
+		
 
