@@ -52,6 +52,7 @@ class Interface:
             """
             if start_button.draw(self.screen):
                 self.button_sfx.play()
+                self.music_sfx.set_volume(0)
                 return "start"
                 
 
@@ -203,7 +204,7 @@ class Game:
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
         pygame.display.set_caption('Mystery Case')
         self.clock = pygame.time.Clock()
-
+        
         # bring the page here
         self.level = Level()
         self.camera_group = CameraGroup()
@@ -211,34 +212,57 @@ class Game:
 
         # main menu setup
         self.main_menu = self.interface.main_menu()   
+        self.music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
+        self.button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
+        self.vol = 0.1
+        self.music_sfx.play(loops = -1)
+        self.music_sfx.set_volume(self.vol)
 
+        
         
 
     def run_game(self):
-        pause = False
+        pause = False 
 
         while True:
-            for event in pygame.event.get(): 
+            for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     pause = not pause  # Toggle the pause state
-                    if pause:
-                        pause_game()
-                     
-                        pygame.display.update()
-                         
-                    else:
+                    if not pause:
                         screen.fill('black')  # Clear the screen when unpausing
 
-            if not pause:
-                screen.fill('black')
-                self.level.run() 
-                self.camera_group.update()  
-                pygame.display.update()
+                if event.type == pygame.MOUSEBUTTONDOWN and pause:
+                    if vol_up_button.collidepoint(event.pos):
+                        print("a")
 
+            if pause:
+                screen.blit(pause_surface, (0, 0))
+                if vol_up_button.draw(self.screen):
+                    self.button_sfx.play()
+                    self.adjust_volume(0.1)
+
+                if vol_down_button.draw(self.screen):
+                    self.button_sfx.play()
+                    self.adjust_volume(-0.1)
+
+                if vol_mute_button.draw(self.screen):
+                    self.button_sfx.play()
+                    self.music_sfx.set_volume(0)
+            else:
+                screen.fill('black')
+                self.level.run()
+                self.camera_group.update()
+
+            pygame.display.update()
             clock.tick(FPS)
+
+    def adjust_volume(self, vol_change):
+        self.vol += vol_change 
+        self.vol = max(0.0, min(1.0, self.vol))
+        self.music_sfx.set_volume(self.vol)
 
     def run_menu(self):
         
