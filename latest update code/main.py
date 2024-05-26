@@ -3,6 +3,7 @@ from settings import *
 from level import Level 
 from camera import CameraGroup
 from button import Button 
+from npc import Dialogue, Execution
 
 class Interface:
     def __init__(self):
@@ -166,7 +167,6 @@ class Interface:
                         active_message += 1
                         layer_counter = 0  # Reset the layer counter when changing message 
                   elif event.key == pygame.K_RETURN and active_message == len(messages) - 1 and layer_counter >= speed * len(messages[active_message][-1]["text"]):
-                        print("run")
                         return "start_game"  # Signal to start the game
 
 
@@ -205,16 +205,26 @@ class Game:
         self.level = Level()
         self.camera_group = CameraGroup()
         self.interface = Interface()
+        self.dialogue = Dialogue()
+        self.execution = Execution()
 
         # main menu setup
         self.main_menu = self.interface.main_menu()
-        
+     
+    
+
+
     def run_game(self):
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_a:
+                        self.execution.you_win(self.screen)
+                    elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
+                        self.execution.game_over(self.screen)
 
             self.screen.fill('#2D99E2')
             self.level.run()
@@ -223,13 +233,7 @@ class Game:
             self.clock.tick(FPS)
 
     def run_menu(self):
-        
-        """
-        Check the state of the action
-        If possible, run each states in the main code of the game
-        Your main code should consist of all the possible states and the actions that should be taken
-        """
-        
+              
         if self.main_menu == "start":
             action = self.interface.story_info()
             if action == "start_game":

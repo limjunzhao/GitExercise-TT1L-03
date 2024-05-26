@@ -1,11 +1,13 @@
 import pygame 
 from player import Player 
+from npc import NPC, Execution, Dialogue
 from support import *
 
 class CameraGroup (pygame.sprite.Group):
   def __init__ (self): 
     super().__init__()
     self.display_surface = pygame.display.get_surface()
+
 
     #camera offset
     self.half_w =  self.display_surface.get_size()[0] //2
@@ -57,3 +59,8 @@ class CameraGroup (pygame.sprite.Group):
     scaled_rect = scaled_surf.get_rect(center = (self.half_w, self.half_h))
   
     self.display_surface.blit (scaled_surf, scaled_rect)
+
+  def npc_update(self, player):
+      npc_sprites = [sprite for sprite in self.sprites() if hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'npc']
+      for npcs in npc_sprites: 
+        npcs.npc_update (player) 

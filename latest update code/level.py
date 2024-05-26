@@ -5,6 +5,8 @@ from player import Player
 from camera import CameraGroup
 from support import *
 from random import choice
+from npc import NPC 	
+
 
 class Level:
 	def __init__(self):
@@ -24,13 +26,15 @@ class Level:
 					'boundary': import_csv_layout('Data/maps csv/maps2_Floorblocks.csv'),
 					'tree' : import_csv_layout('Data/maps csv/maps2_Tree.csv'),
 					'house': import_csv_layout('Data/maps csv/maps2_HouseBuilding.csv'),
-					'rock': import_csv_layout('Data/maps csv/maps2_rock_bush.csv')
+					'rock': import_csv_layout('Data/maps csv/maps2_rock_bush.csv'),
+					'entities' : import_csv_layout ('Data/maps csv/maps2_players.csv')
 					
 		}	
 		graphics = {
 					'trees': import_folder('sprites sheet for maps/Terrains/object'),
 					'houses': import_folder ('sprites sheet for maps/Terrains/buildings'),
 					'rocks': import_folder ('sprites sheet for maps/Terrains/rocks_bush'),
+					'npcs': import_folder ('sprites sheet for maps/sprites/characters/players sprites')
 		}
 
 		 
@@ -44,28 +48,41 @@ class Level:
 							Tile((x,y),[self.obstacle_sprites], 'invisible ')	
 
 						if style == 'tree':
-							house_index = int(col) 
-							if 0 <= house_index < len(graphics['trees']):
-								surf = graphics['trees'][house_index]
-								Tile((x,y),[self.visible_sprites],'tree',surf)
+							tree_index = int(col) 
+							if 0 <= tree_index < len(graphics['trees']):
+								tree_img = graphics['trees'][tree_index]
+								Tile((x,y),[self.visible_sprites],'tree',tree_img)
 
 						if style == 'rock':
 							random_rock_image = choice(graphics['rocks'])
-							Tile((x,y),[self.visible_sprites],'rock and bushes',random_rock_image)
+							Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'rock and bushes',random_rock_image)
 
 						if style == 'house':
 							house_index = int(col) 
 							if 0 <= house_index < len(graphics['houses']):
-								surf = graphics['houses'][house_index]
-								Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house',surf)
-						
+								house_img = graphics['houses'][house_index]
+								Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house',house_img)
 
+						if style == 'entities': 
+							if col == '771':
+								self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
+
+							else: 
+								if col == '0': npc_name = 'maria'
+								elif col == '1': npc_name ='willie'
+								elif col == '2': npc_name = 'amber'
+								else: npc_name = 'officer'
+								NPC(npc_name, (x,y), 'speech', [self.visible_sprites],self.obstacle_sprites)
 		
-			self.player = Player((500,1420),[self.visible_sprites], self.obstacle_sprites)
+			
 				
 
 	def run(self):
 		# update and draw the game(display)
 		self.visible_sprites.custom_draw(self.player)
+		self.visible_sprites.npc_update(self.player)
 		self.visible_sprites.update()
+
+		
+		
 
