@@ -7,17 +7,15 @@ class Player(pygame.sprite.Sprite):
         super().__init__(groups)
         
         # Load sprite sheet
-        sprite_sheet_image = pygame.image.load('player.png').convert_alpha()
+        sprite_sheet_image = pygame.image.load('dino.png').convert_alpha()
         self.sprite_sheet = spritesheet.SpriteSheet(sprite_sheet_image)
         
         # Define animation frames
-        self.animation_steps = [6, 6, 6, 6, 6]
+        self.animation_steps = [6, 6, 6]
         self.frame_coords = [
             [(0, 0), (48, 0), (96, 0), (144, 0), (192, 0), (240, 0)],
             [(0, 48), (48, 48), (96, 48), (144, 48), (192, 48), (240, 48)],
             [(0, 96), (48, 96), (96, 96), (144, 96), (192, 96), (240, 96)],
-            [(0, 144), (48, 144), (96, 144), (144, 144), (192, 144), (240, 144)],
-            [(0, 192), (48, 192), (96, 192), (144, 192), (192, 192), (240, 192)],
         ]
         self.animation_list = self.load_animation_frames(self.sprite_sheet, self.animation_steps, self.frame_coords, 48, 48, 1, BLACK)
 
@@ -57,10 +55,10 @@ class Player(pygame.sprite.Sprite):
 
         if keys[pygame.K_LEFT]:
             self.direction.x = -1
-            self.action = 3
+            self.action = 2
         elif keys[pygame.K_RIGHT]:
             self.direction.x = 1
-            self.action = 4
+            self.action = 1
         else:
             self.direction.x = 0
         
