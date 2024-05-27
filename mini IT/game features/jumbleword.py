@@ -13,7 +13,7 @@ BLACK = (0, 0, 0)
 SEMI_TRANSPARENT_BLACK = (0, 0, 0, 128)
 
 # Load background image
-background_image = pygame.image.load('minigame.jpeg')
+background_image = pygame.image.load('pixel.png')
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 # Use default pygame fonts
@@ -104,7 +104,6 @@ while running:
                     if check_answer(input_text):
                         if score >= 5:  # Check if score reaches 5
                             running = False
-                            
                     input_text = ""
                 elif event.key == pygame.K_BACKSPACE:
                     input_text = input_text[:-1]
