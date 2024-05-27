@@ -4,7 +4,7 @@ from level import Level
 from camera import CameraGroup
 from button import Button 
 from pause import *
-from npc import Dialogue, Execution
+from npc import Dialogue, Execution, NPC
 
 class Interface:
     def __init__(self):
@@ -211,9 +211,7 @@ class Game:
         self.dialogue = Dialogue()
         self.execution = Execution()
 
-        
-
-        # main menu setup
+         # main menu setup
         self.main_menu = self.interface.main_menu()   
         self.music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
         self.button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
@@ -231,15 +229,16 @@ class Game:
                     sys.exit()
 
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_a:
-                        self.execution.you_win(self.screen)
-                    elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
-                        self.execution.game_over(self.screen)
+                    if all(count>0 for count in NPC.interaction_counts.values()):
+                        if event.key == pygame.K_a:
+                            self.execution.you_win(self.screen)
+                        elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
+                            self.execution.game_over(self.screen)
                         
                 elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     pause = not pause  # Toggle the pause state
                     if not pause:
-                        screen.fill('black')  # Clear the screen when unpausing
+                        screen.fill(BLACK)  # Clear the screen when unpausing
 
                 if event.type == pygame.MOUSEBUTTONDOWN and pause:
                     if vol_up_button.collidepoint(event.pos):
@@ -259,7 +258,7 @@ class Game:
                     self.button_sfx.play()
                     self.music_sfx.set_volume(0)
             else:
-                screen.fill('black')
+                screen.fill('#2D99E2')
                 self.level.run()
                 self.camera_group.update()
 
