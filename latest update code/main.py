@@ -3,8 +3,8 @@ from settings import *
 from level import Level 
 from camera import CameraGroup
 from button import Button 
-import sys
 from pause import *
+from npc import Dialogue, Execution
 
 class Interface:
     def __init__(self):
@@ -170,7 +170,6 @@ class Interface:
                         active_message += 1
                         layer_counter = 0  # Reset the layer counter when changing message 
                   elif event.key == pygame.K_RETURN and active_message == len(messages) - 1 and layer_counter >= speed * len(messages[active_message][-1]["text"]):
-                        print("run")
                         return "start_game"  # Signal to start the game
 
 
@@ -209,18 +208,12 @@ class Game:
         self.level = Level()
         self.camera_group = CameraGroup()
         self.interface = Interface()
+        self.dialogue = Dialogue()
+        self.execution = Execution()
 
         # main menu setup
-        self.main_menu = self.interface.main_menu()   
-        self.music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
-        self.button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
-        self.vol = 0.1
-        self.music_sfx.play(loops = -1)
-        self.music_sfx.set_volume(self.vol)
-
+        self.main_menu = self.interface.main_menu()
         
-        
-
     def run_game(self):
         pause = False 
 
@@ -229,33 +222,10 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                    pause = not pause  # Toggle the pause state
-                    if not pause:
-                        screen.fill('black')  # Clear the screen when unpausing
 
-                if event.type == pygame.MOUSEBUTTONDOWN and pause:
-                    if vol_up_button.collidepoint(event.pos):
-                        print("a")
-
-            if pause:
-                screen.blit(pause_surface, (0, 0))
-                if vol_up_button.draw(self.screen):
-                    self.button_sfx.play()
-                    self.adjust_volume(0.1)
-
-                if vol_down_button.draw(self.screen):
-                    self.button_sfx.play()
-                    self.adjust_volume(-0.1)
-
-                if vol_mute_button.draw(self.screen):
-                    self.button_sfx.play()
-                    self.music_sfx.set_volume(0)
-            else:
-                screen.fill('black')
-                self.level.run()
-                self.camera_group.update()
-
+            self.screen.fill('black')
+            self.level.run()
+            self.camera_group.update()
             pygame.display.update()
             clock.tick(FPS)
 
@@ -265,13 +235,7 @@ class Game:
         self.music_sfx.set_volume(self.vol)
 
     def run_menu(self):
-        
-        """
-        Check the state of the action
-        If possible, run each states in the main code of the game
-        Your main code should consist of all the possible states and the actions that should be taken
-        """
-        
+              
         if self.main_menu == "start":
             action = self.interface.story_info()
             if action == "start_game":
