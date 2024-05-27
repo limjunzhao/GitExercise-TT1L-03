@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.2" name="house set" tilewidth="128" tileheight="137" tilecount="14" columns="0">
+<tileset version="1.10" tiledversion="1.10.2" name="house set" tilewidth="128" tileheight="137" tilecount="16" columns="0">
  <grid orientation="orthogonal" width="1" height="1"/>
  <tile id="0">
   <image width="128" height="80" source="../../sprites sheet for maps/Terrains/buildings/ob_house_01.png"/>
@@ -42,5 +42,11 @@
  </tile>
  <tile id="13">
   <image width="120" height="137" source="../../sprites sheet for maps/Terrains/buildings/ob_house_14.png"/>
+ </tile>
+ <tile id="14">
+  <image width="112" height="95" source="../../sprites sheet for maps/Terrains/buildings/ob_house_16.png"/>
+ </tile>
+ <tile id="15">
+  <image width="112" height="95" source="../../sprites sheet for maps/Terrains/buildings/ob_house_15.png"/>
  </tile>
 </tileset>

@@ -1,0 +1,162 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/npc.tsx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInEditor": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps draft.tmx": {
+            "scale": 0.7230555555555555,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 641.0295812524012,
+                "y": 360.2766039185556
+            }
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps draft.tmx#spr_terrains": {
+            "scaleInDock": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx": {
+            "scale": 3,
+            "selectedLayer": 8,
+            "viewCenter": {
+                "x": 542.8333333333333,
+                "y": 879.1666666666666
+            }
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx#house set": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx#spr_terrains": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2,
+            "scaleInEditor": 5.5
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Test.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 4,
+            "scaleInEditor": 4
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Tree.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 3
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Tree_stump.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 2,
+            "scaleInEditor": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/group_tree_stump.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 2,
+            "scaleInEditor": 4
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/house set.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 0.75,
+            "scaleInEditor": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/npc.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 3
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_02.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_03.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 4
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_04.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_05.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_06.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1,
+            "scaleInEditor": 4
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_10.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/player.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/rock_bush.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/spr_structures_exterior.tsx": {
+            "dynamicWrapping": false,
+            "scaleInDock": 0.5
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/tree_test.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 3
+        },
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/sprites sheet for maps/Terrains/object/tree.tsx": {
+            "dynamicWrapping": true,
+            "scaleInDock": 1,
+            "scaleInEditor": 2
+        }
+    },
+    "last.exportedFilePath": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/maps csv",
+    "last.externalTilesetPath": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx",
+    "last.imagePath": "C:/Users/Lim Jun Zhao/Projects/mystery case/sprites sheet for maps/sprites/characters/players sprites",
+    "lastUsedTilesetExportFilter": "All Files (*)",
+    "map.lastUsedExportFilter": "CSV files (*.csv)",
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/house set.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Tree_stump.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/rock_bush.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/player.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/npc.tsx"
+    ],
+    "project": "Maps2.0.tiled-project",
+    "recentFiles": [
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/rock_bush.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Tree_stump.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/house set.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_06.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/house set.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Tree_stump.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/rock_bush.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/player.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/npc.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_06.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Test.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/group_tree_stump.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/tree_test.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Tree.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/sprites sheet for maps/Terrains/object/tree.tsx"
+    ],
+    "resizeMap.removeObjects": false,
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    },
+    "tileset.type": 1
+}
