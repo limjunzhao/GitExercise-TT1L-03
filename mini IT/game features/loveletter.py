@@ -47,7 +47,7 @@ messages = [
     {"text": "essence of belonging.",
      "color": (0, 0, 0),
      "position": (410, 460)},
-    {"text": "Love chick,",
+    {"text": "Love sidechick,",
      "color": (0, 0, 0),
      "position": (410, 510)},
      {"text": "rawr",
