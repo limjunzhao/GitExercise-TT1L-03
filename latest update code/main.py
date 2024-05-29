@@ -235,14 +235,11 @@ class Game:
                         elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
                             self.execution.game_over(self.screen)
                         
-                elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     pause = not pause  # Toggle the pause state
                     if not pause:
                         screen.fill(BLACK)  # Clear the screen when unpausing
 
-                if event.type == pygame.MOUSEBUTTONDOWN and pause:
-                    if vol_up_button.collidepoint(event.pos):
-                        print("a")
 
             if pause:
                 screen.blit(pause_surface, (0, 0))
