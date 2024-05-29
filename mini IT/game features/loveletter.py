@@ -10,7 +10,7 @@ pygame.display.set_caption('Press Enter to Show Image and Text')
 
 # Load image
 love_letter_image = pygame.image.load('love_letter_image.png')
-love_letter_image = pygame.transform.scale(love_letter_image, (1280, 830))
+love_letter_image = pygame.transform.scale(love_letter_image, (900, 830))
 love_letter_image_rect = love_letter_image.get_rect()
 love_letter_image_rect.center = (660, 335)
 
@@ -25,22 +25,34 @@ font = pygame.font.Font(None, 24)
 messages = [
     {"text": "Dearest Willie,",
      "color": (0, 0, 0),
-     "position": (310, 200)},
-    {"text": "In your presence, my heart dances to a melody only you compose.  ",
+     "position": (410, 200)},
+    {"text": "In your presence, my heart dances to a melody only you   ",
      "color": (0, 0, 0),
-     "position": (310, 280)},
-    {"text": "Your laughter is the rhythm that sets my soul alight. ",
+     "position": (410, 280)},
+    {"text": "compose. Your laughter is the rhythm that sets my soul ",
      "color": (0, 0, 0),
-     "position": (310, 330)},
-    {"text": "With every glance, you paint the canvas of my world with hues of affection.",
+     "position": (410, 310)},
+    {"text": "alight. With every glance, you paint the canvas of my world",
      "color": (0, 0, 0),
-     "position": (310, 380)},
-    {"text": "I am but a poet entranced by your verses, lost in the depths of your gaze. ",
+     "position": (410, 340)},
+    {"text": "with hues of affection. I am but a poet entranced by your",
      "color": (0, 0, 0),
-     "position": (310, 430)},
-    {"text": "In your arms, I find the solace of home, and in your love, I discover the true essence of belonging.",
+     "position": (410, 370)},
+    {"text": "verses, lost in the depths of your gaze. In your arms, I find",
      "color": (0, 0, 0),
-     "position": (310, 480)},
+     "position": (410, 400)},
+    {"text": "the solace of home, and in your love, I discover the true",
+     "color": (0, 0, 0),
+     "position": (410, 430)},
+    {"text": "essence of belonging.",
+     "color": (0, 0, 0),
+     "position": (410, 460)},
+    {"text": "Love chick,",
+     "color": (0, 0, 0),
+     "position": (410, 510)},
+     {"text": "rawr",
+     "color": (0, 0, 0),
+     "position": (410, 530)},
 ]
 
 # Variables
@@ -51,6 +63,7 @@ def draw_text(messages):
     for message in messages:
         text_surface = font.render(message["text"], True, message["color"])
         screen.blit(text_surface, message["position"])
+       
 
 running = True
 while running:
