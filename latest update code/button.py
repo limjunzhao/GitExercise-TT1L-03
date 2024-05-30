@@ -26,8 +26,9 @@ class Button():
                 self.clicked = False
 
             screen.blit(self.image, (self.rect.x, self.rect.y))
-
+            
             return action
+        
 
-
-
+        def collidepoint(self, pos):
+            return self.rect.collidepoint(pos)

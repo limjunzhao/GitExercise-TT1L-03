@@ -1,58 +1,119 @@
-import pygame 
+import pygame
 from settings import *
+import spritesheet
 from entity import Entity
 
-class Player(Entity):
-	def __init__(self,pos,groups,obstacle_sprites):
-		super().__init__(groups)
-		self.image = pygame.image.load('sprites sheet for maps/sprites/characters/player_single.png').convert_alpha()
-		self.rect = self.image.get_rect(topleft = pos)
-		self.hitbox = self.rect.inflate(0,-10)
+class Player(pygame.sprite.Sprite):
+	def __init__(self, pos, groups, obstacle_sprites):
+			super().__init__(groups)
 
-		#if we didnt put any argument inside this Vector2(), it will default as (0,0) 
-		self.direction = pygame.math.Vector2()
-		self.speed = 3
-		
-		self.obstacle_sprites = obstacle_sprites
-		pygame.display.update
-		
-	def input(self): 
+					# Load sprite sheet
+			sprite_sheet_image = pygame.image.load('player.png').convert_alpha()
+			self.sprite_sheet = spritesheet.SpriteSheet(sprite_sheet_image)
 
+					# Define animation frames
+			self.animation_steps = [6, 6, 6, 6, 6]
+			self.frame_coords = [
+							[(0, 0), (48, 0), (96, 0), (144, 0), (192, 0), (240, 0)],
+							[(0, 48), (48, 48), (96, 48), (144, 48), (192, 48), (240, 48)],
+							[(0, 96), (48, 96), (96, 96), (144, 96), (192, 96), (240, 96)],
+							[(0, 144), (48, 144), (96, 144), (144, 144), (192, 144), (240, 144)],
+							[(0, 192), (48, 192), (96, 192), (144, 192), (192, 192), (240, 192)],
+			]
+			self.animation_list = self.load_animation_frames(self.sprite_sheet, self.animation_steps, self.frame_coords, 48, 48, 1, BLACK)
+			
+			# Set initial image and rect
+			self.action = 0
+			self.frame = 0
+			self.last_update = pygame.time.get_ticks()
+			self.animation_cooldown = 145
+			self.image = self.animation_list[self.action][self.frame]
+			self.rect = self.image.get_rect(topleft=pos)
+
+			# Movement attributes
+			self.direction = pygame.math.Vector2()
+			self.speed = 3
+			self.obstacle_sprites = obstacle_sprites
+
+	def load_animation_frames(self, sprite_sheet, animation_steps, frame_coords, frame_width, frame_height, scale, color_key):
+			animation_list = []
+			for steps, coords in zip(animation_steps, frame_coords):
+					temp_image_list = []
+					for i in range(steps):
+							x, y = coords[i]
+							temp_image_list.append(sprite_sheet.get_image(x, y, frame_width, frame_height, scale, color_key))
+					animation_list.append(temp_image_list)
+			return animation_list
+	
+	
+
+	def input(self):
 		keys = pygame.key.get_pressed()
-
-		#control pos.y
-		if keys [pygame.K_UP]:
-			self.direction.y = -1
-		elif keys [pygame.K_DOWN]:
-			self.direction.y = 1
-		else: 
-			self.direction.y = 0
-
-		#control pos.x 
-		if keys [pygame.K_LEFT]:
-			self.direction.x = -1
-		elif keys [pygame.K_RIGHT]:
-			self.direction.x = 1
+		if keys[pygame.K_UP]:
+				self.direction.y = -1
+				self.action = 1
+		elif keys[pygame.K_DOWN]:
+				self.direction.y = 1
+				self.action = 2
 		else:
-			self.direction.x = 0
+				self.direction.y = 0
+
+
+		if keys[pygame.K_LEFT]:
+				self.direction.x = -1
+				self.action = 3
+		elif keys[pygame.K_RIGHT]:
+				self.direction.x = 1
+				self.action = 4
+		else:
+				self.direction.x = 0
+
+
+		if self.direction.x == 0 and self.direction.y == 0:
+				self.action = 0
+
+
+
+	def collision(self,direction):
+		if direction == 'horizontal':
+			for sprite in self.obstacle_sprites:
+				#detect if the obstacles collide w the player
+				if sprite.rect.colliderect(self.rect):
+					if self.direction.x > 0: #player moving right 
+							self.rect.right = sprite.rect.left
+					if self.direction.x < 0: #player moving left
+							self.rect.left = sprite.rect.right #the rect of player will not overlap w the obstacles sprite
+
+		if direction == 'vertical':
+			for sprite in self.obstacle_sprites:
+				if sprite.rect.colliderect(self.rect):
+					if self.direction.y > 0: #player moving down
+							self.rect.bottom = sprite.rect.top
+					if self.direction.y < 0: #player moving up
+							self.rect.top = sprite.rect.bottom
+
 
 	def move(self, speed):
-		#the reason adding this code is to make sure the character moving in any direction will be the length = 1 (normalize), either up down or diagonal
-		#need this if statement bcuz we dont have != 0 it show erro bcuz 0 cannot be normalize 
-		if self.direction.magnitude() != 0: 
-			self.direction = self.direction.normalize()
-		#this is to link to self.rect which is our player.rect so that it will flw the input we give and move 
-		
-		self.hitbox.x += self.direction.x * speed 
-		#collision check w 'horizontal'
-		self.collision('horizontal') 
-		self.hitbox.y += self.direction.y * speed
-		self.collision('vertical')
-		self.rect.center = self.hitbox.center
+			if self.direction.magnitude() != 0:
+					self.direction = self.direction.normalize()
 
+			self.rect.x += self.direction.x * speed
+			self.collision('horizontal')
+			self.rect.y += self.direction.y * speed
+			self.collision('vertical')
+
+	def update_animation(self):
+		current_time = pygame.time.get_ticks()
+		if current_time - self.last_update >= self.animation_cooldown:
+				self.frame += 1
+				self.last_update = current_time
+				if self.frame >= len(self.animation_list[self.action]):
+						self.frame = 0
+		self.image = self.animation_list[self.action][self.frame]
+	
 	def update(self):
 		self.input()
-		#we update the move thingy to main.py and put the self.speed = speed = 5 into argument 
-		self.move (self.speed)
+		self.move(self.speed)
+		self.update_animation()
 	
 
