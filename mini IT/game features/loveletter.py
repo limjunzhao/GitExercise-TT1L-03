@@ -25,7 +25,7 @@ font = pygame.font.Font(None, 24)
 messages = [
     {"text": "Dearest Willie,",
      "color": (0, 0, 0),
-     "position": (410, 200)},
+     "position": (410, 230)},
     {"text": "In your presence, my heart dances to a melody only you   ",
      "color": (0, 0, 0),
      "position": (410, 280)},
