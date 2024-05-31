@@ -2,16 +2,14 @@ import pygame ,sys
 from button import Button 
 from settings import *
 
-
-
 class Interface:
     def __init__(self):
-        self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
+        self.screen = pygame.display.set_mode((WIDTH, HEIGHT))
         self.button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
         self.font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
         self.music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
         self.vol = 0.1
-        self.music_sfx.play(loops = -1)
+        self.music_sfx.play(loops=-1)
         self.music_sfx.set_volume(self.vol)
 
     def main_menu(self):
@@ -24,7 +22,7 @@ class Interface:
         optionstatic_img = pygame.image.load('images/button/opt_static.png')
 
         background_image = pygame.image.load('images/background/mane_background1.jpg')
-        background_image = pygame.transform.scale(background_image, (WIDTH,HEIGHT))
+        background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
         title_img = pygame.image.load('images/title.png')
         title_img = pygame.transform.scale(title_img, (600, 350))
@@ -35,9 +33,7 @@ class Interface:
         start_button = Button(image_x, 400, startstatic_img, starthover_img, (200, 100))
         quit_button = Button(image_x, 500, quitstatic_img, quithover_img, (200, 100))
         option_button = Button(10, 10, optionstatic_img, optionhover_img, (75, 75))
-        
 
-        
         while True:
             self.screen.blit(background_image, (0, 0))
             self.screen.blit(title_img, (400, 80))
@@ -86,15 +82,15 @@ class Interface:
 
             if vol_up_button.draw(self.screen):
                 self.button_sfx.play()
-                adjust_volume(0.1)
+                self.adjust_volume(0.1)
 
             if vol_down_button.draw(self.screen):
                 self.button_sfx.play()
-                adjust_volume(-0.1)
+                self.adjust_volume(-0.1)
 
             if vol_mute_button.draw(self.screen):
                 self.button_sfx.play()
-                music_sfx.set_volume(0)
+                self.music_sfx.set_volume(0)
 
             if back_button.draw(self.screen):
                 self.button_sfx.play()
@@ -108,11 +104,10 @@ class Interface:
             pygame.display.update()
     
     def story_info(self):
-
         # Define messages with multiple layers
         messages = [
             [
-                {"text": "In the fog-drenched streets of Arcadia, a series of grisly murder shatters",
+                {"text": "In the fog-drenched streets of Arcadia, a series of grisly murders shatter",
                 "color": WHITE,
                 "position": (25, 250)},
                 {"text": "the tranquility of its residents.",
@@ -120,13 +115,13 @@ class Interface:
                 "position": (400, 300)},
             ],
             [
-                {"text": "Its’s 7am in the morning and you discovered the victim’s body laying",
+                {"text": "It's 7 am in the morning and you discovered the victim’s body lying",
                 "color": WHITE,
                 "position": (60, 250)},
-                {"text": "(outside a house/bar) and the blood was still damped which means.",
+                {"text": "outside a house/bar and the blood is still damp, indicating",
                 "color": WHITE,  
                 "position": (70, 300)},
-                {"text": "the killing happened not long ago",
+                {"text": "the killing happened not long ago.",
                 "color": WHITE,  
                 "position": (380, 350)}
             ],
@@ -143,11 +138,10 @@ class Interface:
              ]
         ]
 
-
         # Main loop
         active_message = 0
         layer_counter = 0
-        speed = 10  # Adjust the speed of typewriter effect
+        speed = 10  # Adjust the speed of the typewriter effect
 
         while True:
             for event in pygame.event.get():
@@ -177,13 +171,7 @@ class Interface:
 
             pygame.display.flip()
 
-    def adjust_volume(vol_change):
-        global vol
-        vol += vol_change 
-        vol = max(0.0, min(1.0, vol))
-        music_sfx.set_volume(vol)
-
-
-
-
-
+    def adjust_volume(self, vol_change):
+        self.vol += vol_change 
+        self.vol = max(0.0, min(1.0, self.vol))
+        self.music_sfx.set_volume(self.vol)
