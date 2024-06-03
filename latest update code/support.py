@@ -9,7 +9,7 @@ def import_csv_layout(path):
 		for row in layout:
 			terrain_map.append(list(row))
 		return terrain_map
-
+        
 def import_folder(path):
     surface_list = []
     
@@ -20,3 +20,4 @@ def import_folder(path):
             surface_list.append(image_surf)
     
     return surface_list 
+

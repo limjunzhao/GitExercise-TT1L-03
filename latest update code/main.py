@@ -210,6 +210,7 @@ class Game:
         self.interface = Interface()
         self.dialogue = Dialogue()
         self.execution = Execution()
+        
 
          # main menu setup
         self.main_menu = self.interface.main_menu()   
@@ -223,6 +224,7 @@ class Game:
         pause = False 
 
         while True:
+            # events = pygame.event.get()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -234,6 +236,7 @@ class Game:
                             self.execution.you_win(self.screen)
                         elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
                             self.execution.game_over(self.screen)
+                   
                         
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     pause = not pause  # Toggle the pause state

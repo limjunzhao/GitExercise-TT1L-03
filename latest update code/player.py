@@ -3,7 +3,7 @@ from settings import *
 import spritesheet
 from entity import Entity
 
-class Player(pygame.sprite.Sprite):
+class Player(Entity):
 	def __init__(self, pos, groups, obstacle_sprites):
 			super().__init__(groups)
 
@@ -29,6 +29,7 @@ class Player(pygame.sprite.Sprite):
 			self.animation_cooldown = 145
 			self.image = self.animation_list[self.action][self.frame]
 			self.rect = self.image.get_rect(topleft=pos)
+			self.hitbox = self.rect.inflate(-26, -26)
 
 			# Movement attributes
 			self.direction = pygame.math.Vector2()
@@ -45,8 +46,6 @@ class Player(pygame.sprite.Sprite):
 					animation_list.append(temp_image_list)
 			return animation_list
 	
-	
-
 	def input(self):
 		keys = pygame.key.get_pressed()
 		if keys[pygame.K_UP]:
@@ -73,34 +72,15 @@ class Player(pygame.sprite.Sprite):
 				self.action = 0
 
 
-
-	def collision(self,direction):
-		if direction == 'horizontal':
-			for sprite in self.obstacle_sprites:
-				#detect if the obstacles collide w the player
-				if sprite.rect.colliderect(self.rect):
-					if self.direction.x > 0: #player moving right 
-							self.rect.right = sprite.rect.left
-					if self.direction.x < 0: #player moving left
-							self.rect.left = sprite.rect.right #the rect of player will not overlap w the obstacles sprite
-
-		if direction == 'vertical':
-			for sprite in self.obstacle_sprites:
-				if sprite.rect.colliderect(self.rect):
-					if self.direction.y > 0: #player moving down
-							self.rect.bottom = sprite.rect.top
-					if self.direction.y < 0: #player moving up
-							self.rect.top = sprite.rect.bottom
-
-
 	def move(self, speed):
 			if self.direction.magnitude() != 0:
 					self.direction = self.direction.normalize()
 
-			self.rect.x += self.direction.x * speed
+			self.hitbox.x += self.direction.x * speed
 			self.collision('horizontal')
-			self.rect.y += self.direction.y * speed
+			self.hitbox.y += self.direction.y * speed
 			self.collision('vertical')
+			self.rect.center = self.hitbox.center
 
 	def update_animation(self):
 		current_time = pygame.time.get_ticks()

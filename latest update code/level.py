@@ -27,14 +27,18 @@ class Level:
 					'tree' : import_csv_layout('Data/maps csv/maps2_Tree.csv'),
 					'house': import_csv_layout('Data/maps csv/maps2_HouseBuilding.csv'),
 					'rock': import_csv_layout('Data/maps csv/maps2_rock_bush.csv'),
-					'entities' : import_csv_layout ('Data/maps csv/maps2_players.csv')
+					'entities' : import_csv_layout ('Data/maps csv/maps2_players.csv'),
+					'loveletter' : import_csv_layout ('Data/maps csv/maps2_mailbox.csv'),
+					'decor': import_csv_layout ('Data/maps csv/maps2_decors.csv')
+
 					
 		}	
 		graphics = {
 					'trees': import_folder('sprites sheet for maps/Terrains/object'),
 					'houses': import_folder ('sprites sheet for maps/Terrains/buildings'),
 					'rocks': import_folder ('sprites sheet for maps/Terrains/rocks_bush'),
-					'npcs': import_folder ('sprites sheet for maps/sprites/characters/players sprites')
+					'npcs': import_folder ('sprites sheet for maps/sprites/characters/players sprites'),
+					'decors' : import_folder ('sprites sheet for maps/Terrains/decors')
 		}
 
 		 
@@ -63,6 +67,20 @@ class Level:
 								house_img = graphics['houses'][house_index]
 								Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house',house_img)
 
+						if style == 'loveletter':
+							if col == '267': 
+								Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'loveletter')
+
+
+						if style == 'decor':
+							decor_index = int(col) 
+							if 0 <= decor_index < len(graphics['decors']):
+								decor_img = graphics['decors'][decor_index]
+								Tile((x,y),[self.visible_sprites],'decor',decor_img)
+				
+								
+
+
 						if style == 'entities': 
 							if col == '771':
 								self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
@@ -74,11 +92,12 @@ class Level:
 								else: npc_name = 'officer'
 								NPC(npc_name, (x,y), 'speech', [self.visible_sprites],self.obstacle_sprites)
 		
-			
+						
 				
 
 	def run(self):
 		# update and draw the game(display)
+		
 		self.visible_sprites.custom_draw(self.player)
 		self.visible_sprites.npc_update(self.player)
 		self.visible_sprites.update()
