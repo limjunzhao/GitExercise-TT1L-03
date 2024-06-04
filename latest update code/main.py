@@ -252,6 +252,14 @@ class Game:
 
             if pause:
                 screen.blit(pause_surface, (0, 0))
+                pygame.draw.rect(pause_surface, 'white', pygame.Rect(30, 30, 60, 60),  2, 3)
+
+                # screen.blit(put image here or blit something else)
+                for message in messages:
+                    text_surface = font.render(message["text"], True, message["color"])
+                    screen.blit(text_surface, message["position"])
+
+
                 if vol_up_button.draw(self.screen):
                     self.button_sfx.play()
                     self.adjust_volume(0.1)
@@ -263,6 +271,13 @@ class Game:
                 if vol_mute_button.draw(self.screen):
                     self.button_sfx.play()
                     self.music_sfx.set_volume(0)
+
+                if back_button.draw(self.screen):
+                    pause = not pause
+
+                if quit_button.draw(self.screen):
+                    pygame.quit()
+                    sys.exit()
             else:
                 screen.fill('#2D99E2')
                 self.level.run()
