@@ -77,6 +77,7 @@ class NPC(Entity):
         super().__init__(groups)
         self.display_surface = pygame.display.get_surface()
         self.sprite_type = 'npc'
+        self.import_graphic(npc_name)
         
         #import Dialogue and Exucution 
         self.dialogue = Dialogue()
@@ -96,6 +97,12 @@ class NPC(Entity):
         self.speech_shown = False # Flag to track if speech is currently shown
         
 
+    def import_graphic(self, name):
+        self.animations = {'idle':[]}
+        main_path = f'..sprites sheet for maps/sprites/characters/npc/{name}/'
+        for animation in self.animations.keys():
+            self.animations[animation] = import_folder(main_path + animation)
+               
         #graphics setup 
     def draw(self):
             self.name_surface = FONT.render(self.npc_name, True, WHITE)
@@ -130,7 +137,6 @@ class NPC(Entity):
                
             else:
                 self.speech_shown = False  # Reset the flag when the player moves away
-
 
     def npc_update(self, player): 
         self.npc_collision(player)

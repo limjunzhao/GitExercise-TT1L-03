@@ -30,4 +30,7 @@ class Button():
             return action
 
 
+        def collidepoint(self, pos):
+            return self.rect.collidepoint(pos)
+
 

@@ -34,7 +34,7 @@ class Level:
 					'trees': import_folder('sprites sheet for maps/Terrains/object'),
 					'houses': import_folder ('sprites sheet for maps/Terrains/buildings'),
 					'rocks': import_folder ('sprites sheet for maps/Terrains/rocks_bush'),
-					'npcs': import_folder ('sprites sheet for maps/sprites/characters/players sprites')
+					'npcs': import_folder ('sprites sheet for maps/sprites/characters/npc/{npc_name}/')
 		}
 
 		 
@@ -85,4 +85,3 @@ class Level:
 
 		
 		
-

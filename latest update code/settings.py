@@ -19,17 +19,18 @@ speech_text = ""
 
 
 npc_data = {
-    'maria': { "position": (100, 100), "speech": "In the morning, I made breakfast for my husband..." }, 
+    'maria': { "position": (100, 100), "speech": "In the morning, I made breakfast for my husband...", "speed": 3 }, 
     #'img':'sprites sheet for maps/sprites/characters/player_single.png'},
 
-    'willie': {"position": (600, 400), "speech": "Breakfast with my wife started the day..."},
+    'willie': {"position": (600, 400), "speech": "Breakfast with my wife started the day...", "speed": 3 },
     #'img':'sprites sheet for maps/sprites/characters/player_single.png'},
     
-    'amber': {"position": (600, 100), "speech": "In the day, I exercised in the park..." },
+    'amber': {"position": (600, 100), "speech": "In the day, I exercised in the park..." , "speed": 3 },
     #'img':'sprites sheet for maps/sprites/characters/player_single.png'},
     
-    'officer': {"position": (100, 400), "speech": "Please help me find the killer before it's too late!" } 
+    'officer': {"position": (100, 400), "speech": "Please help me find the killer before it's too late!" , "speed": 3 } 
     #'img':'sprites sheet for maps/sprites/characters/player_single.png'}
 }
+
 
 

@@ -1,58 +1,75 @@
 import pygame 
 from settings import *
+from support import import_folder
 from entity import Entity
 
 class Player(Entity):
 	def __init__(self,pos,groups,obstacle_sprites):
 		super().__init__(groups)
-		self.image = pygame.image.load('sprites sheet for maps/sprites/characters/player_single.png').convert_alpha()
+		self.image = pygame.image.load("C:/Users/naach/projects/mystery case/sprites sheet for maps/sprites/characters/test/player.png").convert_alpha()
 		self.rect = self.image.get_rect(topleft = pos)
 		self.hitbox = self.rect.inflate(0,-10)
 
-		#if we didnt put any argument inside this Vector2(), it will default as (0,0) 
-		self.direction = pygame.math.Vector2()
+		
+		self.import_player_assets()
 		self.speed = 3
+		self.status = 'down'
+
 		
 		self.obstacle_sprites = obstacle_sprites
-		pygame.display.update
-		
-	def input(self): 
+		# pygame.display.update
+	
+	def import_player_assets(self):
+		character_path = "C:/Users/naach/projects/mystery case/sprites sheet for maps/sprites/characters/player/"
+		self.animations = {'up': [],'down': [],'left': [],'right': [],'idle':[]}
+		for animation in self.animations.keys():
+			full_path = character_path + animation
+			self.animations[animation] = import_folder(full_path)
 
+	def input(self): 
 		keys = pygame.key.get_pressed()
 
 		#control pos.y
 		if keys [pygame.K_UP]:
 			self.direction.y = -1
+			self.status = 'up'
 		elif keys [pygame.K_DOWN]:
 			self.direction.y = 1
+			self.status = 'down'
 		else: 
 			self.direction.y = 0
 
 		#control pos.x 
 		if keys [pygame.K_LEFT]:
 			self.direction.x = -1
+			self.status = 'left'
 		elif keys [pygame.K_RIGHT]:
 			self.direction.x = 1
+			self.status = 'right'
 		else:
 			self.direction.x = 0
 
-	def move(self, speed):
-		#the reason adding this code is to make sure the character moving in any direction will be the length = 1 (normalize), either up down or diagonal
-		#need this if statement bcuz we dont have != 0 it show erro bcuz 0 cannot be normalize 
-		if self.direction.magnitude() != 0: 
-			self.direction = self.direction.normalize()
-		#this is to link to self.rect which is our player.rect so that it will flw the input we give and move 
-		
-		self.hitbox.x += self.direction.x * speed 
-		#collision check w 'horizontal'
-		self.collision('horizontal') 
-		self.hitbox.y += self.direction.y * speed
-		self.collision('vertical')
-		self.rect.center = self.hitbox.center
+	def get_status(self):
+
+		# idle status
+		if self.direction.x == 0 and self.direction.y == 0:
+			self.status = 'idle'
+
+	def animate(self):
+		animation = self.animations[self.status]
+
+		# loop over the frame index 
+		self.frame_index += self.animation_speed
+		if self.frame_index >= len(animation):
+			self.frame_index = 0
+
+		# set the image
+		self.image = animation[int(self.frame_index)]
+		self.rect = self.image.get_rect(center = self.hitbox.center)
 
 	def update(self):
 		self.input()
+		self.get_status()
+		self.animate()
 		#we update the move thingy to main.py and put the self.speed = speed = 5 into argument 
 		self.move (self.speed)
-	
-
