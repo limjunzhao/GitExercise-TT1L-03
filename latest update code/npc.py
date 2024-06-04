@@ -88,7 +88,7 @@ class NPC(Entity):
         npc_info = npc_data[self.npc_name]
         self.pos = npc_info['position']
         self.speech = npc_info['speech']
-        
+        self.status = 'idle'
         self.image = pygame.Surface((16,16))
         self.rect = self.image.get_rect(topleft = pos)
         self.hitbox = self.rect.inflate(0,-10)
@@ -98,12 +98,26 @@ class NPC(Entity):
         
 
     def import_graphic(self, name):
+        main_path = f'./sprites sheet for maps/sprites/characters/npc/{name}/'
         self.animations = {'idle':[]}
-        main_path = f'..sprites sheet for maps/sprites/characters/npc/{name}/'
         for animation in self.animations.keys():
-            self.animations[animation] = import_folder(main_path + animation)
-               
+            full_main_path = main_path + animation
+            self.animations[animation] = import_folder(full_main_path)
+        print(self.animations[animation])
         #graphics setup 
+
+    def animate(self):
+        animation = self.animations[self.status]
+
+        # loop over the frame index 
+        self.frame_index += self.animation_speed
+        if self.frame_index >= len(animation):
+            self.frame_index = 0
+
+        # set the image
+        self.image = animation[int(self.frame_index)]
+        self.rect = self.image.get_rect(center = self.hitbox.center)
+
     def draw(self):
             self.name_surface = FONT.render(self.npc_name, True, WHITE)
             self.name_rect = self.name_surface.get_rect(center=(self.rect.centerx, self.rect.top + 20))
@@ -137,6 +151,9 @@ class NPC(Entity):
                
             else:
                 self.speech_shown = False  # Reset the flag when the player moves away
+
+    def update(self):
+        self.animate()
 
     def npc_update(self, player): 
         self.npc_collision(player)

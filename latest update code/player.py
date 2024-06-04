@@ -6,7 +6,7 @@ from entity import Entity
 class Player(Entity):
 	def __init__(self,pos,groups,obstacle_sprites):
 		super().__init__(groups)
-		self.image = pygame.image.load("C:/Users/naach/projects/mystery case/sprites sheet for maps/sprites/characters/test/player.png").convert_alpha()
+		self.image = pygame.image.load("./sprites sheet for maps/sprites/characters/test/player.png").convert_alpha()
 		self.rect = self.image.get_rect(topleft = pos)
 		self.hitbox = self.rect.inflate(0,-10)
 
@@ -20,12 +20,12 @@ class Player(Entity):
 		# pygame.display.update
 	
 	def import_player_assets(self):
-		character_path = "C:/Users/naach/projects/mystery case/sprites sheet for maps/sprites/characters/player/"
+		character_path = "./sprites sheet for maps/sprites/characters/player/"
 		self.animations = {'up': [],'down': [],'left': [],'right': [],'idle':[]}
 		for animation in self.animations.keys():
 			full_path = character_path + animation
 			self.animations[animation] = import_folder(full_path)
-
+		print(self.animations[animation])
 	def input(self): 
 		keys = pygame.key.get_pressed()
 
