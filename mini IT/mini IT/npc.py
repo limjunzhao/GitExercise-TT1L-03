@@ -134,7 +134,7 @@ class Execution:
 
 player = Player()
 npc_data = [
-    {"name": "Maria", "position": (100, 100), "speech": "In the morning, I made breakfast for my husband..."},
+    {"name": "Maria", "position": (100, 100), "speech": "In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband..."},
     {"name": "Willie", "position": (600, 400), "speech": "Breakfast with my wife started the day..."},
     {"name": "Amber", "position": (600, 100), "speech": "In the day, I exercised in the park..."},
     {"name": "Officer Marlowe", "position": (100, 400), "speech": "Please help me find the killer before it's too late!"}
