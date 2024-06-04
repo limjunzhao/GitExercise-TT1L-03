@@ -139,6 +139,7 @@ class NPC(Entity):
         super().__init__(groups)
         self.display_surface = pygame.display.get_surface()
         self.sprite_type = 'npc'
+        self.import_graphic(npc_name)
         
         #import Dialogue and Exucution 
         self.dialogue = Dialogue()
@@ -155,7 +156,7 @@ class NPC(Entity):
         self.ques = npc_ques
         self.test = test
        
-        
+        self.status = 'idle'
         self.image = pygame.Surface((16,16))
         self.rect = self.image.get_rect(topleft = pos)
         self.hitbox = self.rect.inflate(0,-10)
@@ -165,6 +166,28 @@ class NPC(Entity):
         self.question = True  # ans will be false 
         self.skip= False
         
+
+    def import_graphic(self, name):
+        main_path = f'./sprites sheet for maps/sprites/characters/npc/{name}/'
+        self.animations = {'idle':[]}
+        for animation in self.animations.keys():
+            full_main_path = main_path + animation
+            self.animations[animation] = import_folder(full_main_path)
+        print(self.animations[animation])
+        #graphics setup 
+
+    def animate(self):
+        animation = self.animations[self.status]
+
+        # loop over the frame index 
+        self.frame_index += self.animation_speed
+        if self.frame_index >= len(animation):
+            self.frame_index = 0
+
+        # set the image
+        self.image = animation[int(self.frame_index)]
+        self.rect = self.image.get_rect(center = self.hitbox.center)
+
     def draw(self):
             self.name_surface = FONT.render(self.npc_name, True, WHITE)
             self.name_rect = self.name_surface.get_rect(center=(self.rect.centerx, self.rect.top + 20))
@@ -231,6 +254,8 @@ class NPC(Entity):
             else:
                 self.speech_shown = False  # Reset the flag when the player moves away
 
+    def update(self):
+        self.animate()
 
     def npc_update(self, player): 
         self.npc_collision(player)

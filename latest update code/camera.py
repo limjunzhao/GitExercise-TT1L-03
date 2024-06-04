@@ -1,6 +1,5 @@
 import pygame 
-from player import Player 
-from npc import NPC, Execution, Dialogue
+# from player import Player 
 from support import *
 
 class CameraGroup (pygame.sprite.Group):

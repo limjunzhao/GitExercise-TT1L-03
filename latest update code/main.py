@@ -1,6 +1,6 @@
 import pygame, sys
 from settings import *
-from level import Level 
+from level import Level
 from camera import CameraGroup
 from button import Button 
 from pause import *
@@ -52,6 +52,7 @@ class Interface:
             """
             if start_button.draw(self.screen):
                 self.button_sfx.play()
+                self.music_sfx.set_volume(0)
                 self.music_sfx.set_volume(0)
                 return "start"
                 
@@ -205,6 +206,7 @@ class Game:
         pygame.display.set_caption('Mystery Case')
         self.clock = pygame.time.Clock()
         
+        
         # bring the page here
         self.level = Level()
         self.camera_group = CameraGroup()
@@ -224,12 +226,15 @@ class Game:
     def run_game(self):
         pause = False 
 
+        pause = False 
+
         while True:
             # events = pygame.event.get()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+
 
                 elif event.type == pygame.KEYDOWN:
                     if all(count>0 for count in NPC.interaction_counts.values()):
@@ -271,6 +276,12 @@ class Game:
         self.vol += vol_change 
         self.vol = max(0.0, min(1.0, self.vol))
         self.music_sfx.set_volume(self.vol)
+            clock.tick(FPS)
+
+    def adjust_volume(self, vol_change):
+        self.vol += vol_change 
+        self.vol = max(0.0, min(1.0, self.vol))
+        self.music_sfx.set_volume(self.vol)
 
     def run_menu(self):
               
@@ -296,5 +307,3 @@ if __name__ == '__main__':
 else: 
             game = Game()
             game.run_game()
-
-
