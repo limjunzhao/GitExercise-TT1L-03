@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 
 # Initialize Pygame
 pygame.init()
@@ -27,52 +28,44 @@ SEMI_TRANSPARENT_BLACK = (0, 0, 0, 128)
 font = pygame.font.Font(None, 36)
 instruction_font = pygame.font.Font(None, 24)
 score_font = pygame.font.Font(None, 24)
-love_letter_font = pygame.font.Font(None, 22)
+cursive_font_path = 'GreatVibes-Regular.ttf'  # Path to the cursive font file
+love_letter_font = pygame.font.Font(cursive_font_path, 22)  # Load cursive font
 
 # Messages to display
 messages = [
-    {"text": "Dearest Willie,",
-     "color": (0, 0, 0),
-     "position": (180, 200)},
-    {"text": "In your presence, my heart dances to a melody only you",
-     "color": (0, 0, 0),
-     "position": (180, 230)},
-    {"text": "compose. Your laughter is the rhythm that sets my soul",
-     "color": (0, 0, 0),
-     "position": (180, 260)},
-    {"text": "alight. With every glance, you paint the canvas of my world",
-     "color": (0, 0, 0),
-     "position": (180, 290)},
-    {"text": "with hues of affection. I am but a poet entranced by your",
-     "color": (0, 0, 0),
-     "position": (180, 320)},
-    {"text": "verses, lost in the depths of your gaze. In your arms, I find",
-     "color": (0, 0, 0),
-     "position": (180, 350)},
-    {"text": "the solace of home, and in your love, I discover the true",
-     "color": (0, 0, 0),
-     "position": (180, 380)},
-    {"text": "essence of belonging.",
-     "color": (0, 0, 0),
-     "position": (180, 410)},
-    {"text": "Love sidechick,",
-     "color": (0, 0, 0),
-     "position": (180, 440)},
-    {"text": "rawr",
-     "color": (0, 0, 0),
-     "position": (180, 470)},
+    {"text": "Dearest Willie,", "color": (0, 0, 0), "position": (180, 200)},
+    {"text": "In your presence, my heart dances to a melody only you", "color": (0, 0, 0), "position": (180, 230)},
+    {"text": "compose. Your laughter is the rhythm that sets my soul", "color": (0, 0, 0), "position": (180, 260)},
+    {"text": "alight. With every glance, you paint the canvas of my world", "color": (0, 0, 0), "position": (180, 290)},
+    {"text": "with hues of affection. I am but a poet entranced by your", "color": (0, 0, 0), "position": (180, 320)},
+    {"text": "verses, lost in the depths of your gaze. In your arms, I find", "color": (0, 0, 0), "position": (180, 350)},
+    {"text": "the solace of home, and in your love, I discover the true", "color": (0, 0, 0), "position": (180, 380)},
+    {"text": "essence of belonging.", "color": (0, 0, 0), "position": (180, 410)},
+    {"text": "Love sidechick,", "color": (0, 0, 0), "position": (180, 440)},
+    {"text": "rawr", "color": (0, 0, 0), "position": (180, 470)},
 ]
 
-# Words for the jumbled word game
-words = ["TRICIA", "LETTER", "ARCADIA", "AFFAIR", "KILLER"]
+# Words for the jumbled word game and their hints
+word_hints = {
+    "DETECTIVE": "Hint: Someone who solves crimes and investigates mysteries.",
+    "LETTER": "Hint: A written thing commonly writing to someone.",
+    "ARCADIA": "Hint: The name of the village where the murders took place.",
+    "TRANQUILITY": "Hint: A peaceful and calm atmosphere.",
+    "MURDER": "Hint: The person responsible for the grisly acts.",
+    "GRISLY": "Hint: Something that is horrifying, gruesome.",
+    "MYSTERY": "Hint: Something that is difficult or impossible to understand or explain.",
+    "DAMPED": "Hint: Slightly wet, often unpleasantly so."
+}
 
 # Game variables
-word = random.choice(words)
+word = random.choice(list(word_hints.keys()))
 jumbled_word = ''.join(random.sample(word, len(word)))
 score = 0
 input_text = ""
 show_initial_screen = True
 show_love_letter = False  # Flag to control when to show the love letter
+hint_active = False
+hint_start_time = 0
 
 # Functions
 def display_word():
@@ -91,10 +84,14 @@ def display_instructions():
     box_height = 300  # Height of the semi-transparent box
     instruction_rect.y = 30 + (box_height - instruction_surface.get_height()) // 2  # Position significantly higher in the box
     screen.blit(instruction_surface, instruction_rect)
+    
+    hint_instruction_surface = instruction_font.render("Press Tab for hint", True, WHITE)
+    hint_instruction_rect = hint_instruction_surface.get_rect(midtop=(WIDTH / 2, 250))  # Adjusted position
+    screen.blit(hint_instruction_surface, hint_instruction_rect)
 
 def new_word():
     global word, jumbled_word
-    word = random.choice(words)
+    word = random.choice(list(word_hints.keys()))
     jumbled_word = ''.join(random.sample(word, len(word)))
 
 def check_answer(answer):
@@ -129,6 +126,12 @@ def display_initial_screen():
     screen.blit(initial_text5, initial_text_rect5)
     
     pygame.display.update()
+
+def display_hint():
+    hint_text = word_hints[word]
+    hint_surface = instruction_font.render(hint_text, True, WHITE)
+    hint_rect = hint_surface.get_rect(center=(WIDTH / 2, HEIGHT / 2 + 120))
+    screen.blit(hint_surface, hint_rect)
 
 # Main game loop
 running = True
@@ -169,6 +172,10 @@ while running:
                 elif event.key in range(pygame.K_a, pygame.K_z + 1):
                     # Handle typing letters
                     input_text += event.unicode
+                elif event.key == pygame.K_TAB:
+                    # Activate hint
+                    hint_active = True
+                    hint_start_time = time.time()
 
         # Draw a semi-transparent box
         overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
@@ -186,6 +193,12 @@ while running:
 
         # Draw line under input text
         pygame.draw.line(screen, WHITE, (input_rect.left, input_rect.bottom + 10), (input_rect.right, input_rect.bottom + 10), 2)
+
+        # Display hint if active
+        if hint_active:
+            display_hint()
+            if time.time() - hint_start_time > 3:
+                hint_active = False
 
         # Display love letter only when score is 5
         if show_love_letter:

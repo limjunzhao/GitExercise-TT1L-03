@@ -124,7 +124,7 @@ class Interface:
                 {"text": "Its’s 7am in the morning and you discovered the victim’s body laying",
                 "color": WHITE,
                 "position": (60, 250)},
-                {"text": "in the village of Arcadia and the blood was still damped which means",
+                {"text": "(outside a house/bar) and the blood was still damped which means.",
                 "color": WHITE,  
                 "position": (70, 300)},
                 {"text": "the killing happened not long ago",
@@ -227,34 +227,29 @@ class Game:
         self.main_menu = self.interface.main_menu()   
         self.music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
         self.button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
-        self.spawn_sfx = pygame.mixer.Sound("sfx/Voicy_Undertale Spawn.mp3")  #spawn sound
         self.vol = 0.1
         self.music_sfx.play(loops=-1)
         self.music_sfx.set_volume(self.vol)
 
         # Congratulations message surface
-        self.congratulations_surface = pygame.Surface((WIDTH, HEIGHT)) 
+        self.congratulations_surface = pygame.Surface((WIDTH, HEIGHT))  # No per-pixel alpha
         self.congratulations_surface.fill(GREY)  # Fill with grey color
         self.congratulations_text = self.interface.font.render("Congratulations! You Win!", True, BLACK)
         self.congratulations_rect = self.congratulations_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
         # Game over message surface
-        self.game_over_surface = pygame.Surface((WIDTH, HEIGHT))  
+        self.game_over_surface = pygame.Surface((WIDTH, HEIGHT))  # No per-pixel alpha
         self.game_over_surface.fill(GREY)  # Fill with grey color
         self.game_over_text = self.interface.font.render("Game Over! You Lose!", True, BLACK)  # Change color to white
         self.game_over_rect = self.game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
-        # Play again button
-        play_again_button_static = pygame.image.load('play_again.png')
-        play_again_button_hover = pygame.image.load('play_again_hover.png')
-        button_x = (WIDTH - play_again_button_static.get_width()) // 2 - 50  # Adjusted 50 pixels to the left
-        self.game_over_button = Button(button_x, HEIGHT * 0.7, play_again_button_static, play_again_button_hover, (200, 100))
+        # Game over button
+        game_over_button_static = pygame.image.load('images/button/start_static.png')
+        game_over_button_hover = pygame.image.load('images/button/start_hover.png')
+        self.game_over_button = Button((WIDTH - game_over_button_static.get_width()) // 2,HEIGHT * 0.7,game_over_button_static,game_over_button_hover,(200, 100))
 
     def run_game(self):
         pause = False 
-
-        # Play spawn sound effect
-        self.spawn_sfx.play()
 
         while True:
             for event in pygame.event.get():
@@ -295,17 +290,11 @@ class Game:
             pygame.display.update()
             self.clock.tick(FPS)
 
-    # Other methods remain unchanged
-
-
     def display_congratulations(self):
         self.screen.blit(self.congratulations_surface, (0, 0))
         self.screen.blit(self.congratulations_text, self.congratulations_rect)
         pygame.display.flip()
-        pygame.time.delay(2000)  # Wait for 2 seconds
-        pygame.quit()
-        sys.exit()
-
+        pygame.time.delay(3000)  
 
     def display_game_over(self):
         while True:

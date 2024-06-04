@@ -14,6 +14,7 @@ clock = pygame.time.Clock()
 FONT = pygame.font.SysFont(None, 24)
 SPEECH_FONT = pygame.font.SysFont(None, 28)
 speech_text = ""
+GREY = (128, 128, 128)  # Define grey color
 
 
 
@@ -35,3 +36,4 @@ npc_data = {
 
 
 BG = (50, 50, 50)
+
