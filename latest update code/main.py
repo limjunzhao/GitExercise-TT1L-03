@@ -272,11 +272,6 @@ class Game:
             pygame.display.update()
             clock.tick(FPS)
 
-    def adjust_volume(self, vol_change):
-        self.vol += vol_change 
-        self.vol = max(0.0, min(1.0, self.vol))
-        self.music_sfx.set_volume(self.vol)
-            clock.tick(FPS)
 
     def adjust_volume(self, vol_change):
         self.vol += vol_change 

@@ -8,7 +8,7 @@ class Player(Entity):
 		super().__init__(groups)
 		self.image = pygame.image.load("./sprites sheet for maps/sprites/characters/test/player.png").convert_alpha()
 		self.rect = self.image.get_rect(topleft = pos)
-		self.hitbox = self.rect.inflate(0,-10)
+		self.hitbox = self.rect.inflate(-48,-48)
 
 		
 		self.import_player_assets()
