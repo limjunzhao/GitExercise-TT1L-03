@@ -24,10 +24,10 @@
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx": {
             "scale": 1.5,
-            "selectedLayer": 14,
+            "selectedLayer": 12,
             "viewCenter": {
-                "x": 1033.6666666666665,
-                "y": 759.6666666666666
+                "x": 765,
+                "y": 793.6666666666666
             }
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx#house set": {
@@ -111,7 +111,7 @@
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/spr_structures_exterior.tsx": {
             "dynamicWrapping": false,
-            "scaleInDock": 0.5
+            "scaleInDock": 2
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/tree_test.tsx": {
             "dynamicWrapping": true,

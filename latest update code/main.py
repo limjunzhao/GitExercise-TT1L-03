@@ -62,6 +62,7 @@ class Interface:
 
             if option_button.draw(self.screen):
                 self.button_sfx.play()
+                self.music_sfx.set_volume(0)
                 return "option"
 
             for event in pygame.event.get():
