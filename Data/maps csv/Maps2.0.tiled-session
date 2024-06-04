@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/npc.tsx",
+    "activeFile": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -23,11 +23,11 @@
             "scaleInDock": 1
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx": {
-            "scale": 1,
+            "scale": 1.5,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 559.5,
-                "y": 898.5
+                "x": 1035.6666666666665,
+                "y": 696.3333333333333
             }
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx#house set": {
@@ -135,19 +135,18 @@
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/house set.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Tree_stump.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/rock_bush.tsx",
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/player.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/npc.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/decors.tsx"
     ],
     "project": "Maps2.0.tiled-project",
     "recentFiles": [
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/house set.tsx",
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Tree_stump.tsx",
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/rock_bush.tsx",
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/player.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/decors.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/npc.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/rock_bush.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Tree_stump.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/house set.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/player.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_06.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_06.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Test.tsx"

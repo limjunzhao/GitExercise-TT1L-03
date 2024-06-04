@@ -12,6 +12,7 @@ BLACK = (0, 0, 0)
 FONT_SIZE = 35
 clock = pygame.time.Clock()
 FONT = pygame.font.SysFont(None, 24)
+FONT_NAME = pygame.font.SysFont(None, 30)
 SPEECH_FONT = pygame.font.SysFont(None, 28)
 speech_text = ""
 BG = (50, 50, 50)
@@ -19,35 +20,35 @@ BG = (50, 50, 50)
 
 
 npc_data = {
-    'maria': {'who': "In the morning, I made breakfast for my husband...",
+    'Maria': {'who': "In the morning, I made breakfast for my husband...",
                 'where' : 'ahdfjkhjksafjkahdf', 
                 'what' : ' ajsghdkfjhskfkajsg',
                 "greeting":''
             }, 
 
-    'willie': {'who': "Breakfast with my wife started the day...",
+    'Willie': {'who': "Breakfast with my wife started the day...",
                 'where' : 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 
                 'what' : ' fffffffffffffffffffffffffffffffff',
                 "greeting":''
             },
     
-    'amber': {'who': "In the day, I exercised in the park...",
+    'Amber': {'who': "In the day, I exercised in the park...",
                 'where' : 'In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband..In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband..In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband..', 
                 'what' : ' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',
                 "greeting":''
             },
     
     
-    'officer': {'who': '',
+    'Officer': {'who': '',
                 'where' : '', 
                 'what' : '',
                 "greeting": "Please help me find the killer before it's too late!"
             },
 
-    'professor':{'who': '',
+    'Professor':{'who': '',
                 'where' : '', 
                 'what' : '',
-                "greeting": 'halo halo halo halo halo halo halo halo halo aaaaaa'},
+                "greeting": 'Do you wanna come to school and learn our language?'},
         
 
 }

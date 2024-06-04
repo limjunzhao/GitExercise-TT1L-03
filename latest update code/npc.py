@@ -39,7 +39,7 @@ class Dialogue():
                 y += texts_height + 10
 
     def draw_text(self, surface, text, color, rect, font):
-        if self.skip == False:
+
             msgs = text.split(' ')
             lines = []
             line = ''
@@ -115,7 +115,7 @@ class Execution():
 
     def identify_killer(self,screen):
         killer_dialogue = "Who do you think is the killer?\n A. Maria\n B. Willie\nC. Amber\nD. Officer Marlowe"
-        self.dialogue.render_typewriter_new_text(screen, killer_dialogue, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+        self.dialogue.render_instant_new_text(screen, killer_dialogue, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
 
     def game_over(self, screen):
         self.dialogue.render_typewriter_new_text(screen, "Incorrect! Game Over.", BLACK, self.dialogue.speech_rect, SPEECH_FONT)
@@ -149,7 +149,7 @@ class NPC(Entity):
         #stats  
         self.npc_name = npc_name
         npc_info = npc_data[self.npc_name]
-        self.greeting = npc_data.get('greeting')
+        self.greeting = npc_info.get('greeting')
         self.ask_who= npc_info.get('who')
         self.ask_where = npc_info.get('where')
         self.ask_what = npc_info.get('what')
@@ -189,8 +189,8 @@ class NPC(Entity):
         self.rect = self.image.get_rect(center = self.hitbox.center)
 
     def draw(self):
-            self.name_surface = FONT.render(self.npc_name, True, WHITE)
-            self.name_rect = self.name_surface.get_rect(center=(self.rect.centerx, self.rect.top + 20))
+            self.name_surface = FONT_NAME.render(self.npc_name, True, WHITE)
+            self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 30, self.dialogue.speech_rect.y - 20))
             self.display_surface.blit(self.name_surface, self.name_rect)
 
     def dialogue_ques (self, screen, rect, font): 
@@ -220,7 +220,6 @@ class NPC(Entity):
 
                     
                   
-
     def npc_collision (self, player):
         npc_index = None
         
@@ -234,7 +233,9 @@ class NPC(Entity):
                         npc_index = i
                         NPC.interaction_counts[self.npc_name] += 1
 
-                        if self.npc_name != "officer":
+                        if self.npc_name != "Officer":
+                            if self.npc_name != "Professor":
+                                self.draw()  
                                 n = 3
                                 for i in range(n):
                                     self.dialogue_ques(self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
@@ -243,7 +244,8 @@ class NPC(Entity):
                        
                        
                        
-                        elif self.npc_name == 'office':       
+                        elif self.npc_name == 'Officer': 
+                            self.draw()      
                             if all(count > 0 for count in self.interaction_counts.values()):
                                 self.execution.identify_killer(self.display_surface)
 
@@ -252,8 +254,9 @@ class NPC(Entity):
                                 pygame.time.wait(1000)  
 
 
-                        else: 
-                            self.dialogue.render_typewriter_npc_speech(self.display_surface, self.test, BLACK, self.dialogue.speech_rect, SPEECH_FONT)      
+                        if self.npc_name == 'Professor':
+                            self.draw()
+                            self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                
             else:
                 self.speech_shown = False  # Reset the flag when the player moves away

@@ -86,11 +86,11 @@ class Level:
 								self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
 
 							else: 
-								if col == '0': npc_name = 'maria'
-								elif col == '1': npc_name ='willie'
-								elif col == '2': npc_name = 'amber'
-								elif col == '4': npc_name ='professor'
-								else: npc_name = 'officer'
+								if col == '0': npc_name = 'Maria'
+								elif col == '1': npc_name ='Willie'
+								elif col == '2': npc_name = 'Amber'
+								elif col == '4': npc_name ='Professor'
+								else: npc_name = 'Officer'
 								NPC(npc_name, (x,y), 'speech', [self.visible_sprites],self.obstacle_sprites)
 		
 						
