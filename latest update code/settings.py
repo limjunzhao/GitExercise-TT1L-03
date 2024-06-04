@@ -21,27 +21,42 @@ BG = (50, 50, 50)
 npc_data = {
     'maria': {'who': "In the morning, I made breakfast for my husband...",
                 'where' : 'ahdfjkhjksafjkahdf', 
-                'what' : ' ajsghdkfjhskfkajsg'
+                'what' : ' ajsghdkfjhskfkajsg',
+                "greeting":''
             }, 
 
     'willie': {'who': "Breakfast with my wife started the day...",
                 'where' : 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 
-                'what' : ' fffffffffffffffffffffffffffffffff'
+                'what' : ' fffffffffffffffffffffffffffffffff',
+                "greeting":''
             },
     
     'amber': {'who': "In the day, I exercised in the park...",
                 'where' : 'In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband..In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband..In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband..', 
-                'what' : ' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh'
+                'what' : ' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',
+                "greeting":''
             },
     
     
-    'officer': {"greeting": "Please help me find the killer before it's too late!"
-            } 
-    
+    'officer': {'who': '',
+                'where' : '', 
+                'what' : '',
+                "greeting": "Please help me find the killer before it's too late!"
+            },
+
+    'professor':{'who': '',
+                'where' : '', 
+                'what' : '',
+                "greeting": 'halo halo halo halo halo halo halo halo halo aaaaaa'},
+        
+
 }
 
 npc_ques =  ' A. Where you at last night? \n B. Who are you, whats your name? \n C. What did you do last night?'
-test = 'halo halo halo halo halo halo halo halo halo '
+test = 'halo halo halo halo halo halo halo halo halo'
+
+
+
 # messages = {
 #     {
                 

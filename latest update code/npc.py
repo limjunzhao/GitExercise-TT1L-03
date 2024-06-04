@@ -144,12 +144,12 @@ class NPC(Entity):
         #import Dialogue and Exucution 
         self.dialogue = Dialogue()
         self.execution = Execution()
-
+        
 
         #stats  
         self.npc_name = npc_name
         npc_info = npc_data[self.npc_name]
-        self.greeting = npc_info.get('greeting')
+        self.greeting = npc_data.get('greeting')
         self.ask_who= npc_info.get('who')
         self.ask_where = npc_info.get('where')
         self.ask_what = npc_info.get('what')
@@ -243,13 +243,17 @@ class NPC(Entity):
                        
                        
                        
-                        else:       
+                        elif self.npc_name == 'office':       
                             if all(count > 0 for count in self.interaction_counts.values()):
                                 self.execution.identify_killer(self.display_surface)
 
                             else:
                                 self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
-                                pygame.time.wait(1000)                        
+                                pygame.time.wait(1000)  
+
+
+                        else: 
+                            self.dialogue.render_typewriter_npc_speech(self.display_surface, self.test, BLACK, self.dialogue.speech_rect, SPEECH_FONT)      
                
             else:
                 self.speech_shown = False  # Reset the flag when the player moves away
