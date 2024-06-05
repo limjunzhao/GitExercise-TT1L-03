@@ -43,7 +43,7 @@ class Interface:
         
         while True:
             self.screen.blit(background_image, (0, 0))
-            self.screen.blit(title_img, (400, 80))
+            self.screen.blit(title_img, (350, 80))
 
             """
             If possible, return state = "start" / "quit" / "option" 
@@ -86,9 +86,9 @@ class Interface:
         background_image = pygame.image.load('images/background/mane_background1.jpg')
         background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
-        vol_up_button = Button(425, 200, volup_static, volup_hover, (200, 100))
-        vol_down_button = Button(625, 200, voldown_static, voldown_hover, (200, 100))
-        vol_mute_button = Button(425, 300, volmute_static, volmute_hover, (408, 100))
+        vol_up_button = Button(475, 200, volup_static, volup_hover, (250, 100))
+        vol_down_button = Button(475, 300, voldown_static, voldown_hover, (250, 100))
+        vol_mute_button = Button(475, 400, volmute_static, volmute_hover, (250, 100))
         back_button = Button(5, 640, back_static, back_hover, (150, 80))
 
         while True:
