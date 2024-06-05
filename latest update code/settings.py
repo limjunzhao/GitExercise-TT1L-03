@@ -32,7 +32,7 @@ npc_data = {
             },
     
     'amber': {'who': "In the day, I exercised in the park...",
-                'where' : 'In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband..In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband..In the morning, I made breakfast for my husband...In the morning, I made breakfast for my husband..', 
+                'where' : 'In the morning, I made breakfast for my husband...', 
                 'what' : ' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',
                 "greeting":''
             },

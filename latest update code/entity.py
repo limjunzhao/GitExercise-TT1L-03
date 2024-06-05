@@ -6,7 +6,7 @@ class Entity(pygame.sprite.Sprite):
     def __init__(self, groups): 
         super().__init__(groups)
         self.frame_index = 0
-        self.animation_speed = 0.15
+        # self.animation_speed = 0.5
         self.direction = pygame.math.Vector2()
         #if we didnt put any argument inside this Vector2(), it will default as (0,0) 
 

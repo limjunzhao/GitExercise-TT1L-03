@@ -8,10 +8,10 @@ from npc import Dialogue, Execution, NPC
 
 class Interface:
     def __init__(self):
-        self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
-        self.button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
+        self.screen = pygame.display.set_mode((WIDTH,HEIGHT) )
+        self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
         self.font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
-        self.music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
+        self.music_sfx = pygame.mixer.Sound("images/music/background_music.mp3")
         self.vol = 0.1
         self.music_sfx.play(loops = -1)
         self.music_sfx.set_volume(self.vol)
@@ -52,7 +52,6 @@ class Interface:
             """
             if start_button.draw(self.screen):
                 self.button_sfx.play()
-                self.music_sfx.set_volume(0)
                 self.music_sfx.set_volume(0)
                 return "start"
                 
@@ -217,8 +216,8 @@ class Game:
 
          # main menu setup
         self.main_menu = self.interface.main_menu()   
-        self.music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
-        self.button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
+        self.music_sfx = pygame.mixer.Sound("images/music/background_music.mp3")
+        self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
         self.vol = 0.1
         self.music_sfx.play(loops = -1)
         self.music_sfx.set_volume(self.vol)
@@ -252,9 +251,8 @@ class Game:
 
             if pause:
                 screen.blit(pause_surface, (0, 0))
-                pygame.draw.rect(pause_surface, 'white', pygame.Rect(30, 30, 60, 60),  2, 3)
+                draw_rounded_rect(screen, 'light grey', (475, 175, 700, 400), 50)
 
-                # screen.blit(put image here or blit something else)
                 for message in messages:
                     text_surface = font.render(message["text"], True, message["color"])
                     screen.blit(text_surface, message["position"])
@@ -273,9 +271,11 @@ class Game:
                     self.music_sfx.set_volume(0)
 
                 if back_button.draw(self.screen):
+                    self.button_sfx.play()
                     pause = not pause
 
                 if quit_button.draw(self.screen):
+                    self.button_sfx.play()
                     pygame.quit()
                     sys.exit()
             else:

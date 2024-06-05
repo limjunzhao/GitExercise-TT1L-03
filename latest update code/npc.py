@@ -144,8 +144,7 @@ class NPC(Entity):
         #import Dialogue and Exucution 
         self.dialogue = Dialogue()
         self.execution = Execution()
-        
-
+        self.npc_speed = 0.1
         #stats  
         self.npc_name = npc_name
         npc_info = npc_data[self.npc_name]
@@ -180,7 +179,7 @@ class NPC(Entity):
         animation = self.animations[self.status]
 
         # loop over the frame index 
-        self.frame_index += self.animation_speed
+        self.frame_index += self.npc_speed
         if self.frame_index >= len(animation):
             self.frame_index = 0
 
