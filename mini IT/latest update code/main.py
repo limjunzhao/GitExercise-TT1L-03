@@ -332,7 +332,7 @@ class Game:
                 if action == "start_game":
                     result = self.run_game()
                     if result == "play_again":
-                        continue  # Restart the game loop
+                        continue  # Restart the game loop   
                     elif result == "game_over":
                         self.display_game_over()
                         break  # Exit the loop if the player chooses not to play again
