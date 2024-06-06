@@ -234,15 +234,21 @@ class Game:
 
         # Congratulations message surface
         self.congratulations_surface = pygame.Surface((WIDTH, HEIGHT)) 
-        self.congratulations_surface.fill(GREY)  # Fill with grey color
+        self.congratulations_image = pygame.image.load('images/background/background.jpg')
+        self.congratulations_image = pygame.transform.scale(self.congratulations_image, (WIDTH, HEIGHT))  # Scale the image to match screen dimensions
+        self.congratulations_surface.blit(self.congratulations_image, (0, 0))  # Blit the scaled image onto the surface
         self.congratulations_text = self.interface.font.render("Congratulations! You Win!", True, BLACK)
         self.congratulations_rect = self.congratulations_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
         # Game over message surface
         self.game_over_surface = pygame.Surface((WIDTH, HEIGHT))  
-        self.game_over_surface.fill(GREY)  # Fill with grey color
+        self.game_over_image = pygame.image.load('images/background/background.jpg')
+        self.game_over_image = pygame.transform.scale(self.game_over_image, (WIDTH, HEIGHT))  # Scale the image to match screen dimensions
+        self.game_over_surface.blit(self.game_over_image, (0, 0))  # Blit the scaled image onto the surface
         self.game_over_text = self.interface.font.render("Game Over! You Lose!", True, BLACK)  # Change color to white
         self.game_over_rect = self.game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+
+
 
         # Play again button
         play_again_button_static = pygame.image.load('images/button/play_again.png')
