@@ -5,6 +5,7 @@ from camera import CameraGroup
 from button import Button 
 from pause import *
 from npc import Dialogue, Execution, NPC
+from minigame import *
 
 class Interface:
     def __init__(self):
@@ -198,6 +199,12 @@ class Interface:
         self.music_sfx.set_volume(self.vol)
 
 
+
+
+    def loveletter_collision(self, player): 
+      if player.hitbox.colliderect (self.rect): 
+          self.running(Game.screen)
+
 class Game:
     def __init__(self):
         # general setup
@@ -224,8 +231,6 @@ class Game:
         self.music_sfx.set_volume(self.vol)
         
     def run_game(self):
-        pause = False 
-
         pause = False 
 
         while True:

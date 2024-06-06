@@ -1,5 +1,4 @@
 import pygame 
-# from player import Player 
 from support import *
 
 class CameraGroup (pygame.sprite.Group):
@@ -63,3 +62,11 @@ class CameraGroup (pygame.sprite.Group):
       npc_sprites = [sprite for sprite in self.sprites() if hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'npc']
       for npcs in npc_sprites: 
         npcs.npc_update (player) 
+
+  def loveletter_update(self, player):
+      loveletter_sprites = [sprite for sprite in self.sprites() if hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'loveletter']
+      for loveletter in loveletter_sprites:
+        if hasattr(loveletter, 'loveletter_update'):
+          loveletter.loveletter_update(player)
+
+

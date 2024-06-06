@@ -17,6 +17,13 @@ class Dialogue():
         self.skip = False
 
 
+    def escape_dialogue_text_display (self, screen, text, rect, font, color): 
+        skip_text = "Press TAB key to escape the dialogue"
+
+        self.text_surface = FONT.render(skip_text, True, BLACK)
+        self.text_rect = self.text_surface.get_rect(bottomright = (self.speech_rect.x + 1220, self.speech_rect.y + 170))
+        screen.blit(self.text_surface, self.text_rect)
+
     def display_text(self, surface, text, rect, font, color):
             x_offset = rect[0] + 10
             y_offset = rect[1] + 10
@@ -56,7 +63,7 @@ class Dialogue():
             y = rect.top + 10
             for line in lines:
                 text_surface = font.render(line, True, color)
-                text_rect = text_surface.get_rect(topleft=(rect.left + 5, y))
+                text_rect = text_surface.get_rect(topleft=(rect.left + 10, y))
                 surface.blit(text_surface, text_rect)
                 y += font.get_linesize()
 
@@ -65,7 +72,8 @@ class Dialogue():
             for i in range(len(text) + 1):
                 #text bubble
                 pygame.draw.rect(surface, WHITE, rect, 0, 10)
-                pygame.draw.rect(surface, BLACK, rect, 2, 10)  
+                pygame.draw.rect(surface, BLACK, rect, 2, 10) 
+                self.escape_dialogue_text_display (surface, text, rect, font, color)
                 self.display_text(surface, text, rect, font, color)
                 pygame.display.flip()
                 clock.tick(30)
@@ -73,13 +81,12 @@ class Dialogue():
         
 
     def render_typewriter_npc_speech(self, surface, text, color, rect, font):
-        
-            #text bubble
-            pygame.draw.rect(surface, WHITE, rect, 0, 10)
-            pygame.draw.rect(surface, BLACK, rect, 2, 10)
             for i in range(len(text) + 1):
                 self.skip = False
-                
+                #text bubble
+                pygame.draw.rect(surface, WHITE, rect, 0, 10)
+                pygame.draw.rect(surface, BLACK, rect, 2, 10)
+                self.escape_dialogue_text_display (surface, text, rect, font, color)
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
@@ -102,7 +109,7 @@ class Dialogue():
             #text bubble
             pygame.draw.rect(surface, WHITE, rect, 0, 10)
             pygame.draw.rect(surface, BLACK, rect, 2, 10)
-
+            self.escape_dialogue_text_display (surface, text, rect, font, color)
             self.draw_text(surface, text[:i], color, rect, font)
             pygame.display.flip()
             clock.tick(20)
@@ -114,8 +121,8 @@ class Execution():
         self.dialogue = Dialogue()
 
     def identify_killer(self,screen):
-        killer_dialogue = "Who do you think is the killer?\n A. Maria\n B. Willie\nC. Amber\nD. Officer Marlowe"
-        self.dialogue.render_instant_new_text(screen, killer_dialogue, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+        killer_dialogue = "Who do you think is the killer?\n A. Maria\n B. Willie\n C. Amber\n D. Officer Marlowe"
+        self.dialogue.render_instant_npc_speech(screen, killer_dialogue, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
 
     def game_over(self, screen):
         self.dialogue.render_typewriter_new_text(screen, "Incorrect! Game Over.", BLACK, self.dialogue.speech_rect, SPEECH_FONT)
@@ -145,7 +152,6 @@ class NPC(Entity):
         self.dialogue = Dialogue()
         self.execution = Execution()
         
-
         #stats  
         self.npc_name = npc_name
         npc_info = npc_data[self.npc_name]
@@ -153,6 +159,8 @@ class NPC(Entity):
         self.ask_who= npc_info.get('who')
         self.ask_where = npc_info.get('where')
         self.ask_what = npc_info.get('what')
+        self.icon = npc_info.get('img')
+
         self.ques = npc_ques
         self.test = test
        
@@ -193,8 +201,13 @@ class NPC(Entity):
             self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 30, self.dialogue.speech_rect.y - 20))
             self.display_surface.blit(self.name_surface, self.name_rect)
 
-    def dialogue_ques (self, screen, rect, font): 
+    def image_icon (self, screen, rect):
+        self.icon_surface = pygame.image.load(self.icon).convert_alpha()
+        # self.icon_enlarge = pygame.transform.scale(self.icon_surface, (45,51))
+        self.icon_rect = self.icon_surface.get_rect(topleft = (self.dialogue.speech_rect.x , self.dialogue.speech_rect.y - 20))
+        screen.blit(self.icon_surface, self.icon_rect)
 
+    def dialogue_ques (self, screen, rect, font): 
         if self.question: 
             self.dialogue.render_instant_npc_speech(screen, self.ques, BLACK, rect, font)
 
@@ -217,6 +230,7 @@ class NPC(Entity):
 
                     if event.key == pygame.K_TAB: # escape dialogue 
                         self.question = False
+                        pygame.time.wait(0) 
 
                     
                   
@@ -224,9 +238,9 @@ class NPC(Entity):
         npc_index = None
         
         for i, npc in enumerate(npc_data): #i represented row of the list 
-            # self.draw()
             if player.hitbox.colliderect (self.rect): 
                 if not self.speech_shown:
+                        print(NPC.interaction_counts)
                         self.speech_shown = True
                         self.question = True
                         self.skip = False
@@ -235,6 +249,7 @@ class NPC(Entity):
 
                         if self.npc_name != "Officer":
                             if self.npc_name != "Professor":
+                                #self.image_icon(self.display_surface, self.dialogue.speech_rect)
                                 self.draw()  
                                 n = 3
                                 for i in range(n):
@@ -244,7 +259,8 @@ class NPC(Entity):
                        
                        
                        
-                        elif self.npc_name == 'Officer': 
+                        elif self.npc_name == 'Officer':
+                            self.image_icon(self.display_surface, self.dialogue.speech_rect)
                             self.draw()      
                             if all(count > 0 for count in self.interaction_counts.values()):
                                 self.execution.identify_killer(self.display_surface)
@@ -255,9 +271,11 @@ class NPC(Entity):
 
 
                         if self.npc_name == 'Professor':
+                            self.image_icon(self.display_surface, self.dialogue.speech_rect)
                             self.draw()
                             self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
-               
+                            pygame.time.wait(1000) 
+                            
             else:
                 self.speech_shown = False  # Reset the flag when the player moves away
 

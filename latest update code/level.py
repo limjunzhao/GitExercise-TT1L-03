@@ -6,6 +6,7 @@ from camera import CameraGroup
 from support import *
 from random import choice
 from npc import NPC 	
+from minigame import Minigame
 
 
 class Level:
@@ -29,7 +30,7 @@ class Level:
 					'rock': import_csv_layout('Data/maps csv/maps2_rock_bush.csv'),
 					'entities' : import_csv_layout ('Data/maps csv/maps2_players.csv'),
 					'loveletter' : import_csv_layout ('Data/maps csv/maps2_mailbox.csv'),
-					'decor': import_csv_layout ('Data/maps csv/maps2_decors.csv')
+					'decor': import_csv_layout ('Data/maps csv/maps2_utils.csv')
 
 					
 		}	
@@ -59,7 +60,7 @@ class Level:
 
 						if style == 'rock':
 							random_rock_image = choice(graphics['rocks'])
-							Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'rock and bushes',random_rock_image)
+							 
 
 						if style == 'house':
 							house_index = int(col) 
@@ -70,7 +71,7 @@ class Level:
 						if style == 'loveletter':
 							if col == '267': 
 								Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'loveletter')
-
+								Minigame((x,y),[self.visible_sprites],self.obstacle_sprites)
 
 						if style == 'decor':
 							decor_index = int(col) 
@@ -98,9 +99,9 @@ class Level:
 
 	def run(self):
 		# update and draw the game(display)
-		
 		self.visible_sprites.custom_draw(self.player)
 		self.visible_sprites.npc_update(self.player)
+		self.visible_sprites.loveletter_update(self.player)
 		self.visible_sprites.update()
 
 		
