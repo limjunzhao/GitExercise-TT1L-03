@@ -19,21 +19,21 @@ BG = (50, 50, 50)
 
 
 npc_data = {
-    'maria': {'who': "In the morning, I made breakfast for my husband...",
-                'where' : 'ahdfjkhjksafjkahdf', 
-                'what' : ' ajsghdkfjhskfkajsg',
+    'maria': {'who': "my name is Maria.",
+                'where' : 'In the morning, I made breakfast for my husband, then proceeded to do house chores until afternoon. After lunch with my husband, I engaged in a pleasant chit-chat with out neighbor, Amber', 
+                'what' : 'I eagerly awaited my husband’s return from work, and once he was back, we cooked dinner together and went to sleep afterwards.',
                 "greeting":''
             }, 
 
-    'willie': {'who': "Breakfast with my wife started the day...",
-                'where' : 'bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb', 
-                'what' : ' fffffffffffffffffffffffffffffffff',
+    'willie': {'who': "my name is Willie.",
+                'where' : 'I started my day by having breakfast with my wife Maria, followed by me heading to work, I then head to lunch with my wife and returned to work.', 
+                'what' : 'I came back home from work and got the ingredients ready and cooked dinner with my wife. After that, we went to bed before 10pm.',
                 "greeting":''
             },
     
-    'amber': {'who': "In the day, I exercised in the park...",
-                'where' : 'In the morning, I made breakfast for my husband...', 
-                'what' : ' hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh',
+    'amber': {'who': "my name is Amber.",
+                'where' : 'In the day, I exercised in the park. And after that I had my coffee and breakfast. Meanwhile I watched TV for the time to pass. During lunch, I ate my leftover dinner from yesterday as my lunch. After lunch, me and Maria had our usual chit-chat but it was shorter than usual. And we were supposed to get groceries after that. So I went to buy the groceries myself and made dinner.', 
+                'what' : 'As night falls, I took my dog for a night walk and went to bed.',
                 "greeting":''
             },
     
@@ -47,12 +47,12 @@ npc_data = {
     'professor':{'who': '',
                 'where' : '', 
                 'what' : '',
-                "greeting": 'halo halo halo halo halo halo halo halo halo aaaaaa'},
+                "greeting": 'Hello there dear treveller, would you likde to learn our language?'},
         
 
 }
 
-npc_ques =  ' A. Where you at last night? \n B. Who are you, whats your name? \n C. What did you do last night?'
+npc_ques =  ' A. Where were you you yesterday? \n B. Who are you, whats your name? \n C. What did you do last night?'
 test = 'halo halo halo halo halo halo halo halo halo'
 
 

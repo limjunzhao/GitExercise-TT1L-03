@@ -225,8 +225,6 @@ class Game:
     def run_game(self):
         pause = False 
 
-        pause = False 
-
         while True:
             # events = pygame.event.get()
             for event in pygame.event.get():

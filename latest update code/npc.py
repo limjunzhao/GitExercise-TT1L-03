@@ -217,45 +217,80 @@ class NPC(Entity):
                     if event.key == pygame.K_TAB: # escape dialogue 
                         self.question = False
 
-                    
-                  
+    def wait_for_player_response(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_a:
+                        return 'A'
+                    elif event.key == pygame.K_b:
+                        return 'B'
+            pygame.time.wait(100)  # Check input every 100 ms
 
-    def npc_collision (self, player):
+
+    def ask_professor_questions(self):
+        questions = [
+            ("Do you wish to learn our language?", ["A: Yes!    B: No.."]),
+        ]
+
+        for question, choices in questions:
+            self.dialogue.render_typewriter_npc_speech(self.display_surface, question, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+            pygame.time.wait(500)  # Brief pause before showing choices
+            
+            for choice in choices:
+                self.dialogue.render_typewriter_npc_speech(self.display_surface, choice, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+                pygame.time.wait(500)  # Brief pause for readability
+
+            # Wait for the player's response
+            response = self.wait_for_player_response()
+
+            # Handle the response
+            if response == 'A':
+                print('yay')
+                self.question = False
+            elif response == 'B':
+                print('your loss lol')
+                self.question = False
+
+            pygame.time.wait(1000)  # Pause to let player read the response
+
+    def npc_collision(self, player):
         npc_index = None
         
-        for i, npc in enumerate(npc_data): #i represented row of the list 
-            # self.draw()
-            if player.hitbox.colliderect (self.rect): 
+        for i, npc in enumerate(npc_data):
+            if player.hitbox.colliderect(self.rect):
                 if not self.speech_shown:
-                        self.speech_shown = True
-                        self.question = True
-                        self.skip = False
-                        npc_index = i
-                        NPC.interaction_counts[self.npc_name] += 1
+                    self.speech_shown = True
+                    self.question = True
+                    self.skip = False
+                    npc_index = i
+                    NPC.interaction_counts[self.npc_name] += 1
 
-                        if self.npc_name != "officer":
-                                n = 3
-                                for i in range(n):
-                                    self.dialogue_ques(self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
-                                    self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT) 
-                                    
-                       
-                       
-                       
-                        elif self.npc_name == 'office':       
-                            if all(count > 0 for count in self.interaction_counts.values()):
-                                self.execution.identify_killer(self.display_surface)
-
-                            else:
-                                self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
-                                pygame.time.wait(1000)  
-
-
-                        else: 
-                            self.dialogue.render_typewriter_npc_speech(self.display_surface, self.test, BLACK, self.dialogue.speech_rect, SPEECH_FONT)      
-               
+                    if self.npc_name == "professor":
+                        # Specific interaction for the professor
+                        self.ask_professor_questions()
+                            
+                    elif self.npc_name != "officer":
+                        # For regular NPCs, show dialogue and multiple-choice questions
+                        for _ in range(3):
+                            self.dialogue_ques(self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
+                            self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
+                            
+                    elif self.npc_name == 'office':
+                        # For the 'office' NPC, check if interactions with all NPCs have occurred
+                        if all(count > 0 for count in self.interaction_counts.values()):
+                            self.execution.identify_killer(self.display_surface)
+                        else:
+                            self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+                            pygame.time.wait(1000)
+                            
+                    else:
+                        # Default action for other NPCs
+                        self.dialogue.render_typewriter_npc_speech(self.display_surface, self.test, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+                        
             else:
-                self.speech_shown = False  # Reset the flag when the player moves away
+                # Reset speech flag if no collision
+                self.speech_shown = False
 
     def update(self):
         self.animate()
