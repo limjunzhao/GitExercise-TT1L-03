@@ -10,8 +10,8 @@ SCREEN_WIDTH, SCREEN_HEIGHT = 800, 600
 BACKGROUND_COLOR = (255, 255, 255)  # White background
 BLACK = (0, 0, 0)  # Black text
 WHITE = (255, 255, 255)  # White text
-GREEN = (0, 255, 0)  # Green text
-RED = (255, 0, 0)  # Red text
+GREEN = (0, 255, 0)  # Green text for correct!
+RED = (255, 0, 0)  # Red text for incorrect
 FONT_SIZE = 24
 NOTES_WIDTH = 300
 X_OFFSET_RIGHT = 160  # Adjust this value to control the right offset for letters T-Z
@@ -30,6 +30,7 @@ MORSE_CODE_DICT = {
 def draw_text(surface, text, position, font, color=BLACK):
     text_surface = font.render(text, True, color)
     surface.blit(text_surface, position)
+    return text_surface.get_width()  # Return the width of the rendered text
 
 # Initialize screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -37,7 +38,7 @@ pygame.display.set_caption('Morse Code Minigame')
 font = pygame.font.Font(None, FONT_SIZE)
 
 # Load the start screen image and scale it to fill the window
-start_screen_image = pygame.image.load('library.jpeg')
+start_screen_image = pygame.image.load('images/minigame/library.jpeg')
 start_screen_image = pygame.transform.scale(start_screen_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Display instructions to start the game
@@ -109,6 +110,10 @@ def display_instructions_screen():
 cursor_x = NOTES_WIDTH + 20
 cursor_y = 220
 
+# Constants for cursor boundaries
+CURSOR_MIN_X = NOTES_WIDTH + 20
+CURSOR_MAX_X = NOTES_WIDTH + 260  # Adjust this value to set the maximum x-coordinate
+
 questions = [
     ("Translate 'HELLO' to Morse Code", ".... . .-.. .-.. ---"),
     ("Translate 'WORLD' to Morse Code", ".-- --- .-. .-.. -.."),
@@ -155,9 +160,12 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_BACKSPACE:
-                current_input = current_input[:-1]
-                # Move cursor back
-                cursor_x -= FONT_SIZE // 2
+                if len(current_input) > 0:
+                    char_width = font.render(current_input[-1], True, BLACK).get_width()
+                    current_input = current_input[:-1]
+                    cursor_x -= char_width
+                if cursor_x < CURSOR_MIN_X:
+                    cursor_x = CURSOR_MIN_X
             elif event.key == pygame.K_RETURN:
                 correct = (current_input.strip() == answer)
                 if correct:
@@ -173,15 +181,17 @@ while running:
                 else:
                     current_input = ''  # Clear input box on incorrect answer
                 # Reset cursor position
-                cursor_x = NOTES_WIDTH + 20
-            elif event.key == pygame.K_ESCAPE:  # Add this condition
+                cursor_x = CURSOR_MIN_X
+            elif event.key == pygame.K_ESCAPE:
                 # Quit the game if Escape key is pressed
                 pygame.quit()
                 sys.exit()
             else:
                 current_input += event.unicode.upper()
-                # Move cursor forward
-                cursor_x += FONT_SIZE // 2
+                char_width = font.render(event.unicode.upper(), True, BLACK).get_width()
+                cursor_x += char_width
+                if cursor_x > CURSOR_MAX_X:
+                    cursor_x = CURSOR_MAX_X
 
     # Draw question on the right side
     draw_text(screen, 'Question:', (NOTES_WIDTH + 20, 20), font)
@@ -210,5 +220,3 @@ while running:
 # Quit Pygame
 pygame.quit()
 sys.exit()
-
-

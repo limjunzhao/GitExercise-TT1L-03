@@ -245,8 +245,8 @@ class Game:
         self.game_over_rect = self.game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
         # Play again button
-        play_again_button_static = pygame.image.load('play_again.png')
-        play_again_button_hover = pygame.image.load('play_again_hover.png')
+        play_again_button_static = pygame.image.load('images/button/play_again.png')
+        play_again_button_hover = pygame.image.load('images/button/play_again_hover.png')
         button_x = (WIDTH - play_again_button_static.get_width()) // 2 - 50  # Adjusted 50 pixels to the left
         self.game_over_button = Button(button_x, HEIGHT * 0.7, play_again_button_static, play_again_button_hover, (200, 100))
 

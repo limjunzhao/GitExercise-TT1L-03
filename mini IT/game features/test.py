@@ -11,11 +11,11 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Love Letter Minigame')
 
 # Load background image
-background_image = pygame.image.load('pixel.png').convert()
+background_image = pygame.image.load('images/minigame/pixel.png').convert()
 background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
 # Load love letter image
-love_letter_image = pygame.image.load('love_letter_image.png').convert_alpha()
+love_letter_image = pygame.image.load('images/minigame/love_letter_image.png').convert_alpha()
 love_letter_image = pygame.transform.scale(love_letter_image, (WIDTH, HEIGHT))
 love_letter_image_rect = love_letter_image.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
