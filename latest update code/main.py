@@ -229,7 +229,24 @@ class Game:
         self.vol = 0.1
         self.music_sfx.play(loops = -1)
         self.music_sfx.set_volume(self.vol)
-        
+
+        # Congratulations message surface
+        self.congratulations_surface = pygame.Surface((WIDTH, HEIGHT))  # No per-pixel alpha
+        self.congratulations_surface.fill(GREY)  # Fill with grey color
+        self.congratulations_text = self.interface.font.render("Congratulations! You Win!", True, BLACK)
+        self.congratulations_rect = self.congratulations_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+
+        # Game over message surface
+        self.game_over_surface = pygame.Surface((WIDTH, HEIGHT))  # No per-pixel alpha
+        self.game_over_surface.fill(GREY)  # Fill with grey color
+        self.game_over_text = self.interface.font.render("Game Over! You Lose!", True, BLACK)  # Change color to white
+        self.game_over_rect = self.game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+
+        # Game over button
+        game_over_button_static = pygame.image.load('images/button/start_static.png')
+        game_over_button_hover = pygame.image.load('images/button/start_hover.png')
+        self.game_over_button = Button((WIDTH - game_over_button_static.get_width()) // 2,HEIGHT * 0.7,game_over_button_static,game_over_button_hover,(200, 100))
+
     def run_game(self):
         pause = False 
 
@@ -277,6 +294,24 @@ class Game:
             pygame.display.update()
             clock.tick(FPS)
 
+    def display_congratulations(self):
+        self.screen.blit(self.congratulations_surface, (0, 0))
+        self.screen.blit(self.congratulations_text, self.congratulations_rect)
+        pygame.display.flip()
+        pygame.time.delay(3000)  
+
+    def display_game_over(self):
+        while True:
+            self.screen.blit(self.game_over_surface, (0, 0))
+            self.screen.blit(self.game_over_text, self.game_over_rect)
+            if self.game_over_button.draw(self.screen):
+                self.button_sfx.play()
+                return "play_again"
+            pygame.display.flip()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
     def adjust_volume(self, vol_change):
         self.vol += vol_change 

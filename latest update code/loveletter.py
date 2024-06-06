@@ -63,6 +63,7 @@ jumbled_word = ''.join(random.sample(word, len(word)))
 score = 0
 input_text = ""
 show_initial_screen = True
+show_instructions_screen = False
 show_love_letter = False  # Flag to control when to show the love letter
 hint_active = False
 hint_start_time = 0
@@ -112,19 +113,29 @@ def display_initial_screen():
     initial_text2 = instruction_font.render("Welcome to the Love Letter Minigame!", True, WHITE)
     initial_text_rect2 = initial_text2.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 100))  # Adjusted position
     screen.blit(initial_text2, initial_text_rect2)
+
+    pygame.display.update()
+
+def display_instructions_screen():
+    screen.blit(background_image, (0, 0))
+    instructions_header = instruction_font.render("Instructions:", True, WHITE)
+    instructions_header_rect = instructions_header.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 80))
+    screen.blit(instructions_header, instructions_header_rect)
+
+    instruction_text = [
+        "1. This is a jumbled-word minigame.",
+        "2. Answers can be found in the storyline.",
+        "3. New words will not display until you get it correctly."
+    ]
+    for i, text in enumerate(instruction_text):
+        instruction_surface = instruction_font.render(text, True, WHITE)
+        instruction_rect = instruction_surface.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 40 + (i * 30)))  # Adjusted position
+        screen.blit(instruction_surface, instruction_rect)
     
-    initial_text3 = instruction_font.render("1. This is a jumbled-word minigame.", True, WHITE)
-    initial_text_rect3 = initial_text3.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 40))  # Adjusted position
-    screen.blit(initial_text3, initial_text_rect3)
-    
-    initial_text4 = instruction_font.render("2. Answers can be found in the storyline.", True, WHITE)
-    initial_text_rect4 = initial_text4.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 10))  # Adjusted position
-    screen.blit(initial_text4, initial_text_rect4)
-    
-    initial_text5 = instruction_font.render("3. New words will not display until you get it correctly.", True, WHITE)
-    initial_text_rect5 = initial_text5.get_rect(center=(WIDTH / 2, HEIGHT / 2 + 20))  # Adjusted position
-    screen.blit(initial_text5, initial_text_rect5)
-    
+    start_game_text = instruction_font.render("Press Enter to start the game", True, WHITE)
+    start_game_rect = start_game_text.get_rect(center=(WIDTH / 2, HEIGHT - 100))
+    screen.blit(start_game_text, start_game_rect)
+
     pygame.display.update()
 
 def display_hint():
@@ -144,9 +155,15 @@ while running:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_RETURN:
                     show_initial_screen = False
-                    # Reset score and show_love_letter flag when starting a new game
-                    score = 0
-                    show_love_letter = False
+                    show_instructions_screen = True
+    elif show_instructions_screen:
+        display_instructions_screen()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    show_instructions_screen = False
     else:
         screen.blit(background_image, (0, 0))
 
