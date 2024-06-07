@@ -9,10 +9,10 @@ from minigame import *
 
 class Interface:
     def __init__(self):
-        self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
-        self.button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
+        self.screen = pygame.display.set_mode((WIDTH,HEIGHT) )
+        self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
         self.font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
-        self.music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
+        self.music_sfx = pygame.mixer.Sound("images/music/background_music.mp3")
         self.vol = 0.1
         self.music_sfx.play(loops = -1)
         self.music_sfx.set_volume(self.vol)
@@ -44,7 +44,7 @@ class Interface:
         
         while True:
             self.screen.blit(background_image, (0, 0))
-            self.screen.blit(title_img, (400, 80))
+            self.screen.blit(title_img, (350, 80))
 
             """
             If possible, return state = "start" / "quit" / "option" 
@@ -53,7 +53,6 @@ class Interface:
             """
             if start_button.draw(self.screen):
                 self.button_sfx.play()
-                self.music_sfx.set_volume(0)
                 self.music_sfx.set_volume(0)
                 return "start"
                 
@@ -88,9 +87,9 @@ class Interface:
         background_image = pygame.image.load('images/background/mane_background1.jpg')
         background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
-        vol_up_button = Button(425, 200, volup_static, volup_hover, (200, 100))
-        vol_down_button = Button(625, 200, voldown_static, voldown_hover, (200, 100))
-        vol_mute_button = Button(425, 300, volmute_static, volmute_hover, (408, 100))
+        vol_up_button = Button(475, 200, volup_static, volup_hover, (250, 100))
+        vol_down_button = Button(475, 300, voldown_static, voldown_hover, (250, 100))
+        vol_mute_button = Button(475, 400, volmute_static, volmute_hover, (250, 100))
         back_button = Button(5, 640, back_static, back_hover, (150, 80))
 
         while True:
@@ -224,8 +223,8 @@ class Game:
 
          # main menu setup
         self.main_menu = self.interface.main_menu()   
-        self.music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
-        self.button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
+        self.music_sfx = pygame.mixer.Sound("images/music/background_music.mp3")
+        self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
         self.vol = 0.1
         self.music_sfx.play(loops = -1)
         self.music_sfx.set_volume(self.vol)
@@ -274,6 +273,13 @@ class Game:
 
             if pause:
                 screen.blit(pause_surface, (0, 0))
+                draw_rounded_rect(screen, 'light grey', (475, 175, 700, 400), 50)
+
+                for message in messages:
+                    text_surface = font.render(message["text"], True, message["color"])
+                    screen.blit(text_surface, message["position"])
+
+
                 if vol_up_button.draw(self.screen):
                     self.button_sfx.play()
                     self.adjust_volume(0.1)
@@ -285,6 +291,15 @@ class Game:
                 if vol_mute_button.draw(self.screen):
                     self.button_sfx.play()
                     self.music_sfx.set_volume(0)
+
+                if back_button.draw(self.screen):
+                    self.button_sfx.play()
+                    pause = not pause
+
+                if quit_button.draw(self.screen):
+                    self.button_sfx.play()
+                    pygame.quit()
+                    sys.exit()
             else:
                 screen.fill('#2D99E2')
                 self.level.run()

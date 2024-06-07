@@ -14,7 +14,7 @@ class Player(Entity):
 		self.import_player_assets()
 		self.speed = 3
 		self.status = 'down'
-
+		self.animation_speed = 0.5
 		
 		self.obstacle_sprites = obstacle_sprites
 		# pygame.display.update
@@ -26,30 +26,43 @@ class Player(Entity):
 			full_path = character_path + animation
 			self.animations[animation] = import_folder(full_path)
 		print(self.animations[animation])
+
+
 		
 	def input(self): 
+		
+		running_speed = 5
+		current_speed = 3
+		# Get the state of all keyboard keys
 		keys = pygame.key.get_pressed()
 
-		#control pos.y
-		if keys [pygame.K_UP]:
-			self.direction.y = -1
+		
+		if keys[pygame.K_LSHIFT]:
+			self.speed = running_speed
+		else:
+			self.speed = current_speed 
+
+		# Control pos.y
+		if keys[pygame.K_UP] or keys[pygame.K_w]:
+			self.direction.y = -1 
 			self.status = 'up'
-		elif keys [pygame.K_DOWN]:
-			self.direction.y = 1
+		elif keys[pygame.K_DOWN] or keys[pygame.K_s]:
+			self.direction.y = 1 
 			self.status = 'down'
-		else: 
+		else:
 			self.direction.y = 0
 
-		#control pos.x 
-		if keys [pygame.K_LEFT]:
-			self.direction.x = -1
+		# Control pos.x
+		if keys[pygame.K_LEFT] or keys[pygame.K_a]:
+			self.direction.x = -1 
 			self.status = 'left'
-		elif keys [pygame.K_RIGHT]:
-			self.direction.x = 1
+		elif keys[pygame.K_RIGHT] or keys[pygame.K_d]:
+			self.direction.x = 1 
 			self.status = 'right'
 		else:
-				self.direction.x = 0
+			self.direction.x = 0
 
+			
 	def get_status(self):
 
 		# idle status
