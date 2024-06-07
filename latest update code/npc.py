@@ -134,22 +134,22 @@ class NPC(Entity):
     interaction_counts = {npc: 0 for npc in npc_data}
 
     def __init__(self, npc_name, pos, speech, groups, obstacle_sprites):
-        
-        #general setup 
+        # General setup
         super().__init__(groups)
         self.display_surface = pygame.display.get_surface()
         self.sprite_type = 'npc'
         self.import_graphic(npc_name)
-        
-        #import Dialogue and Exucution 
+
+        # Import Dialogue and Execution 
         self.dialogue = Dialogue()
         self.execution = Execution()
         self.npc_speed = 0.1
-        #stats  
+        
+        # Stats  
         self.npc_name = npc_name
         npc_info = npc_data[self.npc_name]
-        self.greeting = npc_data.get('greeting')
-        self.ask_who= npc_info.get('who')
+        self.greeting = npc_info.get('greeting')
+        self.ask_who = npc_info.get('who')
         self.ask_where = npc_info.get('where')
         self.ask_what = npc_info.get('what')
         self.ques = npc_ques
@@ -157,64 +157,59 @@ class NPC(Entity):
        
         self.status = 'idle'
         self.image = pygame.Surface((16,16))
-        self.rect = self.image.get_rect(topleft = pos)
-        self.hitbox = self.rect.inflate(0,-10)
+        self.rect = self.image.get_rect(topleft=pos)
+        self.hitbox = self.rect.inflate(0, -10)
         self.obstacle_sprites = obstacle_sprites
 
         self.speech_shown = False  # Flag to track if speech is currently shown
         self.question = True  # ans will be false 
-        self.skip= False
-        
+        self.skip = False
+
+        self.font = pygame.font.Font(None, 36)  # Font for interaction message
+        self.interaction_radius = 90  # Radius to show interaction message
 
     def import_graphic(self, name):
         main_path = f'./sprites sheet for maps/sprites/characters/npc/{name}/'
-        self.animations = {'idle':[]}
+        self.animations = {'idle': []}
         for animation in self.animations.keys():
             full_main_path = main_path + animation
             self.animations[animation] = import_folder(full_main_path)
         print(self.animations[animation])
-        #graphics setup 
 
     def animate(self):
         animation = self.animations[self.status]
-
-        # loop over the frame index 
+        # Loop over the frame index
         self.frame_index += self.npc_speed
         if self.frame_index >= len(animation):
             self.frame_index = 0
-
-        # set the image
+        # Set the image
         self.image = animation[int(self.frame_index)]
-        self.rect = self.image.get_rect(center = self.hitbox.center)
+        self.rect = self.image.get_rect(center=self.hitbox.center)
 
     def draw(self):
-            self.name_surface = FONT.render(self.npc_name, True, WHITE)
-            self.name_rect = self.name_surface.get_rect(center=(self.rect.centerx, self.rect.top + 20))
-            self.display_surface.blit(self.name_surface, self.name_rect)
+        self.name_surface = FONT.render(self.npc_name, True, WHITE)
+        self.name_rect = self.name_surface.get_rect(center=(self.rect.centerx, self.rect.top + 20))
+        self.display_surface.blit(self.name_surface, self.name_rect)
 
-    def dialogue_ques (self, screen, rect, font): 
-
-        if self.question: 
+    def dialogue_ques(self, screen, rect, font):
+        if self.question:
             self.dialogue.render_instant_npc_speech(screen, self.ques, BLACK, rect, font)
 
-    def multiple_choice (self, dialogue_where, dialogue_who, dialogue_what, screen, rect, font):   
+    def multiple_choice(self, dialogue_where, dialogue_who, dialogue_what, screen, rect, font):
         self.question = True
         for event in pygame.event.get():
-            for name in npc_data: 
-                if self.npc_name == name and event.type == pygame.KEYDOWN: 
-
-                    if event.key == pygame.K_a: #ask where
+            for name in npc_data:
+                if self.npc_name == name and event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_a:  # Ask where
                         self.dialogue.render_typewriter_npc_speech(screen, dialogue_where, BLACK, rect, font)
                         pygame.time.wait(1000)
-                    elif event.key == pygame.K_b: #ask who 
+                    elif event.key == pygame.K_b:  # Ask who
                         self.dialogue.render_typewriter_npc_speech(screen, dialogue_who, BLACK, rect, font)
-                        pygame.time.wait(1000)   
-
-                    elif event.key == pygame.K_c: #ask what 
+                        pygame.time.wait(1000)
+                    elif event.key == pygame.K_c:  # Ask what
                         self.dialogue.render_typewriter_npc_speech(screen, dialogue_what, BLACK, rect, font)
-                        pygame.time.wait(1000)    
-
-                    if event.key == pygame.K_TAB: # escape dialogue 
+                        pygame.time.wait(1000)
+                    if event.key == pygame.K_TAB:  # Escape dialogue
                         self.question = False
 
     def wait_for_player_response(self):
@@ -226,7 +221,6 @@ class NPC(Entity):
                     elif event.key == pygame.K_b:
                         return 'B'
             pygame.time.wait(100)  # Check input every 100 ms
-
 
     def ask_professor_questions(self):
         questions = [
@@ -254,46 +248,51 @@ class NPC(Entity):
 
             pygame.time.wait(1000)  # Pause to let player read the response
 
+    def display_interaction_message(self,screen):
+        font = pygame.font.Font(None, 26)
+        interact = [{"text": "PRESS 'E' TO INTERACT", "color": (0, 0, 0), "position": (10, 690)}]
+        for press in interact:
+            text_surface = font.render(press["text"], True, press["color"])
+            screen.blit(text_surface, press["position"])
+
     def npc_collision(self, player):
         npc_index = None
-        
         for i, npc in enumerate(npc_data):
             if player.hitbox.colliderect(self.rect):
-                if not self.speech_shown:
-                    self.speech_shown = True
-                    self.question = True
-                    self.skip = False
-                    npc_index = i
-                    NPC.interaction_counts[self.npc_name] += 1
+                keys = pygame.key.get_pressed()
+                distance = ((player.hitbox.centerx - self.rect.centerx) ** 2 + (player.hitbox.centery - self.rect.centery) ** 2) ** 0.5
+                if distance < self.interaction_radius:
+                    self.display_interaction_message(self.display_surface)
+                    if keys[pygame.K_e] and not self.speech_shown:
+                        self.speech_shown = True
+                        self.question = True
+                        self.skip = False
+                        npc_index = i
+                        NPC.interaction_counts[self.npc_name] += 1
 
-                    if self.npc_name == "professor":
-                        # Specific interaction for the professor
-                        self.ask_professor_questions()
-                            
-                    elif self.npc_name != "officer":
-                        # For regular NPCs, show dialogue and multiple-choice questions
-                        for _ in range(3):
-                            self.dialogue_ques(self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
-                            self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
-                            
-                    elif self.npc_name == 'office':
-                        # For the 'office' NPC, check if interactions with all NPCs have occurred
-                        if all(count > 0 for count in self.interaction_counts.values()):
-                            self.execution.identify_killer(self.display_surface)
+                        if self.npc_name == "professor":
+                            # Specific interaction for the professor
+                            self.ask_professor_questions()
+                        elif self.npc_name != "officer":
+                            # For regular NPCs, show dialogue and multiple-choice questions
+                            for _ in range(3):
+                                self.dialogue_ques(self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
+                                self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
+                        elif self.npc_name == 'office':
+                            # For the 'office' NPC, check if interactions with all NPCs have occurred
+                            if all(count > 0 for count in self.interaction_counts.values()):
+                                self.execution.identify_killer(self.display_surface)
+                            else:
+                                self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+                                pygame.time.wait(1000)
                         else:
-                            self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
-                            pygame.time.wait(1000)
-                            
-                    else:
-                        # Default action for other NPCs
-                        self.dialogue.render_typewriter_npc_speech(self.display_surface, self.test, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
-                        
-            else:
-                # Reset speech flag if no collision
-                self.speech_shown = False
+                            # Default action for other NPCs
+                            self.dialogue.render_typewriter_npc_speech(self.display_surface, self.test, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+                else:
+                    self.speech_shown = False
 
     def update(self):
         self.animate()
 
-    def npc_update(self, player): 
+    def npc_update(self, player):
         self.npc_collision(player)
