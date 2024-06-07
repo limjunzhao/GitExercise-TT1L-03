@@ -121,7 +121,7 @@ while True:
         screen.blit(npc_name_surface, npc_name_rect)
 
     pygame.display.flip()
-    clock.tick(60)  # Limit frame rate to 60 FPS
+    clock.tick(120)  # Limit frame rate to 60 FPS
 
     # Reset hide_speech flag if the player moves away from the NPC
     if npc_index is not None and not player_rect.colliderect(pygame.Rect(npc_data[npc_index]["position"][0], npc_data[npc_index]["position"][1], 50, 50)):

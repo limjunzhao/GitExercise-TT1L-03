@@ -1,17 +1,18 @@
 import pygame, sys
 from settings import *
-from level import Level 
+from level import Level
 from camera import CameraGroup
 from button import Button 
 from pause import *
 from npc import Dialogue, Execution, NPC
+from minigame import *
 
 class Interface:
     def __init__(self):
-        self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
-        self.button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
+        self.screen = pygame.display.set_mode((WIDTH,HEIGHT) )
+        self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
         self.font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
-        self.music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
+        self.music_sfx = pygame.mixer.Sound("images/music/background_music.mp3")
         self.vol = 0.1
         self.music_sfx.play(loops = -1)
         self.music_sfx.set_volume(self.vol)
@@ -20,8 +21,8 @@ class Interface:
         # Load images
         startstatic_img = pygame.image.load('images/button/start_static.png')
         starthover_img = pygame.image.load('images/button/start_hover.png')
-        quitstatic_img = pygame.image.load('images/button/quit_static.png')
-        quithover_img = pygame.image.load('images/button/quit_hover.png')
+        quitstatic_img = pygame.image.load('images/button/quit_interface_static.png')
+        quithover_img = pygame.image.load('images/button/quit_interface_hover.png')
         optionhover_img = pygame.image.load('images/button/opt_hover.png')
         optionstatic_img = pygame.image.load('images/button/opt_static.png')
 
@@ -43,7 +44,7 @@ class Interface:
         
         while True:
             self.screen.blit(background_image, (0, 0))
-            self.screen.blit(title_img, (400, 80))
+            self.screen.blit(title_img, (350, 80))
 
             """
             If possible, return state = "start" / "quit" / "option" 
@@ -62,6 +63,7 @@ class Interface:
 
             if option_button.draw(self.screen):
                 self.button_sfx.play()
+                self.music_sfx.set_volume(0)
                 return "option"
 
             for event in pygame.event.get():
@@ -85,9 +87,9 @@ class Interface:
         background_image = pygame.image.load('images/background/mane_background1.jpg')
         background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
 
-        vol_up_button = Button(425, 200, volup_static, volup_hover, (200, 100))
-        vol_down_button = Button(625, 200, voldown_static, voldown_hover, (200, 100))
-        vol_mute_button = Button(425, 300, volmute_static, volmute_hover, (408, 100))
+        vol_up_button = Button(475, 200, volup_static, volup_hover, (250, 100))
+        vol_down_button = Button(475, 300, voldown_static, voldown_hover, (250, 100))
+        vol_mute_button = Button(475, 400, volmute_static, volmute_hover, (250, 100))
         back_button = Button(5, 640, back_static, back_hover, (150, 80))
 
         while True:
@@ -152,12 +154,16 @@ class Interface:
                 "position": (100, 350)}
              ]
         ]
-
+        # Load the new background image
+        new_background_image = pygame.image.load('images/background/background2.jpg')
+        new_background_image = pygame.transform.scale(new_background_image, (WIDTH, HEIGHT))
 
         # Main loop
         active_message = 0
         layer_counter = 0
         speed = 10  # Adjust the speed of typewriter effect
+        scroll_speed = 0.8  # Adjust the speed of background scrolling
+        background_x = 0  # Initialize background_x
 
         while True:
             for event in pygame.event.get():
@@ -171,10 +177,19 @@ class Interface:
                         layer_counter = 0  # Reset the layer counter when changing message 
                   elif event.key == pygame.K_RETURN and active_message == len(messages) - 1 and layer_counter >= speed * len(messages[active_message][-1]["text"]):
                         return "start_game"  # Signal to start the game
-
+            
+            # Scroll the background
+            background_x -= scroll_speed
+            if background_x <= -WIDTH:  # Reset background position to create endless scrolling effect
+                background_x = 0
 
             # Clear the screen
             self.screen.fill(BLACK)
+
+            # Display the new background
+            self.screen.blit(new_background_image, (background_x, 0))
+            if background_x < 0:
+                self.screen.blit(new_background_image, (background_x + WIDTH, 0))
 
             # Display messages for the active layer
             for i, layer in enumerate(messages[active_message]):
@@ -186,7 +201,13 @@ class Interface:
                     layer_counter += 1
 
                 text_surface = self.font.render(text[0:layer_counter // speed], True, color)
-                self.screen.blit(text_surface, position)
+                text_rect = text_surface.get_rect(topleft=position)
+
+                # Create a semi-transparent box behind the text
+                box_rect = pygame.Rect(text_rect.x - 10, text_rect.y - 5, text_rect.width + 20, text_rect.height + 10)
+                pygame.draw.rect(self.screen, (0, 0, 0, 100), box_rect)  # 100 is the alpha value for transparency
+                # Blit text surface onto the screen
+                self.screen.blit(text_surface, text_rect)
 
             pygame.display.flip()
 
@@ -196,6 +217,12 @@ class Interface:
         self.music_sfx.set_volume(self.vol)
 
 
+
+
+    def loveletter_collision(self, player): 
+      if player.hitbox.colliderect (self.rect): 
+          self.running(Game.screen)
+
 class Game:
     def __init__(self):
         # general setup
@@ -204,36 +231,48 @@ class Game:
         pygame.display.set_caption('Mystery Case')
         self.clock = pygame.time.Clock()
         
+        
         # bring the page here
         self.level = Level()
         self.camera_group = CameraGroup()
         self.interface = Interface()
         self.dialogue = Dialogue()
         self.execution = Execution()
+        
 
          # main menu setup
         self.main_menu = self.interface.main_menu()   
-        self.music_sfx = pygame.mixer.Sound("images/music/music_background.mp3")
-        self.button_sfx = pygame.mixer.Sound("images/music/button_sfx.mp3")
+        self.music_sfx = pygame.mixer.Sound("images/music/background_music.mp3")
+        self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
+        self.spawn_sfx = pygame.mixer.Sound("images/music/Voicy_Undertale Spawn.mp3")  # spawn sound
         self.vol = 0.1
         self.music_sfx.play(loops = -1)
         self.music_sfx.set_volume(self.vol)
-        
+
+
+
     def run_game(self):
         pause = False 
 
+        # Play spawn sound effect
+        self.spawn_sfx.play()
+
         while True:
+            # events = pygame.event.get()
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
 
-                elif event.type == pygame.KEYDOWN:
-                    if all(count>0 for count in NPC.interaction_counts.values()):
-                        if event.key == pygame.K_a:
-                            self.execution.you_win(self.screen)
-                        elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
-                            self.execution.game_over(self.screen)
+
+                # elif event.type == pygame.KEYDOWN:
+                #     if all(count > 0 for count in NPC.interaction_counts.values()):
+                #             if event.key == pygame.K_a:
+                #                 self.display_congratulations()
+                #             elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
+                #                 self.display_game_over()
+                #                 # return "game_over"
+                   
                         
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     pause = not pause  # Toggle the pause state
@@ -243,6 +282,13 @@ class Game:
 
             if pause:
                 screen.blit(pause_surface, (0, 0))
+                draw_rounded_rect(screen, 'light grey', (475, 175, 700, 400), 50)
+
+                for info in pause_info:
+                    text_surface = pause_font.render(info["text"], True, info["color"])
+                    screen.blit(text_surface, info["position"])
+
+
                 if vol_up_button.draw(self.screen):
                     self.button_sfx.play()
                     self.adjust_volume(0.1)
@@ -254,6 +300,15 @@ class Game:
                 if vol_mute_button.draw(self.screen):
                     self.button_sfx.play()
                     self.music_sfx.set_volume(0)
+
+                if back_button.draw(self.screen):
+                    self.button_sfx.play()
+                    pause = not pause
+
+                if quit_button.draw(self.screen):
+                    self.button_sfx.play()
+                    pygame.quit()
+                    sys.exit()
             else:
                 screen.fill('#2D99E2')
                 self.level.run()
@@ -263,26 +318,32 @@ class Game:
             pygame.display.update()
             clock.tick(FPS)
 
+    
+
     def adjust_volume(self, vol_change):
         self.vol += vol_change 
         self.vol = max(0.0, min(1.0, self.vol))
         self.music_sfx.set_volume(self.vol)
 
     def run_menu(self):
-              
-        if self.main_menu == "start":
-            action = self.interface.story_info()
-            if action == "start_game":
-                self.run_game()
-           
-        elif self.main_menu == "quit":
-            pygame.quit()
-            sys.exit()
-        
-        elif self.main_menu == "option":
-            option_action = self.interface.option()                    
-            if option_action == "back":
-                self.interface.main_menu ()
+        while True:
+            if self.main_menu == "start":
+                action = self.interface.story_info()
+                if action == "start_game":
+                    result = self.run_game()  # Pass the required argument
+                    if result == "play_again":
+                        continue  # Restart the game loop
+                    # elif result == "game_over":
+                    #     self.display_game_over()
+                    #     break  # Exit the loop if the player chooses not to play again
+            elif self.main_menu == "quit":
+                pygame.quit()
+                sys.exit()
+
+            elif self.main_menu == "option":
+                option_action = self.interface.option()
+                if option_action == "back":
+                    self.main_menu = self.interface.main_menu()
 
 
 if __name__ == '__main__':
@@ -292,5 +353,3 @@ if __name__ == '__main__':
 else: 
             game = Game()
             game.run_game()
-
-

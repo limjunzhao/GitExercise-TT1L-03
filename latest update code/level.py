@@ -6,6 +6,7 @@ from camera import CameraGroup
 from support import *
 from random import choice
 from npc import NPC 	
+from minigame import Jumbleword
 
 
 class Level:
@@ -27,14 +28,18 @@ class Level:
 					'tree' : import_csv_layout('Data/maps csv/maps2_Tree.csv'),
 					'house': import_csv_layout('Data/maps csv/maps2_HouseBuilding.csv'),
 					'rock': import_csv_layout('Data/maps csv/maps2_rock_bush.csv'),
-					'entities' : import_csv_layout ('Data/maps csv/maps2_players.csv')
+					'entities' : import_csv_layout ('Data/maps csv/maps2_players.csv'),
+					'loveletter' : import_csv_layout ('Data/maps csv/maps2_mailbox.csv'),
+					'decor': import_csv_layout ('Data/maps csv/maps2_utils.csv')
+
 					
 		}	
 		graphics = {
 					'trees': import_folder('sprites sheet for maps/Terrains/object'),
 					'houses': import_folder ('sprites sheet for maps/Terrains/buildings'),
 					'rocks': import_folder ('sprites sheet for maps/Terrains/rocks_bush'),
-					'npcs': import_folder ('sprites sheet for maps/sprites/characters/players sprites')
+					'npcs': import_folder ('sprites sheet for maps/sprites/characters/players sprites'),
+					'decors' : import_folder ('sprites sheet for maps/Terrains/decors')
 		}
 
 		 
@@ -55,7 +60,7 @@ class Level:
 
 						if style == 'rock':
 							random_rock_image = choice(graphics['rocks'])
-							Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'rock and bushes',random_rock_image)
+							 
 
 						if style == 'house':
 							house_index = int(col) 
@@ -63,26 +68,40 @@ class Level:
 								house_img = graphics['houses'][house_index]
 								Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house',house_img)
 
+						if style == 'loveletter':
+							if col == '267': 
+								Jumbleword((x,y),[self.visible_sprites],self.obstacle_sprites)
+
+						if style == 'decor':
+							decor_index = int(col) 
+							if 0 <= decor_index < len(graphics['decors']):
+								decor_img = graphics['decors'][decor_index]
+								Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'decor',decor_img)
+				
+								
+
+
 						if style == 'entities': 
 							if col == '771':
 								self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
 
 							else: 
-								if col == '0': npc_name = 'maria'
-								elif col == '1': npc_name ='willie'
-								elif col == '2': npc_name = 'amber'
-								else: npc_name = 'officer'
+								if col == '0': npc_name = 'Maria'
+								elif col == '1': npc_name ='Willie'
+								elif col == '2': npc_name = 'Amber'
+								elif col == '4': npc_name ='Professor'
+								else: npc_name = 'Officer'
 								NPC(npc_name, (x,y), 'speech', [self.visible_sprites],self.obstacle_sprites)
 		
-			
+						
 				
 
 	def run(self):
 		# update and draw the game(display)
 		self.visible_sprites.custom_draw(self.player)
 		self.visible_sprites.npc_update(self.player)
+		self.visible_sprites.loveletter_update(self.player)
 		self.visible_sprites.update()
 
 		
 		
-
