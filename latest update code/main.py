@@ -154,12 +154,16 @@ class Interface:
                 "position": (100, 350)}
              ]
         ]
-
+        # Load the new background image
+        new_background_image = pygame.image.load('images/background/background2.jpg')
+        new_background_image = pygame.transform.scale(new_background_image, (WIDTH, HEIGHT))
 
         # Main loop
         active_message = 0
         layer_counter = 0
         speed = 10  # Adjust the speed of typewriter effect
+        scroll_speed = 0.8  # Adjust the speed of background scrolling
+        background_x = 0  # Initialize background_x
 
         while True:
             for event in pygame.event.get():
@@ -173,10 +177,19 @@ class Interface:
                         layer_counter = 0  # Reset the layer counter when changing message 
                   elif event.key == pygame.K_RETURN and active_message == len(messages) - 1 and layer_counter >= speed * len(messages[active_message][-1]["text"]):
                         return "start_game"  # Signal to start the game
-
+            
+            # Scroll the background
+            background_x -= scroll_speed
+            if background_x <= -WIDTH:  # Reset background position to create endless scrolling effect
+                background_x = 0
 
             # Clear the screen
             self.screen.fill(BLACK)
+
+            # Display the new background
+            self.screen.blit(new_background_image, (background_x, 0))
+            if background_x < 0:
+                self.screen.blit(new_background_image, (background_x + WIDTH, 0))
 
             # Display messages for the active layer
             for i, layer in enumerate(messages[active_message]):
@@ -188,7 +201,13 @@ class Interface:
                     layer_counter += 1
 
                 text_surface = self.font.render(text[0:layer_counter // speed], True, color)
-                self.screen.blit(text_surface, position)
+                text_rect = text_surface.get_rect(topleft=position)
+
+                # Create a semi-transparent box behind the text
+                box_rect = pygame.Rect(text_rect.x - 10, text_rect.y - 5, text_rect.width + 20, text_rect.height + 10)
+                pygame.draw.rect(self.screen, (0, 0, 0, 100), box_rect)  # 100 is the alpha value for transparency
+                # Blit text surface onto the screen
+                self.screen.blit(text_surface, text_rect)
 
             pygame.display.flip()
 
@@ -230,24 +249,32 @@ class Game:
         self.music_sfx.set_volume(self.vol)
 
         # Congratulations message surface
-        self.congratulations_surface = pygame.Surface((WIDTH, HEIGHT))  # No per-pixel alpha
-        self.congratulations_surface.fill(GREY)  # Fill with grey color
-        self.congratulations_text = self.interface.font.render("Congratulations! You Win!", True, BLACK)
+        self.congratulations_surface = pygame.Surface((WIDTH, HEIGHT))
+        self.congratulations_image = pygame.image.load('images/background/background.jpg')
+        self.congratulations_image = pygame.transform.scale(self.congratulations_image, (WIDTH, HEIGHT))
+        self.congratulations_surface.blit(self.congratulations_image, (0, 0))
+        self.congratulations_text = self.interface.font.render("Congratulations! You Win!", True, WHITE)
         self.congratulations_rect = self.congratulations_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
         # Game over message surface
-        self.game_over_surface = pygame.Surface((WIDTH, HEIGHT))  # No per-pixel alpha
-        self.game_over_surface.fill(GREY)  # Fill with grey color
-        self.game_over_text = self.interface.font.render("Game Over! You Lose!", True, BLACK)  # Change color to white
+        self.game_over_surface = pygame.Surface((WIDTH, HEIGHT))
+        self.game_over_image = pygame.image.load('images/background/background.jpg')
+        self.game_over_image = pygame.transform.scale(self.game_over_image, (WIDTH, HEIGHT))
+        self.game_over_surface.blit(self.game_over_image, (0, 0))
+        self.game_over_text = self.interface.font.render("Game Over! You Lose!", True, WHITE)
         self.game_over_rect = self.game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
-        # Game over button
-        game_over_button_static = pygame.image.load('images/button/start_static.png')
-        game_over_button_hover = pygame.image.load('images/button/start_hover.png')
-        self.game_over_button = Button((WIDTH - game_over_button_static.get_width()) // 2,HEIGHT * 0.7,game_over_button_static,game_over_button_hover,(200, 100))
+        # Play again button
+        play_again_button_static = pygame.image.load('images/button/play_again.png')
+        play_again_button_hover = pygame.image.load('images/button/play_again_hover.png')
+        button_x = (WIDTH - play_again_button_static.get_width()) // 2 - 50
+        self.game_over_button = Button(button_x, HEIGHT * 0.7, play_again_button_static, play_again_button_hover,(200, 100))
 
-    def run_game(self):
+    def run_game(self, background_x):
         pause = False 
+
+        # Play spawn sound effect
+        self.spawn_sfx.play()
 
         while True:
             # events = pygame.event.get()
@@ -258,11 +285,12 @@ class Game:
 
 
                 elif event.type == pygame.KEYDOWN:
-                    if all(count>0 for count in NPC.interaction_counts.values()):
+                    if all(count > 0 for count in NPC.interaction_counts.values()):
                         if event.key == pygame.K_a:
-                            self.execution.you_win(self.screen)
+                            self.display_congratulations()
                         elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
-                            self.execution.game_over(self.screen)
+                            self.display_game_over()
+                            return "game_over"
                    
                         
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -313,7 +341,9 @@ class Game:
         self.screen.blit(self.congratulations_surface, (0, 0))
         self.screen.blit(self.congratulations_text, self.congratulations_rect)
         pygame.display.flip()
-        pygame.time.delay(3000)  
+        pygame.time.delay(2000)
+        pygame.quit()
+        sys.exit()  
 
     def display_game_over(self):
         while True:
@@ -334,20 +364,24 @@ class Game:
         self.music_sfx.set_volume(self.vol)
 
     def run_menu(self):
-              
-        if self.main_menu == "start":
-            action = self.interface.story_info()
-            if action == "start_game":
-                self.run_game()
-           
-        elif self.main_menu == "quit":
-            pygame.quit()
-            sys.exit()
-        
-        elif self.main_menu == "option":
-            option_action = self.interface.option()                    
-            if option_action == "back":
-                self.interface.main_menu ()
+        while True:
+            if self.main_menu == "start":
+                action = self.interface.story_info()
+                if action == "start_game":
+                    result = self.run_game(background_x=0)  # Pass the required argument
+                    if result == "play_again":
+                        continue  # Restart the game loop
+                    elif result == "game_over":
+                        self.display_game_over()
+                        break  # Exit the loop if the player chooses not to play again
+            elif self.main_menu == "quit":
+                pygame.quit()
+                sys.exit()
+
+            elif self.main_menu == "option":
+                option_action = self.interface.option()
+                if option_action == "back":
+                    self.main_menu = self.interface.main_menu()
 
 
 if __name__ == '__main__':
