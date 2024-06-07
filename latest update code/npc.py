@@ -197,13 +197,13 @@ class NPC(Entity):
 
     def draw(self):
             self.name_surface = FONT_NAME.render(self.npc_name, True, WHITE)
-            self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 30, self.dialogue.speech_rect.y - 20))
+            self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 50, self.dialogue.speech_rect.y - 20))
             self.display_surface.blit(self.name_surface, self.name_rect)
 
     def image_icon (self, screen, rect):
         self.icon_surface = pygame.image.load(self.icon).convert_alpha()
-        # self.icon_enlarge = pygame.transform.scale(self.icon_surface, (45,51))
-        self.icon_rect = self.icon_surface.get_rect(topleft = (self.dialogue.speech_rect.x , self.dialogue.speech_rect.y - 20))
+        self.icon_surface = pygame.transform.scale2x(self.icon_surface)
+        self.icon_rect = self.icon_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 10  , self.dialogue.speech_rect.y - 40))
         screen.blit(self.icon_surface, self.icon_rect)
 
     def dialogue_ques (self, screen, rect, font): 
@@ -272,6 +272,7 @@ class NPC(Entity):
             text_surface = font.render(press["text"], True, press["color"])
             screen.blit(text_surface, press["position"])
 
+
     def npc_collision(self, player):
         npc_index = None
         for i, npc in enumerate(npc_data):
@@ -296,6 +297,7 @@ class NPC(Entity):
 
                         elif self.npc_name != "Officer":
                             # For regular NPCs, show dialogue and multiple-choice questions
+                            self.image_icon(self.display_surface, self.dialogue.speech_rect)
                             self.draw()
                             for _ in range(3):
                                 self.dialogue_ques(self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
