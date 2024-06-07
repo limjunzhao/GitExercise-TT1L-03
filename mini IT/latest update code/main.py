@@ -252,10 +252,10 @@ class Game:
         play_again_button_static = pygame.image.load('images/button/play_again.png')
         play_again_button_hover = pygame.image.load('images/button/play_again_hover.png')
         button_x = (WIDTH - play_again_button_static.get_width()) // 2 - 50
-        self.game_over_button = Button(button_x, HEIGHT * 0.7, play_again_button_static, play_again_button_hover,
-                                       (200, 100))
+        self.game_over_button = Button(button_x, HEIGHT * 0.7, play_again_button_static, play_again_button_hover,(200, 100))
 
-    def run_game(self, background_x):
+   
+    def run_game(self,):
         pause = False
 
         # Play spawn sound effect
