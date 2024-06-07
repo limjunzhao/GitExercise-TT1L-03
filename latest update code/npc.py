@@ -2,7 +2,7 @@ import pygame , sys
 from settings import *
 from entity import Entity
 from support import * 
-from morsecode import Morsecode
+from minigame import Morsecode
 
 
 
