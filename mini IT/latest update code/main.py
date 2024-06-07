@@ -152,7 +152,7 @@ class Interface:
         active_message = 0
         layer_counter = 0
         speed = 10  # Adjust the speed of typewriter effect
-        scroll_speed = 1  # Adjust the speed of background scrolling
+        scroll_speed = 0.8  # Adjust the speed of background scrolling
         background_x = 0  # Initialize background_x
 
         while True:
@@ -255,7 +255,7 @@ class Game:
         self.game_over_button = Button(button_x, HEIGHT * 0.7, play_again_button_static, play_again_button_hover,(200, 100))
 
    
-    def run_game(self,):
+    def run_game(self, background_x):
         pause = False
 
         # Play spawn sound effect
