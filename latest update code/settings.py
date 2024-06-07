@@ -75,8 +75,7 @@ npc_data = {
                 'where' : '', 
                 'what' : '',
                 "greeting": "Please help me find the killer before it's too late!",
-                'img':'sprites sheet for maps/sprites/characters/npc/officer/idle/0.png'
-,
+                'img':'sprites sheet for maps/sprites/characters/npc/officer/idle/0.png',
                 "rawr": "raaawr rawr"
             },
 

@@ -101,7 +101,7 @@ class Dialogue():
                     
                 pygame.display.flip()
                 clock.tick(20)
-            
+            pygame.time.wait(1000)
         
         
 
@@ -206,26 +206,22 @@ class NPC(Entity):
         self.icon_rect = self.icon_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 10  , self.dialogue.speech_rect.y - 40))
         screen.blit(self.icon_surface, self.icon_rect)
 
-    def dialogue_ques (self, screen, rect, font): 
-        if self.question: 
-            self.dialogue.render_instant_npc_speech(screen, self.ques, BLACK, rect, font)
 
     def multiple_choice(self, dialogue_where, dialogue_who, dialogue_what, screen, rect, font):
         self.question = True
         for event in pygame.event.get():
             for name in npc_data:
-                if self.npc_name == name and event.type == pygame.KEYDOWN:
+                if self.npc_name == name and event.type == pygame.KEYDOWN: 
                     if event.key == pygame.K_a:  # Ask where
                         self.dialogue.render_typewriter_npc_speech(screen, dialogue_where, BLACK, rect, font)
-                        pygame.time.wait(1000)
                     elif event.key == pygame.K_b:  # Ask who
                         self.dialogue.render_typewriter_npc_speech(screen, dialogue_who, BLACK, rect, font)
-                        pygame.time.wait(1000)
                     elif event.key == pygame.K_c:  # Ask what
                         self.dialogue.render_typewriter_npc_speech(screen, dialogue_what, BLACK, rect, font)
-                        pygame.time.wait(1000)
+
                     if event.key == pygame.K_TAB:  # Escape dialogue
                         self.question = False
+                        
 
     def wait_for_player_response(self):
         while True:
@@ -300,9 +296,10 @@ class NPC(Entity):
                             self.image_icon(self.display_surface, self.dialogue.speech_rect)
                             self.draw()
                             for _ in range(3):
-                                self.dialogue_ques(self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
-                                self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
-
+                                if self.question: 
+                                    self.dialogue.render_instant_npc_speech(self.display_surface, self.ques, BLACK,self.dialogue.speech_rect, SPEECH_FONT)
+                                    self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
+                                
 
                         elif self.npc_name == 'Officer':
                             self.image_icon(self.display_surface, self.dialogue.speech_rect)
