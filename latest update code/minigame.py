@@ -1,4 +1,4 @@
-import pygame 
+import pygame, sys
 from settings import * 
 import random
 import time 
@@ -382,7 +382,7 @@ class Morsecode:
                               pygame.time.wait(2000)
                               running = False
                               return
-                              
+
                       else:
                           self.current_input = ''  # Clear input box on incorrect answer
                       # Reset cursor position

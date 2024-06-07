@@ -50,6 +50,7 @@ npc_data = {
                 'where' : 'In the morning, I made breakfast for my husband, then proceeded to do house chores until afternoon. After lunch with my husband, I engaged in a pleasant chit-chat with out neighbor, Amber', 
                 'what' : 'I eagerly awaited my husband’s return from work, and once he was back, we cooked dinner together and went to sleep afterwards.',
                 "greeting":'',
+                'img': 'sprites sheet for maps/sprites/characters/npc/maria/idle/0.png',
                 "rawr": "raaawr rawr"
             }, 
 
@@ -82,8 +83,8 @@ npc_data = {
     'Professor':{'who': '',
                 'where' : '', 
                 'what' : '',
-                "greeting": 'Hello there dear treveller, would you likde to learn our language?'},
-                'img' : 'sprites sheet for maps/sprites/characters/npc/professor/idle/0.png'
+                "greeting": 'Hello there dear treveller, would you likde to learn our language?',
+                'img' : 'sprites sheet for maps/sprites/characters/npc/professor/idle/0.png'}
         
 
 }

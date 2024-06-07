@@ -40,7 +40,7 @@ class CameraGroup (pygame.sprite.Group):
   def custom_draw(self, player): 
 
     self.center_target_camera(player)
-    self.zoom_keyboard_control()
+    #self.zoom_keyboard_control()
     self.internal_surf.fill('#2D99E2')
 
 

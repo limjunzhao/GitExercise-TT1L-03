@@ -257,6 +257,8 @@ class NPC(Entity):
             if response == 'A':
                 print('yay')
                 self.question = False
+                self.morsecode.running()
+
             elif response == 'B':
                 print('your loss lol')
                 self.question = False
@@ -265,7 +267,7 @@ class NPC(Entity):
 
     def display_interaction_message(self,screen):
         font = pygame.font.Font(None, 26)
-        interact = [{"text": "PRESS 'E' TO INTERACT", "color": (0, 0, 0), "position": (10, 690)}]
+        interact = [{"text": "PRESS 'E' TO INTERACT", "color": BLACK, "position": (10, 690)}]
         for press in interact:
             text_surface = font.render(press["text"], True, press["color"])
             screen.blit(text_surface, press["position"])
@@ -285,15 +287,24 @@ class NPC(Entity):
                         npc_index = i
                         NPC.interaction_counts[self.npc_name] += 1
 
-                        if self.npc_name == "professor":
+                        if self.npc_name == "Professor":
                             # Specific interaction for the professor
+                            self.image_icon(self.display_surface, self.dialogue.speech_rect)
+                            self.draw()
                             self.ask_professor_questions()
-                        elif self.npc_name != "officer":
+
+
+                        elif self.npc_name != "Officer":
                             # For regular NPCs, show dialogue and multiple-choice questions
+                            self.draw()
                             for _ in range(3):
                                 self.dialogue_ques(self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
                                 self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
-                        elif self.npc_name == 'office':
+
+
+                        elif self.npc_name == 'Officer':
+                            self.image_icon(self.display_surface, self.dialogue.speech_rect)
+                            self.draw()
                             # For the 'office' NPC, check if interactions with all NPCs have occurred
                             if all(count > 0 for count in self.interaction_counts.values()):
                                 self.execution.identify_killer(self.display_surface)
@@ -302,12 +313,6 @@ class NPC(Entity):
                                 pygame.time.wait(1000)  
 
 
-                        if self.npc_name == 'Professor':
-                            self.image_icon(self.display_surface, self.dialogue.speech_rect)
-                            self.draw()
-                            self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
-                            self.morsecode.running()
-                            pygame.time.wait(1000) 
                             
             else:
                 self.speech_shown = False  # Reset the flag when the player moves away
