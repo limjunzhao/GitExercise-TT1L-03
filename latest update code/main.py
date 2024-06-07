@@ -21,8 +21,8 @@ class Interface:
         # Load images
         startstatic_img = pygame.image.load('images/button/start_static.png')
         starthover_img = pygame.image.load('images/button/start_hover.png')
-        quitstatic_img = pygame.image.load('images/button/quit_static.png')
-        quithover_img = pygame.image.load('images/button/quit_hover.png')
+        quitstatic_img = pygame.image.load('images/button/quit_interface_static.png')
+        quithover_img = pygame.image.load('images/button/quit_interface_hover.png')
         optionhover_img = pygame.image.load('images/button/opt_hover.png')
         optionstatic_img = pygame.image.load('images/button/opt_static.png')
 
@@ -275,9 +275,9 @@ class Game:
                 screen.blit(pause_surface, (0, 0))
                 draw_rounded_rect(screen, 'light grey', (475, 175, 700, 400), 50)
 
-                for message in messages:
-                    text_surface = font.render(message["text"], True, message["color"])
-                    screen.blit(text_surface, message["position"])
+                for info in pause_info:
+                    text_surface = pause_font.render(info["text"], True, info["color"])
+                    screen.blit(text_surface, info["position"])
 
 
                 if vol_up_button.draw(self.screen):

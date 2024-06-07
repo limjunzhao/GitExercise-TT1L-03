@@ -156,6 +156,7 @@ class NPC(Entity):
         self.npc_name = npc_name
         npc_info = npc_data[self.npc_name]
         self.greeting = npc_info.get('greeting')
+        self.rawr = npc_info.get('rawr')
         self.ask_who = npc_info.get('who')
         self.ask_where = npc_info.get('where')
         self.ask_what = npc_info.get('what')
@@ -286,32 +287,34 @@ class NPC(Entity):
                         self.skip = False
                         npc_index = i
                         NPC.interaction_counts[self.npc_name] += 1
-
-                        if self.npc_name == "Professor":
-                            # Specific interaction for the professor
-                            self.image_icon(self.display_surface, self.dialogue.speech_rect)
-                            self.draw()
-                            self.ask_professor_questions()
-
-
-                        elif self.npc_name != "Officer":
-                            # For regular NPCs, show dialogue and multiple-choice questions
-                            self.draw()
-                            for _ in range(3):
-                                self.dialogue_ques(self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
-                                self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
+                        if NPC.interaction_counts["Professor"] > 0:
+                            if self.npc_name == "Professor":
+                                # Specific interaction for the professor
+                                self.image_icon(self.display_surface, self.dialogue.speech_rect)
+                                self.draw()
+                                self.ask_professor_questions()
 
 
-                        elif self.npc_name == 'Officer':
-                            self.image_icon(self.display_surface, self.dialogue.speech_rect)
-                            self.draw()
-                            # For the 'office' NPC, check if interactions with all NPCs have occurred
-                            if all(count > 0 for count in self.interaction_counts.values()):
-                                self.execution.identify_killer(self.display_surface)
-                            else:
-                                self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
-                                pygame.time.wait(1000)  
+                            elif self.npc_name != "Officer":
+                                # For regular NPCs, show dialogue and multiple-choice questions
+                                self.draw()
+                                for _ in range(3):
+                                    self.dialogue_ques(self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
+                                    self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
 
+
+                            elif self.npc_name == 'Officer':
+                                self.image_icon(self.display_surface, self.dialogue.speech_rect)
+                                self.draw()
+                                # For the 'office' NPC, check if interactions with all NPCs have occurred
+                                if all(count > 0 for count in self.interaction_counts.values()):
+                                    self.execution.identify_killer(self.display_surface)
+                                else:
+                                    self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+                                    pygame.time.wait(1000)  
+                        else:
+                            self.dialogue.render_typewriter_npc_speech(self.display_surface, self.rawr, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+                            pygame.time.wait(1000)  
 
                             
             else:

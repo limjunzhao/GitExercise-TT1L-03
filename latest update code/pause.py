@@ -30,9 +30,9 @@ vol_mute_button = Button(200, 335, volmute_static, volmute_hover, (250, 85))
 back_button = Button(200, 415, back_static, back_hover, (250, 85))
 quit_button = Button(200, 495, quit_static, quit_hover, (250, 85))
 
-font = pygame.font.Font(None, 26)
+pause_font = pygame.font.Font(None, 26)
 
-messages = [
+pause_info = [
     {"text": "Instructions:", "color": (0, 0, 0), "position": (500, 195)},
     {"text": "Graduate from dino school to learn their language ", "color": (0, 0, 0), "position": (500, 225)},
     {"text": "Interact with all the villagers", "color": (0, 0, 0), "position": (500, 255)},
