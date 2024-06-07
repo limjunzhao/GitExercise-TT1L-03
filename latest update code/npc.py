@@ -137,7 +137,6 @@ class Execution():
 
 
 
-
 class NPC(Entity):
     interaction_counts = {npc: 0 for npc in npc_data}
 

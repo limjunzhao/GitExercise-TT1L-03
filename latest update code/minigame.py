@@ -35,7 +35,6 @@ class Jumbleword(Entity):
         self.love_letter_image = pygame.transform.scale(self.love_letter_image, (WIDTH, HEIGHT))
         self.love_letter_image_rect = self.love_letter_image.get_rect(center=  (WIDTH // 2, HEIGHT // 2))
 
-
     
     # Functions
     def display_word(self):
@@ -60,12 +59,11 @@ class Jumbleword(Entity):
         self.display_surface.blit(self.hint_instruction_surface, self.hint_instruction_rect)
 
     def new_word(self):
-        # global self.word, jumbled_word
         self.word = random.choice(list(word_hints.keys()))
         self.jumbled_word = ''.join(random.sample(self.word, len(self.word)))
 
     def check_answer(self, answer):
-        # global score
+
         if answer.upper() == self.word:
             if self.score < 5:
                 self.score += 1
@@ -127,7 +125,7 @@ class Jumbleword(Entity):
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         running = False
-                        # return True
+                        return 
 
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
@@ -138,8 +136,8 @@ class Jumbleword(Entity):
                 self.display_instructions_screen()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                       running = False
-                    #    return True
+                        running = False
+                        return 
 
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
@@ -152,11 +150,12 @@ class Jumbleword(Entity):
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         running = False
-                        # return True
+                        return 
+
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
                             running = False
-                            # return True
+                            return 
                         elif event.key == pygame.K_RETURN:
                             if self.check_answer(self.input_text):
                                 self.input_text = ""
@@ -181,7 +180,7 @@ class Jumbleword(Entity):
 
                 # Draw a semi-transparent box
                 self.overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
-                self.rect = pygame.draw.rect(self.overlay, SEMI_TRANSPARENT_BLACK, (50, 150, WIDTH - 100, 300), border_radius=10)
+                self.rect = pygame.draw.rect(self.overlay, SEMI_TRANSPARENT_BLACK, (50, 150, WIDTH - 100, 300), border_radius = 10)
                 self.display_surface.blit(self.overlay, (0, 0))
 
                 self.display_instructions()
@@ -209,21 +208,18 @@ class Jumbleword(Entity):
                         self.text_surface = love_letter_font.render(message["text"], True, message["color"])
                         self.display_surface.blit(self.text_surface, message["position"])
 
-                pygame.display.flip()
+            pygame.display.flip()
 
 
 
     def loveletter_collision(self, player): 
       if player.hitbox.colliderect (self.rect): 
-        self.running()
-
-        # return True
-          
+            self.running()
 
 
     def loveletter_update(self, player): 
         self.loveletter_collision(player)
-
+        return
 
 
 class Morsecode:
@@ -362,8 +358,8 @@ class Morsecode:
           for event in pygame.event.get():
               if event.type == pygame.QUIT:
                   running = False
-
                   return
+
               elif event.type == pygame.KEYDOWN:
                   if event.key == pygame.K_BACKSPACE:
                       if len(self.current_input) > 0:
@@ -385,8 +381,8 @@ class Morsecode:
                               # If all questions are answered, end the game
                               pygame.time.wait(2000)
                               running = False
-
                               return
+                              
                       else:
                           self.current_input = ''  # Clear input box on incorrect answer
                       # Reset cursor position

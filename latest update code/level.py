@@ -76,7 +76,7 @@ class Level:
 							decor_index = int(col) 
 							if 0 <= decor_index < len(graphics['decors']):
 								decor_img = graphics['decors'][decor_index]
-								Tile((x,y),[self.visible_sprites],'decor',decor_img)
+								Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'decor',decor_img)
 				
 								
 
