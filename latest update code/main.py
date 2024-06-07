@@ -244,33 +244,14 @@ class Game:
         self.main_menu = self.interface.main_menu()   
         self.music_sfx = pygame.mixer.Sound("images/music/background_music.mp3")
         self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
+        self.spawn_sfx = pygame.mixer.Sound("images/music/Voicy_Undertale Spawn.mp3")  # spawn sound
         self.vol = 0.1
         self.music_sfx.play(loops = -1)
         self.music_sfx.set_volume(self.vol)
 
-        # Congratulations message surface
-        self.congratulations_surface = pygame.Surface((WIDTH, HEIGHT))
-        self.congratulations_image = pygame.image.load('images/background/background.jpg')
-        self.congratulations_image = pygame.transform.scale(self.congratulations_image, (WIDTH, HEIGHT))
-        self.congratulations_surface.blit(self.congratulations_image, (0, 0))
-        self.congratulations_text = self.interface.font.render("Congratulations! You Win!", True, WHITE)
-        self.congratulations_rect = self.congratulations_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
-        # Game over message surface
-        self.game_over_surface = pygame.Surface((WIDTH, HEIGHT))
-        self.game_over_image = pygame.image.load('images/background/background.jpg')
-        self.game_over_image = pygame.transform.scale(self.game_over_image, (WIDTH, HEIGHT))
-        self.game_over_surface.blit(self.game_over_image, (0, 0))
-        self.game_over_text = self.interface.font.render("Game Over! You Lose!", True, WHITE)
-        self.game_over_rect = self.game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
-        # Play again button
-        play_again_button_static = pygame.image.load('images/button/play_again.png')
-        play_again_button_hover = pygame.image.load('images/button/play_again_hover.png')
-        button_x = (WIDTH - play_again_button_static.get_width()) // 2 - 50
-        self.game_over_button = Button(button_x, HEIGHT * 0.7, play_again_button_static, play_again_button_hover,(200, 100))
-
-    def run_game(self, background_x):
+    def run_game(self):
         pause = False 
 
         # Play spawn sound effect
@@ -284,13 +265,13 @@ class Game:
                     sys.exit()
 
 
-                elif event.type == pygame.KEYDOWN:
-                    if all(count > 0 for count in NPC.interaction_counts.values()):
-                        if event.key == pygame.K_a:
-                            self.display_congratulations()
-                        elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
-                            self.display_game_over()
-                            return "game_over"
+                # elif event.type == pygame.KEYDOWN:
+                #     if all(count > 0 for count in NPC.interaction_counts.values()):
+                #             if event.key == pygame.K_a:
+                #                 self.display_congratulations()
+                #             elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
+                #                 self.display_game_over()
+                #                 # return "game_over"
                    
                         
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
@@ -337,26 +318,7 @@ class Game:
             pygame.display.update()
             clock.tick(FPS)
 
-    def display_congratulations(self):
-        self.screen.blit(self.congratulations_surface, (0, 0))
-        self.screen.blit(self.congratulations_text, self.congratulations_rect)
-        pygame.display.flip()
-        pygame.time.delay(2000)
-        pygame.quit()
-        sys.exit()  
-
-    def display_game_over(self):
-        while True:
-            self.screen.blit(self.game_over_surface, (0, 0))
-            self.screen.blit(self.game_over_text, self.game_over_rect)
-            if self.game_over_button.draw(self.screen):
-                self.button_sfx.play()
-                return "play_again"
-            pygame.display.flip()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+    
 
     def adjust_volume(self, vol_change):
         self.vol += vol_change 
@@ -368,12 +330,12 @@ class Game:
             if self.main_menu == "start":
                 action = self.interface.story_info()
                 if action == "start_game":
-                    result = self.run_game(background_x=0)  # Pass the required argument
+                    result = self.run_game()  # Pass the required argument
                     if result == "play_again":
                         continue  # Restart the game loop
-                    elif result == "game_over":
-                        self.display_game_over()
-                        break  # Exit the loop if the player chooses not to play again
+                    # elif result == "game_over":
+                    #     self.display_game_over()
+                    #     break  # Exit the loop if the player chooses not to play again
             elif self.main_menu == "quit":
                 pygame.quit()
                 sys.exit()

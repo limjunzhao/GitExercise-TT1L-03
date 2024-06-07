@@ -3,7 +3,7 @@ from settings import *
 from entity import Entity
 from support import * 
 from minigame import Morsecode
-
+from button import Button
 
 
 class Dialogue(): 
@@ -101,7 +101,7 @@ class Dialogue():
                     
                 pygame.display.flip()
                 clock.tick(20)
-            
+            pygame.time.wait(1000)
         
         
 
@@ -120,6 +120,29 @@ class Dialogue():
 class Execution():
     def __init__(self):
         self.dialogue = Dialogue()
+        self.font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
+
+          # Congratulations message surface
+        self.congratulations_surface = pygame.Surface((WIDTH, HEIGHT))
+        self.congratulations_image = pygame.image.load('images/background/background.jpg')
+        self.congratulations_image = pygame.transform.scale(self.congratulations_image, (WIDTH, HEIGHT))
+        self.congratulations_surface.blit(self.congratulations_image, (0, 0))
+        self.congratulations_text = self.font.render("Congratulations! You Win!", True, WHITE)
+        self.congratulations_rect = self.congratulations_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+
+        # Game over message surface
+        self.game_over_surface = pygame.Surface((WIDTH, HEIGHT))
+        self.game_over_image = pygame.image.load('images/background/background.jpg')
+        self.game_over_image = pygame.transform.scale(self.game_over_image, (WIDTH, HEIGHT))
+        self.game_over_surface.blit(self.game_over_image, (0, 0))
+        self.game_over_text = self.font.render("Game Over! You Lose!", True, WHITE)
+        self.game_over_rect = self.game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+
+        # Play again button
+        play_again_button_static = pygame.image.load('images/button/play_again.png')
+        play_again_button_hover = pygame.image.load('images/button/play_again_hover.png')
+        button_x = (WIDTH - play_again_button_static.get_width()) // 2 - 50
+        self.game_over_button = Button(button_x, HEIGHT * 0.7, play_again_button_static, play_again_button_hover,(200, 100))
 
     def identify_killer(self,screen):
         killer_dialogue = "Who do you think is the killer?\n A. Maria\n B. Willie\n C. Amber\n D. Officer Marlowe"
@@ -134,6 +157,27 @@ class Execution():
         self.dialogue.render_typewriter_new_text(screen, "Congratulations! You've identified the killer!", BLACK, self.dialogue.speech_rect, SPEECH_FONT)
         pygame.quit()
         sys.exit()
+
+    def display_congratulations(self,screen):
+        screen.blit(self.congratulations_surface, (0, 0))
+        screen.blit(self.congratulations_text, self.congratulations_rect)
+        pygame.display.flip()
+        pygame.time.delay(2000)
+        pygame.quit()
+        sys.exit()  
+
+    def display_game_over(self,screen):
+        while True:
+            screen.blit(self.game_over_surface, (0, 0))
+            screen.blit(self.game_over_text, self.game_over_rect)
+            if self.game_over_button.draw(screen):
+                self.button_sfx.play()
+                return "play_again"
+            pygame.display.flip()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
 
 
@@ -198,33 +242,28 @@ class NPC(Entity):
 
     def draw(self):
             self.name_surface = FONT_NAME.render(self.npc_name, True, WHITE)
-            self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 30, self.dialogue.speech_rect.y - 20))
+            self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 50, self.dialogue.speech_rect.y - 20))
             self.display_surface.blit(self.name_surface, self.name_rect)
 
     def image_icon (self, screen, rect):
         self.icon_surface = pygame.image.load(self.icon).convert_alpha()
-        # self.icon_enlarge = pygame.transform.scale(self.icon_surface, (45,51))
-        self.icon_rect = self.icon_surface.get_rect(topleft = (self.dialogue.speech_rect.x , self.dialogue.speech_rect.y - 20))
+        self.icon_surface = pygame.transform.scale2x(self.icon_surface)
+        self.icon_rect = self.icon_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 10  , self.dialogue.speech_rect.y - 40))
         screen.blit(self.icon_surface, self.icon_rect)
 
-    def dialogue_ques (self, screen, rect, font): 
-        if self.question: 
-            self.dialogue.render_instant_npc_speech(screen, self.ques, BLACK, rect, font)
 
     def multiple_choice(self, dialogue_where, dialogue_who, dialogue_what, screen, rect, font):
         self.question = True
         for event in pygame.event.get():
             for name in npc_data:
-                if self.npc_name == name and event.type == pygame.KEYDOWN:
+                if self.npc_name == name and event.type == pygame.KEYDOWN: 
                     if event.key == pygame.K_a:  # Ask where
                         self.dialogue.render_typewriter_npc_speech(screen, dialogue_where, BLACK, rect, font)
-                        pygame.time.wait(1000)
                     elif event.key == pygame.K_b:  # Ask who
                         self.dialogue.render_typewriter_npc_speech(screen, dialogue_who, BLACK, rect, font)
-                        pygame.time.wait(1000)
                     elif event.key == pygame.K_c:  # Ask what
                         self.dialogue.render_typewriter_npc_speech(screen, dialogue_what, BLACK, rect, font)
-                        pygame.time.wait(1000)
+
                     if event.key == pygame.K_TAB:  # Escape dialogue
                         self.question = False
 
@@ -297,10 +336,12 @@ class NPC(Entity):
 
                             elif self.npc_name != "Officer":
                                 # For regular NPCs, show dialogue and multiple-choice questions
+                                self.image_icon(self.display_surface, self.dialogue.speech_rect)
                                 self.draw()
                                 for _ in range(3):
-                                    self.dialogue_ques(self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
-                                    self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
+                                    if self.question: 
+                                        self.dialogue.render_instant_npc_speech(self.display_surface, self.ques, BLACK,self.dialogue.speech_rect, SPEECH_FONT)
+                                        self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
 
 
                             elif self.npc_name == 'Officer':
@@ -309,9 +350,17 @@ class NPC(Entity):
                                 # For the 'office' NPC, check if interactions with all NPCs have occurred
                                 if all(count > 0 for count in self.interaction_counts.values()):
                                     self.execution.identify_killer(self.display_surface)
+                                    for event in pygame.event.get():
+                                        if event.type == pygame.KEYDOWN:
+                                            if all(count > 0 for count in NPC.interaction_counts.values()):
+                                                    if event.key == pygame.K_a:
+                                                        self.execution.display_congratulations(self.display_surface)
+                                                    elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
+                                                        self.execution.display_game_over(self.display_surface)
                                 else:
                                     self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                                     pygame.time.wait(1000)  
+
                         else:
                             self.dialogue.render_typewriter_npc_speech(self.display_surface, self.rawr, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                             pygame.time.wait(1000)  
