@@ -2,6 +2,7 @@ import pygame , sys
 from settings import *
 from entity import Entity
 from support import * 
+from morsecode import Morsecode
 
 
 
@@ -151,7 +152,8 @@ class NPC(Entity):
         #import Dialogue and Exucution 
         self.dialogue = Dialogue()
         self.execution = Execution()
-        
+        self.morsecode = Morsecode()
+
         #stats  
         self.npc_name = npc_name
         npc_info = npc_data[self.npc_name]
@@ -162,7 +164,7 @@ class NPC(Entity):
         self.icon = npc_info.get('img')
 
         self.ques = npc_ques
-        self.test = test
+  
        
         self.status = 'idle'
         self.image = pygame.Surface((16,16))
@@ -274,6 +276,7 @@ class NPC(Entity):
                             self.image_icon(self.display_surface, self.dialogue.speech_rect)
                             self.draw()
                             self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+                            self.morsecode.running()
                             pygame.time.wait(1000) 
                             
             else:

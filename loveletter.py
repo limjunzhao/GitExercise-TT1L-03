@@ -156,6 +156,7 @@ while running:
                 if event.key == pygame.K_RETURN:
                     show_initial_screen = False
                     show_instructions_screen = True
+                    
     elif show_instructions_screen:
         display_instructions_screen()
         for event in pygame.event.get():

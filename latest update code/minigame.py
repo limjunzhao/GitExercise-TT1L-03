@@ -4,16 +4,17 @@ import random
 import time 
 from entity import Entity
 
-class Minigame(Entity):
+class Jumbleword(Entity):
     def __init__ (self, pos, groups, obstacle_sprites): 
         super().__init__(groups)
       #display 
         pygame.init()
         self.display_surface = pygame.display.get_surface()
+        
 
         #general setup
         self.sprite_type = 'loveletter'
-        self.image = pygame.Surface((16,16))
+        self.image = pygame.image.load('sprites sheet for maps/Terrains/12.png').convert_alpha()
         self.rect = self.image.get_rect(topleft = pos)
         self.obstacle_sprites = obstacle_sprites
 
@@ -61,7 +62,7 @@ class Minigame(Entity):
     def new_word(self):
         # global self.word, jumbled_word
         self.word = random.choice(list(word_hints.keys()))
-        jumbled_word = ''.join(random.sample(self.word, len(self.word)))
+        self.jumbled_word = ''.join(random.sample(self.word, len(self.word)))
 
     def check_answer(self, answer):
         # global score
@@ -81,19 +82,29 @@ class Minigame(Entity):
         self.initial_text2 = instruction_font.render("Welcome to the Love Letter Minigame!", True, WHITE)
         self.initial_text_rect2 = self.initial_text2.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 100))  # Adjusted position
         self.display_surface.blit(self.initial_text2, self.initial_text_rect2)
+
+        pygame.display.update()
+
+    def display_instructions_screen(self):
+        self.display_surface.blit(self.background_image, (0, 0))
+        self.instructions_header = instruction_font.render("Instructions:", True, WHITE)
+        self.instructions_header_rect = self.instructions_header.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 80))
+        self.display_surface.blit(self.instructions_header, self.instructions_header_rect)
+
+        instruction_text = [
+            "1. This is a jumbled-word minigame.",
+            "2. Answers can be found in the storyline.",
+            "3. New words will not display until you get it correctly."
+        ]
+        for i, text in enumerate(instruction_text):
+            self.instruction_surface = instruction_font.render(text, True, WHITE)
+            self.instruction_rect = self.instruction_surface.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 40 + (i * 30)))  # Adjusted position
+            self.display_surface.blit(self.instruction_surface, self.instruction_rect)
         
-        self.initial_text3 = instruction_font.render("1. This is a jumbled-word minigame.", True, WHITE)
-        self.initial_text_rect3 = self.initial_text3.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 40))  # Adjusted position
-        self.display_surface.blit(self.initial_text3, self.initial_text_rect3)
-        
-        self.initial_text4 = instruction_font.render("2. Answers can be found in the storyline.", True, WHITE)
-        self.initial_text_rect4 = self.initial_text4.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 10))  # Adjusted position
-        self.display_surface.blit(self.initial_text4, self.initial_text_rect4)
-        
-        self.initial_text5 = instruction_font.render("3. New words will not display until you get it correctly.", True, WHITE)
-        self.initial_text_rect5 = self.initial_text5.get_rect(center=(WIDTH / 2, HEIGHT / 2 + 20))  # Adjusted position
-        self.display_surface.blit(self.initial_text5, self.initial_text_rect5)
-        
+        self.start_game_text = instruction_font.render("Press Enter to start the game", True, WHITE)
+        self.start_game_rect = self.start_game_text.get_rect(center=(WIDTH / 2, HEIGHT - 100))
+        self.display_surface.blit(self.start_game_text, self.start_game_rect)
+
         pygame.display.update()
 
     def display_hint(self):
@@ -105,87 +116,112 @@ class Minigame(Entity):
     
     def running (self): 
         running = True
+        self.show_initial_screen = True
+        self.show_love_letter = False
+        self.hint_active = False
+
         while running:  
-          if self.show_initial_screen:
-              self.display_initial_screen()
-              for event in pygame.event.get():
-                  if event.type == pygame.QUIT:
-                      running = False
-                  elif event.type == pygame.KEYDOWN:
-                      if event.key == pygame.K_RETURN:
-                          self.show_initial_screen = False
-                          # Reset score and show_love_letter flag when starting a new game
-                          self.score = 0
-                          self.show_love_letter = False
-          else:
-              self.display_surface.blit(self.background_image, (0, 0))
+            
+            if self.show_initial_screen:
+                self.display_initial_screen()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        running = False
+                        # return True
 
-              # Check for events
-              for event in pygame.event.get():
-                  if event.type == pygame.QUIT:
-                      running = False
-                  elif event.type == pygame.KEYDOWN:
-                      if event.key == pygame.K_ESCAPE:
-                          running = False
-                      elif event.key == pygame.K_RETURN:
-                          if self.check_answer(self.input_text):
-                              self.input_text = ""
-                              # Check if the score reaches 5 to show the love letter
-                              if self.score == 3:
-                                  self.show_love_letter = True
-                      elif event.key == pygame.K_BACKSPACE:
-                          # Handle backspace to delete characters from input_text
-                          self.input_text = self.input_text[:-1]
-                      elif event.key in (pygame.K_SPACE, pygame.K_MINUS):
-                          # Handle space and minus key for multi-word inputs
-                          self.input_text += " "
-                      elif event.key in range(pygame.K_a, pygame.K_z + 1):
-                          # Handle typing letters
-                          self.input_text += event.unicode
-                      elif event.key == pygame.K_TAB:
-                          # Activate hint
-                          self.hint_active = True
-                          self.hint_start_time = time.time()
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
+                            self.show_initial_screen = False
+                            self.show_instructions_screen = True
 
-              # Draw a semi-transparent box
-              self.overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
-              self.rect = pygame.draw.rect(self.overlay, SEMI_TRANSPARENT_BLACK, (50, 150, WIDTH - 100, 300), border_radius=10)
-              self.display_surface.blit(self.overlay, (0, 0))
+            elif self.show_instructions_screen:
+                self.display_instructions_screen()
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                       running = False
+                    #    return True
 
-              self.display_instructions()
-              self.display_word()
-              self.display_score()
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
+                            self.show_instructions_screen = False
+                            
+            else:
+                self.display_surface.blit(self.background_image, (0, 0))
 
-              # Render input text in white
-              self.input_surface = font.render(self.input_text, True, WHITE)
-              self.input_rect = self.input_surface.get_rect(midtop=(WIDTH / 2, HEIGHT / 2 + 60))
-              self.display_surface.blit(self.input_surface, self.input_rect)
+                # Check for events
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        running = False
+                        # return True
+                    elif event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_ESCAPE:
+                            running = False
+                            # return True
+                        elif event.key == pygame.K_RETURN:
+                            if self.check_answer(self.input_text):
+                                self.input_text = ""
+                                
+                                # Check if the score reaches 5 to show the love letter
+                                if self.score == 5:
+                                    self.show_love_letter = True
 
-              # Draw line under input text
-              pygame.draw.line(self.display_surface, WHITE, (self.input_rect.left, self.input_rect.bottom + 10), (self.input_rect.right, self.input_rect.bottom + 10), 2)
+                        elif event.key == pygame.K_BACKSPACE:
+                            # Handle backspace to delete characters from input_text
+                            self.input_text = self.input_text[:-1]
+                        elif event.key in (pygame.K_SPACE, pygame.K_MINUS):
+                            # Handle space and minus key for multi-word inputs
+                            self.input_text += " "
+                        elif event.key in range(pygame.K_a, pygame.K_z + 1):
+                            # Handle typing letters
+                            self.input_text += event.unicode
+                        elif event.key == pygame.K_TAB:
+                            # Activate hint
+                            self.hint_active = True
+                            self.hint_start_time = time.time()
 
-              # Display hint if active
-              if self.hint_active:
-                  self.display_hint()
-                  if time.time() - self.hint_start_time > 3:
-                      self.hint_active = False
+                # Draw a semi-transparent box
+                self.overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+                self.rect = pygame.draw.rect(self.overlay, SEMI_TRANSPARENT_BLACK, (50, 150, WIDTH - 100, 300), border_radius=10)
+                self.display_surface.blit(self.overlay, (0, 0))
 
-              # Display love letter only when score is 5
-              if self.show_love_letter:
-                  self.display_surface.blit(self.love_letter_image, self.love_letter_image_rect)
-                  for message in messages:
-                      self.text_surface = love_letter_font.render(message["text"], True, message["color"])
-                      self.display_surface.blit(self.text_surface, message["position"])
+                self.display_instructions()
+                self.display_word()
+                self.display_score()
 
-              pygame.display.update()
+                # Render input text in white
+                self.input_surface = font.render(self.input_text, True, WHITE)
+                self.input_rect = self.input_surface.get_rect(midtop=(WIDTH / 2, HEIGHT / 2 + 60))
+                self.display_surface.blit(self.input_surface, self.input_rect)
+
+                # Draw line under input text
+                pygame.draw.line(self.display_surface, WHITE, (self.input_rect.left, self.input_rect.bottom + 10), (self.input_rect.right, self.input_rect.bottom + 10), 2)
+
+                # Display hint if active
+                if self.hint_active:
+                    self.display_hint()
+                    if time.time() - self.hint_start_time > 3:
+                        self.hint_active = False
+
+                # Display love letter only when score is 5
+                if self.show_love_letter:
+                    self.display_surface.blit(self.love_letter_image, self.love_letter_image_rect)
+                    for message in messages:
+                        self.text_surface = love_letter_font.render(message["text"], True, message["color"])
+                        self.display_surface.blit(self.text_surface, message["position"])
+
+                pygame.display.flip()
+
 
 
     def loveletter_collision(self, player): 
       if player.hitbox.colliderect (self.rect): 
         self.running()
+
+        # return True
           
 
 
     def loveletter_update(self, player): 
         self.loveletter_collision(player)
+
     

@@ -6,7 +6,7 @@ from camera import CameraGroup
 from support import *
 from random import choice
 from npc import NPC 	
-from minigame import Minigame
+from minigame import Jumbleword
 
 
 class Level:
@@ -70,8 +70,7 @@ class Level:
 
 						if style == 'loveletter':
 							if col == '267': 
-								Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'loveletter')
-								Minigame((x,y),[self.visible_sprites],self.obstacle_sprites)
+								Jumbleword((x,y),[self.visible_sprites],self.obstacle_sprites)
 
 						if style == 'decor':
 							decor_index = int(col) 

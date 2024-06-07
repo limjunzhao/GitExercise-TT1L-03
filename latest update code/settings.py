@@ -7,32 +7,44 @@ WIDTH    = 1280
 HEIGHT   = 720
 FPS      = 60
 TILESIZE = 16
+
+#color
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 GREY = (128,128,128)
+GREEN = (0, 255, 0)  # Green text for correct!
+RED = (255, 0, 0)  # Red text for incorrect
+
 FONT_SIZE = 35
 clock = pygame.time.Clock()
 speech_text = ""
 BG = (50, 50, 50)
 
+#morse code mini game 
+FONT_SIZE_GAME = 24
+font_game = pygame.font.Font(None, FONT_SIZE_GAME)
+NOTES_WIDTH = 300
+X_OFFSET_RIGHT = 160  # Adjust this value to control the right offset for letters T-Z
 
 SEMI_TRANSPARENT_BLACK = (0, 0, 0, 128)
 
-# Fonts
+# Fonts dialogue
 FONT = pygame.font.SysFont(None, 24)
 FONT_NAME = pygame.font.SysFont(None, 30)
 SPEECH_FONT = pygame.font.SysFont(None, 28)
 
+# fonts jumblewords
 font = pygame.font.Font(None, 36)
 instruction_font = pygame.font.Font(None, 24)
 score_font = pygame.font.Font(None, 24)
 
+#fonts loveletter
 cursive_font_path = 'images/loveletter/font/GreatVibes-Regular.ttf'  # Path to the cursive font file
 love_letter_font = pygame.font.Font(cursive_font_path, 22)  # Load cursive font
 
 
 
-
+#npc dino dialogue info
 npc_data = {
     'Maria': {'who': "In the morning, I made breakfast for my husband...",
                 'where' : 'ahdfjkhjksafjkahdf', 
@@ -73,8 +85,8 @@ npc_data = {
 
 }
 
+#npc dialogue question ask
 npc_ques =  ' A. Where you at last night? \n B. Who are you, whats your name? \n C. What did you do last night?'
-test = 'halo halo halo halo halo halo halo halo halo'
 
 
 # Messages to display
@@ -104,3 +116,21 @@ word_hints = {
 
 }
 
+# Morse code dictionary
+MORSE_CODE_DICT = {
+    'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.',
+    'F': '..-.', 'G': '--.', 'H': '....', 'I': '..', 'J': '.---',
+    'K': '-.-', 'L': '.-..', 'M': '--', 'N': '-.', 'O': '---',
+    'P': '.--.', 'Q': '--.-', 'R': '.-.', 'S': '...', 'T': '-',
+    'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-', 'Y': '-.--',
+    'Z': '--..',
+} 
+
+
+ms_questions = [
+          ("Translate 'HELLO' to Morse Code", ".... . .-.. .-.. ---"),
+          ("Translate 'WORLD' to Morse Code", ".-- --- .-. .-.. -.."),
+          ("Translate 'PYTHON' to Morse Code", ".--. -.-- - .... --- -."),
+          ("Translate 'GAME' to Morse Code", "--. .- -- ."),
+          ("Translate 'OPENAI' to Morse Code", "--- .--. . -. .- ..")
+      ]

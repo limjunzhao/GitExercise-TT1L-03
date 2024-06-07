@@ -26,6 +26,7 @@ class Player(Entity):
 			full_path = character_path + animation
 			self.animations[animation] = import_folder(full_path)
 		print(self.animations[animation])
+		
 	def input(self): 
 		keys = pygame.key.get_pressed()
 

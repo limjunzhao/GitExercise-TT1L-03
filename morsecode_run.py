@@ -38,7 +38,7 @@ pygame.display.set_caption('Morse Code Minigame')
 font = pygame.font.Font(None, FONT_SIZE)
 
 # Load the start screen image and scale it to fill the window
-start_screen_image = pygame.image.load('images/minigame/library.jpeg')
+start_screen_image = pygame.image.load('library.jpeg')
 start_screen_image = pygame.transform.scale(start_screen_image, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 # Display instructions to start the game

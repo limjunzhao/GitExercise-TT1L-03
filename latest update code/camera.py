@@ -70,3 +70,4 @@ class CameraGroup (pygame.sprite.Group):
           loveletter.loveletter_update(player)
 
 
+
