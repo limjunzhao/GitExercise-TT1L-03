@@ -47,51 +47,50 @@ class Level:
 			for row_index,row in enumerate(layout): #this is to check the row and helps to coordinates the pos.y
 				for col_index, col in enumerate(row): #check each of the column elements (x,p or empty) and helps to coordinate pos.x
 					if col != '-1':
-						x = col_index * TILESIZE #multiply the col and row with the size of our tile so that it can fit
-						y = row_index * TILESIZE
-						if style == 'boundary':
-							Tile((x,y),[self.obstacle_sprites], 'invisible ')	
+							x = col_index * TILESIZE #multiply the col and row with the size of our tile so that it can fit
+							y = row_index * TILESIZE
+							if style == 'boundary':
+								Tile((x,y),[self.obstacle_sprites], 'invisible ')	
 
-						if style == 'tree':
-							tree_index = int(col) 
-							if 0 <= tree_index < len(graphics['trees']):
-								tree_img = graphics['trees'][tree_index]
-								Tile((x,y),[self.visible_sprites],'tree',tree_img)
+							if style == 'tree':
+								tree_index = int(col) 
+								if 0 <= tree_index < len(graphics['trees']):
+									tree_img = graphics['trees'][tree_index]
+									Tile((x,y),[self.visible_sprites],'tree',tree_img)
 
-						if style == 'rock':
-							random_rock_image = choice(graphics['rocks'])
-							 
-
-						if style == 'house':
-							house_index = int(col) 
-							if 0 <= house_index < len(graphics['houses']):
-								house_img = graphics['houses'][house_index]
-								Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house',house_img)
-
-						if style == 'loveletter':
-							if col == '267': 
-								Jumbleword((x,y),[self.visible_sprites],self.obstacle_sprites)
-
-						if style == 'decor':
-							decor_index = int(col) 
-							if 0 <= decor_index < len(graphics['decors']):
-								decor_img = graphics['decors'][decor_index]
-								Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'decor',decor_img)
-				
+							if style == 'rock':
+								random_rock_image = choice(graphics['rocks'])
 								
 
+							if style == 'house':
+								house_index = int(col) 
+								if 0 <= house_index < len(graphics['houses']):
+									house_img = graphics['houses'][house_index]
+									Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house',house_img)
 
-						if style == 'entities': 
-							if col == '771':
-								self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
+							if style == 'decor':
+								decor_index = int(col) 
+								if 0 <= decor_index < len(graphics['decors']):
+									decor_img = graphics['decors'][decor_index]
+									Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'decor',decor_img)
+					
+									
+							if style == 'loveletter':
+								if col == '267': 
+									Jumbleword((x,y),[self.visible_sprites],self.obstacle_sprites)
+									
 
-							else: 
-								if col == '0': npc_name = 'Maria'
-								elif col == '1': npc_name ='Willie'
-								elif col == '2': npc_name = 'Amber'
-								elif col == '4': npc_name ='Professor'
-								else: npc_name = 'Officer'
-								NPC(npc_name, (x,y), 'speech', [self.visible_sprites],self.obstacle_sprites)
+							if style == 'entities': 
+								if col == '771':
+									self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
+
+								else: 
+									if col == '0': npc_name = 'Maria'
+									elif col == '1': npc_name ='Willie'
+									elif col == '2': npc_name = 'Amber'
+									elif col == '4': npc_name ='Professor'
+									else: npc_name = 'Officer'
+									NPC(npc_name, (x,y), 'speech', [self.visible_sprites],self.obstacle_sprites)
 		
 						
 				

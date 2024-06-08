@@ -196,6 +196,7 @@ class NPC(Entity):
         self.execution = Execution()
         self.npc_speed = 0.1
         self.morsecode = Morsecode()
+        
         # Stats  
         self.npc_name = npc_name
         npc_info = npc_data[self.npc_name]
@@ -205,9 +206,8 @@ class NPC(Entity):
         self.ask_where = npc_info.get('where')
         self.ask_what = npc_info.get('what')
         self.icon = npc_info.get('img')
-
         self.ques = npc_ques
-  
+        self.congrats = prof_congrats
        
         self.status = 'idle'
         self.image = pygame.Surface((16,16))
@@ -215,6 +215,7 @@ class NPC(Entity):
         self.hitbox = self.rect.inflate(0, -10)
         self.obstacle_sprites = obstacle_sprites
 
+        self.win_game = False #Check win morsecode minigame 
         self.speech_shown = False  # Flag to track if speech is currently shown
         self.question = True  # ans will be false 
         self.skip = False
@@ -292,13 +293,16 @@ class NPC(Entity):
 
             # Wait for the player's response
             response = self.wait_for_player_response()
+ 
 
             # Handle the response
             if response == 'A':
                 print('yay')
                 self.question = False
-                self.morsecode.running()
-
+                if self.morsecode.run() == 'Complete test':
+                    self.win_game = True
+                    return
+                        
             elif response == 'B':
                 print('your loss lol')
                 self.question = False
@@ -326,15 +330,17 @@ class NPC(Entity):
                         self.skip = False
                         npc_index = i
                         NPC.interaction_counts[self.npc_name] += 1
-                        if NPC.interaction_counts["Professor"] > 0:
+                        if self.win_game:
+                            
                             if self.npc_name == "Professor":
                                 # Specific interaction for the professor
                                 self.image_icon(self.display_surface, self.dialogue.speech_rect)
                                 self.draw()
-                                self.ask_professor_questions()
+                                print (self.win_game)
+                                self.dialogue.render_instant_npc_speech(self.display_surface, self.congrats, BLACK,self.dialogue.speech_rect, SPEECH_FONT)
 
 
-                            elif self.npc_name != "Officer":
+                            if self.npc_name != "Officer":
                                 # For regular NPCs, show dialogue and multiple-choice questions
                                 self.image_icon(self.display_surface, self.dialogue.speech_rect)
                                 self.draw()
@@ -344,7 +350,7 @@ class NPC(Entity):
                                         self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
 
 
-                            elif self.npc_name == 'Officer':
+                            if self.npc_name == 'Officer':
                                 self.image_icon(self.display_surface, self.dialogue.speech_rect)
                                 self.draw()
                                 # For the 'office' NPC, check if interactions with all NPCs have occurred
@@ -361,9 +367,18 @@ class NPC(Entity):
                                     self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                                     pygame.time.wait(1000)  
 
+
                         else:
-                            self.dialogue.render_typewriter_npc_speech(self.display_surface, self.rawr, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
-                            pygame.time.wait(1000)  
+                            if self.npc_name == "Professor":
+                                self.ask_professor_questions()
+                                print (self.win_game)
+                                if self.morsecode.run == 'Complete test':
+                                    self.win_game = True
+                                    return self.win_game 
+                                    
+                            else:
+                                self.dialogue.render_typewriter_npc_speech(self.display_surface, self.rawr, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+                                pygame.time.wait(1000)  
 
                             
             else:

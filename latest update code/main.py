@@ -219,10 +219,6 @@ class Interface:
 
 
 
-    def loveletter_collision(self, player): 
-      if player.hitbox.colliderect (self.rect): 
-          self.running(Game.screen)
-
 class Game:
     def __init__(self):
         # general setup
@@ -264,16 +260,7 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
-
-                # elif event.type == pygame.KEYDOWN:
-                #     if all(count > 0 for count in NPC.interaction_counts.values()):
-                #             if event.key == pygame.K_a:
-                #                 self.display_congratulations()
-                #             elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
-                #                 self.display_game_over()
-                #                 # return "game_over"
-                   
-                        
+        
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     pause = not pause  # Toggle the pause state
                     if not pause:
@@ -333,9 +320,7 @@ class Game:
                     result = self.run_game()  # Pass the required argument
                     if result == "play_again":
                         continue  # Restart the game loop
-                    # elif result == "game_over":
-                    #     self.display_game_over()
-                    #     break  # Exit the loop if the player chooses not to play again
+                    
             elif self.main_menu == "quit":
                 pygame.quit()
                 sys.exit()

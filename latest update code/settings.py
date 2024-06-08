@@ -75,8 +75,7 @@ npc_data = {
                 'where' : '', 
                 'what' : '',
                 "greeting": "Please help me find the killer before it's too late!",
-                'img':'sprites sheet for maps/sprites/characters/npc/officer/idle/0.png'
-,
+                'img':'sprites sheet for maps/sprites/characters/npc/officer/idle/0.png',
                 "rawr": "raaawr rawr"
             },
 
@@ -91,7 +90,7 @@ npc_data = {
 
 #npc dialogue question ask
 npc_ques =  ' A. Where were you you yesterday? \n B. Who are you, whats your name? \n C. What did you do last night?'
-
+prof_congrats = 'Congrats u graduate from Dino School'
 
 # Messages to display
 messages = [

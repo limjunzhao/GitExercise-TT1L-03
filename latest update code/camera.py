@@ -63,16 +63,10 @@ class CameraGroup (pygame.sprite.Group):
       for npcs in npc_sprites: 
         npcs.npc_update (player) 
 
-  # def loveletter_update(self, player):
-  #     loveletter_sprites = [sprite for sprite in self.sprites() if hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'loveletter']
-  #     for loveletter in loveletter_sprites:
-  #       if hasattr(loveletter, 'loveletter_update'):
-  #         loveletter.loveletter_update(player)
-
 
   def loveletter_update(self, player):
       # Filter the sprites to only include those with the sprite_type 'loveletter'
-      loveletter_sprites = [sprite for sprite in self.sprites() if getattr(sprite, 'sprite_type', None) == 'loveletter']
+      loveletter_sprites = [sprite for sprite in self.sprites() if getattr(sprite, 'sprite_type', 'mailbox') == 'loveletter']
       
       # Call the loveletter_update method on each loveletter sprite
       for loveletter in loveletter_sprites:
