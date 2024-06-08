@@ -162,7 +162,7 @@ class Interface:
         active_message = 0
         layer_counter = 0
         speed = 10  # Adjust the speed of typewriter effect
-        scroll_speed = 0.8  # Adjust the speed of background scrolling
+        scroll_speed = 0.4  # Adjust the speed of background scrolling
         background_x = 0  # Initialize background_x
 
         while True:
