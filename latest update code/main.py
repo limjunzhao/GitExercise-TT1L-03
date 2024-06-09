@@ -16,6 +16,7 @@ class Interface:
         self.vol = 0.1
         self.music_sfx.play(loops = -1)
         self.music_sfx.set_volume(self.vol)
+        self.button_sfx.set_volume(self.vol)
        
     def main_menu(self):
         # Load images
@@ -92,13 +93,18 @@ class Interface:
         vol_mute_button = Button(475, 400, volmute_static, volmute_hover, (250, 100))
         back_button = Button(5, 640, back_static, back_hover, (150, 80))
 
+        mute_clicked = False  # Flag to track if mute button is clicked
+
         while True:
             self.screen.fill('grey')
             self.screen.blit(background_image, (0, 0))
 
             if vol_up_button.draw(self.screen):
-                self.button_sfx.play()
-                self.adjust_volume(0.1)
+                if mute_clicked == False:
+                    self.button_sfx.play()
+                    self.adjust_volume(0.1)
+                else:
+                    mute_clicked = not mute_clicked
 
             if vol_down_button.draw(self.screen):
                 self.button_sfx.play()
@@ -106,11 +112,18 @@ class Interface:
 
             if vol_mute_button.draw(self.screen):
                 self.button_sfx.play()
-                self.music_sfx.set_volume(0)
+                mute_clicked = not mute_clicked  # Toggle the mute flag
 
             if back_button.draw(self.screen):
                 self.button_sfx.play()
-                return "back" # name option back button as back 
+                return "back"  # Return to main menu
+
+            # Mute the music if the mute button is clicked
+            if mute_clicked:
+                self.music_sfx.set_volume(0)
+            else:
+                self.music_sfx.set_volume(self.vol)  # Restore volume if not muted
+                self.button_sfx.set_volume(self.vol)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -162,7 +175,7 @@ class Interface:
         active_message = 0
         layer_counter = 0
         speed = 10  # Adjust the speed of typewriter effect
-        scroll_speed = 0.8  # Adjust the speed of background scrolling
+        scroll_speed = 0.4  # Adjust the speed of background scrolling
         background_x = 0  # Initialize background_x
 
         while True:
@@ -215,13 +228,10 @@ class Interface:
         self.vol += vol_change 
         self.vol = max(0.0, min(1.0, self.vol))
         self.music_sfx.set_volume(self.vol)
+        self.button_sfx.set_volume(self.vol)
 
 
 
-
-    def loveletter_collision(self, player): 
-      if player.hitbox.colliderect (self.rect): 
-          self.running(Game.screen)
 
 class Game:
     def __init__(self):
@@ -231,23 +241,24 @@ class Game:
         pygame.display.set_caption('Mystery Case')
         self.clock = pygame.time.Clock()
         
-        
         # bring the page here
         self.level = Level()
         self.camera_group = CameraGroup()
-        self.interface = Interface()
+        self.interface = Interface()  # Initialize Interface instance here
         self.dialogue = Dialogue()
         self.execution = Execution()
         
-
-         # main menu setup
+        # main menu setup
         self.main_menu = self.interface.main_menu()   
-        self.music_sfx = pygame.mixer.Sound("images/music/background_music.mp3")
+        # Use the music_sfx attribute from the Interface instance
+        self.music_sfx = self.interface.music_sfx
         self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
         self.spawn_sfx = pygame.mixer.Sound("images/music/Voicy_Undertale Spawn.mp3")  # spawn sound
         self.vol = 0.1
-        self.music_sfx.play(loops = -1)
+        self.button_sfx.play()
+        # self.spawn_sfx.play()  # Play spawn sound effect
         self.music_sfx.set_volume(self.vol)
+        self.button_sfx.set_volume(self.vol)
 
 
 
@@ -264,16 +275,7 @@ class Game:
                     pygame.quit()
                     sys.exit()
 
-
-                # elif event.type == pygame.KEYDOWN:
-                #     if all(count > 0 for count in NPC.interaction_counts.values()):
-                #             if event.key == pygame.K_a:
-                #                 self.display_congratulations()
-                #             elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
-                #                 self.display_game_over()
-                #                 # return "game_over"
-                   
-                        
+        
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                     pause = not pause  # Toggle the pause state
                     if not pause:
@@ -324,6 +326,7 @@ class Game:
         self.vol += vol_change 
         self.vol = max(0.0, min(1.0, self.vol))
         self.music_sfx.set_volume(self.vol)
+        self.button_sfx.set_volume(self.vol)
 
     def run_menu(self):
         while True:
@@ -333,9 +336,7 @@ class Game:
                     result = self.run_game()  # Pass the required argument
                     if result == "play_again":
                         continue  # Restart the game loop
-                    # elif result == "game_over":
-                    #     self.display_game_over()
-                    #     break  # Exit the loop if the player chooses not to play again
+                    
             elif self.main_menu == "quit":
                 pygame.quit()
                 sys.exit()
@@ -344,7 +345,15 @@ class Game:
                 option_action = self.interface.option()
                 if option_action == "back":
                     self.main_menu = self.interface.main_menu()
-
+    
+    def run(self):
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.running = False  # Exit the main game if ESC is pressed
 
 if __name__ == '__main__':
             game = Game()

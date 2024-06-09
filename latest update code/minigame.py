@@ -2,22 +2,14 @@ import pygame, sys
 from settings import * 
 import random
 import time 
-from entity import Entity
 
-class Jumbleword(Entity):
-    def __init__ (self, pos, groups, obstacle_sprites): 
-        super().__init__(groups)
-      #display 
-        pygame.init()
+
+class Jumbleword:
+    def __init__(self):
+        # Display
         self.display_surface = pygame.display.get_surface()
-        
 
-        #general setup
-        self.sprite_type = 'loveletter'
-        self.image = pygame.image.load('sprites sheet for maps/Terrains/12.png').convert_alpha()
-        self.rect = self.image.get_rect(topleft = pos)
-        self.obstacle_sprites = obstacle_sprites
-
+        # General setup
         self.word = random.choice(list(word_hints.keys()))
         self.jumbled_word = ''.join(random.sample(self.word, len(self.word)))
         self.score = 0
@@ -26,17 +18,15 @@ class Jumbleword(Entity):
         self.show_love_letter = False  # Flag to control when to show the love letter
         self.hint_active = False
         self.hint_start_time = 0
-        
+
         self.background_image = pygame.image.load('images/loveletter/pixel.png').convert()
         self.background_image = pygame.transform.scale(self.background_image, (WIDTH, HEIGHT))
 
         # Load love letter image
         self.love_letter_image = pygame.image.load('images/loveletter/love_letter_image.png').convert_alpha()
         self.love_letter_image = pygame.transform.scale(self.love_letter_image, (WIDTH, HEIGHT))
-        self.love_letter_image_rect = self.love_letter_image.get_rect(center=  (WIDTH // 2, HEIGHT // 2))
+        self.love_letter_image_rect = self.love_letter_image.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
-    
-    # Functions
     def display_word(self):
         self.text_surface = font.render(self.jumbled_word, True, WHITE)
         self.text_rect = self.text_surface.get_rect(center=(WIDTH / 2, HEIGHT / 2))
@@ -49,13 +39,13 @@ class Jumbleword(Entity):
 
     def display_instructions(self):
         self.instruction_surface = instruction_font.render("Type the correct word and press Enter to submit", True, WHITE)
-        self.instruction_rect = self.instruction_surface.get_rect(midtop=(WIDTH / 2, 200))  # Adjusted position
+        self.instruction_rect = self.instruction_surface.get_rect(midtop=(WIDTH / 2, 200))
         box_height = 300  # Height of the semi-transparent box
-        self.instruction_rect.y = 30 + (box_height - self.instruction_surface.get_height()) // 2  # Position significantly higher in the box
+        self.instruction_rect.y = 30 + (box_height - self.instruction_surface.get_height()) // 2
         self.display_surface.blit(self.instruction_surface, self.instruction_rect)
-        
+
         self.hint_instruction_surface = instruction_font.render("Press Tab for hint", True, WHITE)
-        self.hint_instruction_rect = self.hint_instruction_surface.get_rect(midtop=(WIDTH / 2, 250))  # Adjusted position
+        self.hint_instruction_rect = self.hint_instruction_surface.get_rect(midtop=(WIDTH / 2, 250))
         self.display_surface.blit(self.hint_instruction_surface, self.hint_instruction_rect)
 
     def new_word(self):
@@ -63,7 +53,6 @@ class Jumbleword(Entity):
         self.jumbled_word = ''.join(random.sample(self.word, len(self.word)))
 
     def check_answer(self, answer):
-
         if answer.upper() == self.word:
             if self.score < 5:
                 self.score += 1
@@ -76,12 +65,10 @@ class Jumbleword(Entity):
         self.initial_text1 = instruction_font.render("Press Enter to start the game", True, WHITE)
         self.initial_text_rect1 = self.initial_text1.get_rect(center=(WIDTH / 2, HEIGHT - 100))
         self.display_surface.blit(self.initial_text1, self.initial_text_rect1)
-        
-        self.initial_text2 = instruction_font.render("Welcome to the Love Letter Minigame!", True, WHITE)
-        self.initial_text_rect2 = self.initial_text2.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 100))  # Adjusted position
-        self.display_surface.blit(self.initial_text2, self.initial_text_rect2)
 
-        pygame.display.update()
+        self.initial_text2 = instruction_font.render("Welcome to the Love Letter Minigame!", True, WHITE)
+        self.initial_text_rect2 = self.initial_text2.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 100))
+        self.display_surface.blit(self.initial_text2, self.initial_text_rect2)
 
     def display_instructions_screen(self):
         self.display_surface.blit(self.background_image, (0, 0))
@@ -96,14 +83,12 @@ class Jumbleword(Entity):
         ]
         for i, text in enumerate(instruction_text):
             self.instruction_surface = instruction_font.render(text, True, WHITE)
-            self.instruction_rect = self.instruction_surface.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 40 + (i * 30)))  # Adjusted position
+            self.instruction_rect = self.instruction_surface.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 40 + (i * 30)))
             self.display_surface.blit(self.instruction_surface, self.instruction_rect)
-        
+
         self.start_game_text = instruction_font.render("Press Enter to start the game", True, WHITE)
         self.start_game_rect = self.start_game_text.get_rect(center=(WIDTH / 2, HEIGHT - 100))
         self.display_surface.blit(self.start_game_text, self.start_game_rect)
-
-        pygame.display.update()
 
     def display_hint(self):
         self.hint_text = word_hints[self.word]
@@ -111,8 +96,7 @@ class Jumbleword(Entity):
         self.hint_rect = self.hint_surface.get_rect(center=(WIDTH / 2, HEIGHT / 2 + 120))
         self.display_surface.blit(self.hint_surface, self.hint_rect)
 
-    
-    def running (self): 
+    def run (self): 
         running = True
         self.show_initial_screen = True
         self.show_love_letter = False
@@ -124,8 +108,7 @@ class Jumbleword(Entity):
                 self.display_initial_screen()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        running = False
-                        return 
+                        return
 
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
@@ -136,8 +119,7 @@ class Jumbleword(Entity):
                 self.display_instructions_screen()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        running = False
-                        return 
+                        return
 
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
@@ -149,13 +131,12 @@ class Jumbleword(Entity):
                 # Check for events
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        running = False
-                        return 
+                        return
 
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
-                            running = False
-                            return 
+                            return
+
                         elif event.key == pygame.K_RETURN:
                             if self.check_answer(self.input_text):
                                 self.input_text = ""
@@ -207,19 +188,11 @@ class Jumbleword(Entity):
                     for message in messages:
                         self.text_surface = love_letter_font.render(message["text"], True, message["color"])
                         self.display_surface.blit(self.text_surface, message["position"])
-
+                    
             pygame.display.flip()
 
 
 
-    def loveletter_collision(self, player): 
-      if player.hitbox.colliderect (self.rect): 
-            self.running()
-
-
-    def loveletter_update(self, player): 
-        self.loveletter_collision(player)
-        return
 
 
 class Morsecode:
@@ -246,9 +219,7 @@ class Morsecode:
       self.current_input = ''
       self.correct = None
 
-      
-
-    
+      self.win_game = False 
     # Function to draw text on the screen
     def draw_text(self, surface, text, position, font, color = BLACK):
         self.text_surface = font_game.render(text, True, color)
@@ -343,89 +314,88 @@ class Morsecode:
 
             
         
-    def running(self):
-      # Display start screen
-      self.display_start_screen()
+    def run (self):
+        # Display start screen
+        self.display_start_screen()
 
-      # Display instructions screen
-      self.display_instructions_screen()
+        # Display instructions screen
+        self.display_instructions_screen()
 
-      running = True
-      while running:
-          self.display_note_in_game()
+        running = True
+        while running:
+            self.display_note_in_game()
 
-          # Event handling
-          for event in pygame.event.get():
-              if event.type == pygame.QUIT:
-                  running = False
-                  return
+            # Event handling
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    return
 
-              elif event.type == pygame.KEYDOWN:
-                  if event.key == pygame.K_BACKSPACE:
-                      if len(self.current_input) > 0:
-                          self.char_width = font_game.render(self.current_input[-1], True, BLACK).get_width()
-                          self.current_input = self.current_input[:-1]
-                          self.cursor_x -= self.char_width
-                      if self.cursor_x < self.CURSOR_MIN_X:
-                          self.cursor_x = self.CURSOR_MIN_X
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_BACKSPACE:
+                        if len(self.current_input) > 0:
+                            self.char_width = font_game.render(self.current_input[-1], True, BLACK).get_width()
+                            self.current_input = self.current_input[:-1]
+                            self.cursor_x -= self.char_width
+                        if self.cursor_x < self.CURSOR_MIN_X:
+                            self.cursor_x = self.CURSOR_MIN_X
 
-                  elif event.key == pygame.K_RETURN:
-                      self.correct = (self.current_input.strip() == self.answer)
-                      if self.correct:
-                          # Move to the next question
-                          self.current_question_index += 1
-                          if self.current_question_index < len(self.question):
-                              self.current_question, self.answer = self.question[self.current_question_index]
-                              self.current_input = ''
-                          else:
-                              # If all questions are answered, end the game
-                              pygame.time.wait(2000)
-                              running = False
-                              return
+                    elif event.key == pygame.K_RETURN:
+                        self.correct = (self.current_input.strip() == self.answer)
+                        if self.correct:
+                            # Move to the next question
+                            self.current_question_index += 1
+                            
 
-                      else:
-                          self.current_input = ''  # Clear input box on incorrect answer
-                      # Reset cursor position
-                      self.cursor_x = self.CURSOR_MIN_X
+                            if self.current_question_index < len(self.question):
+                                self.current_question, self.answer = self.question[self.current_question_index]
+                                self.current_input = ''
+                            else:
+                                # If all questions are answered, end the game
+                                pygame.time.wait(1000)
+                                running = False
+                                return 'Complete test'
+                                
+                        else:
+                            self.current_input = ''  # Clear input box on incorrect answer
+                        # Reset cursor position
+                        self.cursor_x = self.CURSOR_MIN_X
 
-                  elif event.key == pygame.K_ESCAPE:
-                      # Quit the game if Escape key is pressed
-                      running = False
+                    elif event.key == pygame.K_ESCAPE:
+                        # Quit the game if Escape key is pressed
+                        running = False
+                        return 
 
-                      return
-                  else:
-                      self.current_input += event.unicode.upper()
-                      self.char_width = font_game.render(event.unicode.upper(), True, BLACK).get_width()
-                      self.cursor_x += self.char_width
-                      if self.cursor_x > self.CURSOR_MAX_X:
-                          self.cursor_x = self.CURSOR_MAX_X
+                    else:
+                        self.current_input += event.unicode.upper()
+                        self.char_width = font_game.render(event.unicode.upper(), True, BLACK).get_width()
+                        self.cursor_x += self.char_width
+                        if self.cursor_x > self.CURSOR_MAX_X:
+                            self.cursor_x = self.CURSOR_MAX_X
 
-          # Draw question on the right side
-          self.draw_text(self.display_surface, 'Question:', (NOTES_WIDTH + 20, 20), font_game)
-          self.draw_text(self.display_surface, self.current_question, (NOTES_WIDTH + 20, 20 + FONT_SIZE + 5), font_game)
-          self.draw_text(self.display_surface, '* make sure to enter space', (NOTES_WIDTH + 20, 20 + FONT_SIZE_GAME + 5 + 30), font_game)
+            # Draw question on the right side
+            self.draw_text(self.display_surface, 'Question:', (NOTES_WIDTH + 20, 20), font_game)
+            self.draw_text(self.display_surface, self.current_question, (NOTES_WIDTH + 20, 20 + FONT_SIZE + 5), font_game)
+            self.draw_text(self.display_surface, '* make sure to enter space', (NOTES_WIDTH + 20, 20 + FONT_SIZE_GAME + 5 + 30), font_game)
 
-          # Draw user input
-          self.draw_text(self.display_surface, 'Your Input:', (NOTES_WIDTH + 20, 200), font_game)
+            # Draw user input
+            self.draw_text(self.display_surface, 'Your Input:', (NOTES_WIDTH + 20, 200), font_game)
 
-          # Draw line under your input
-          pygame.draw.line(self.display_surface, BLACK, (NOTES_WIDTH + 15, 260), (NOTES_WIDTH + 265, 260), 2)
-          self.draw_text(self.display_surface, self.current_input, (NOTES_WIDTH + 20, 200 + FONT_SIZE_GAME + 5), font_game)
-          
-          # Draw cursor
-          pygame.draw.line(self.display_surface, BLACK, (self.cursor_x, self.cursor_y), (self.cursor_x, self.cursor_y + FONT_SIZE_GAME), 2)
+            # Draw line under your input
+            pygame.draw.line(self.display_surface, BLACK, (NOTES_WIDTH + 15, 260), (NOTES_WIDTH + 265, 260), 2)
+            self.draw_text(self.display_surface, self.current_input, (NOTES_WIDTH + 20, 200 + FONT_SIZE_GAME + 5), font_game)
+            
+            # Draw cursor
+            pygame.draw.line(self.display_surface, BLACK, (self.cursor_x, self.cursor_y), (self.cursor_x, self.cursor_y + FONT_SIZE_GAME), 2)
 
-          # Display correctness
-          if self.correct is not None:
-              if self.correct:
-                  self.draw_text(self.display_surface, 'Correct!', (NOTES_WIDTH + 20, 300), font_game, GREEN)
-              else:
-                  self.draw_text(self.display_surface, 'Incorrect, try again.', (NOTES_WIDTH + 20, 300), font_game, RED)
+            # Display correctness
+            if self.correct is not None:
+                if self.correct:
+                    self.draw_text(self.display_surface, 'Correct!', (NOTES_WIDTH + 20, 300), font_game, GREEN)
+                    
+                else:
+                    self.draw_text(self.display_surface, 'Incorrect, try again.', (NOTES_WIDTH + 20, 300), font_game, RED)
 
-          # Update display
-          pygame.display.flip()
-
-      # Quit Pygame
-      pygame.quit()
-      sys.exit()
+            # Update display
+            pygame.display.flip()
 
