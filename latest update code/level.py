@@ -79,6 +79,9 @@ class Level:
 							if style == 'loveletter':
 								if col == '267': 
 									Jumbleword((x,y),[self.visible_sprites],self.obstacle_sprites)
+							if style == 'loveletter':
+								if col == '267': 
+									Jumbleword((x,y),[self.visible_sprites],self.obstacle_sprites)
 									
 
 							if style == 'entities': 
@@ -96,7 +99,6 @@ class Level:
 									elif col == '5': npc_name = ' Mailman'
 									
 									NPC(npc_name, (x,y), 'speech', [self.visible_sprites],self.obstacle_sprites)
-								 
 		
 						
 				
