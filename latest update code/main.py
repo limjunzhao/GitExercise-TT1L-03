@@ -16,6 +16,7 @@ class Interface:
         self.vol = 0.1
         self.music_sfx.play(loops = -1)
         self.music_sfx.set_volume(self.vol)
+        self.button_sfx.set_volume(self.vol)
        
     def main_menu(self):
         # Load images
@@ -92,13 +93,18 @@ class Interface:
         vol_mute_button = Button(475, 400, volmute_static, volmute_hover, (250, 100))
         back_button = Button(5, 640, back_static, back_hover, (150, 80))
 
+        mute_clicked = False  # Flag to track if mute button is clicked
+
         while True:
             self.screen.fill('grey')
             self.screen.blit(background_image, (0, 0))
 
             if vol_up_button.draw(self.screen):
-                self.button_sfx.play()
-                self.adjust_volume(0.1)
+                if mute_clicked == False:
+                    self.button_sfx.play()
+                    self.adjust_volume(0.1)
+                else:
+                    mute_clicked = not mute_clicked
 
             if vol_down_button.draw(self.screen):
                 self.button_sfx.play()
@@ -106,11 +112,18 @@ class Interface:
 
             if vol_mute_button.draw(self.screen):
                 self.button_sfx.play()
-                self.music_sfx.set_volume(0)
+                mute_clicked = not mute_clicked  # Toggle the mute flag
 
             if back_button.draw(self.screen):
                 self.button_sfx.play()
-                return "back" # name option back button as back 
+                return "back"  # Return to main menu
+
+            # Mute the music if the mute button is clicked
+            if mute_clicked:
+                self.music_sfx.set_volume(0)
+            else:
+                self.music_sfx.set_volume(self.vol)  # Restore volume if not muted
+                self.button_sfx.set_volume(self.vol)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -215,6 +228,7 @@ class Interface:
         self.vol += vol_change 
         self.vol = max(0.0, min(1.0, self.vol))
         self.music_sfx.set_volume(self.vol)
+        self.button_sfx.set_volume(self.vol)
 
 
 
@@ -227,23 +241,24 @@ class Game:
         pygame.display.set_caption('Mystery Case')
         self.clock = pygame.time.Clock()
         
-        
         # bring the page here
         self.level = Level()
         self.camera_group = CameraGroup()
-        self.interface = Interface()
+        self.interface = Interface()  # Initialize Interface instance here
         self.dialogue = Dialogue()
         self.execution = Execution()
         
-
-         # main menu setup
+        # main menu setup
         self.main_menu = self.interface.main_menu()   
-        self.music_sfx = pygame.mixer.Sound("images/music/background_music.mp3")
+        # Use the music_sfx attribute from the Interface instance
+        self.music_sfx = self.interface.music_sfx
         self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
         self.spawn_sfx = pygame.mixer.Sound("images/music/Voicy_Undertale Spawn.mp3")  # spawn sound
         self.vol = 0.1
-        self.music_sfx.play(loops = -1)
+        self.button_sfx.play()
+        # self.spawn_sfx.play()  # Play spawn sound effect
         self.music_sfx.set_volume(self.vol)
+        self.button_sfx.set_volume(self.vol)
 
 
 
@@ -311,6 +326,7 @@ class Game:
         self.vol += vol_change 
         self.vol = max(0.0, min(1.0, self.vol))
         self.music_sfx.set_volume(self.vol)
+        self.button_sfx.set_volume(self.vol)
 
     def run_menu(self):
         while True:
