@@ -88,10 +88,11 @@ class Level:
 									if col == '0': npc_name = 'Maria'
 									elif col == '1': npc_name ='Willie'
 									elif col == '2': npc_name = 'Amber'
+									elif col == '3': npc_name = 'Officer'
 									elif col == '4': npc_name ='Professor'
-									else: npc_name = 'Officer'
+									elif col == '5': npc_name = 'Mailman'
+									
 									NPC(npc_name, (x,y), 'speech', [self.visible_sprites],self.obstacle_sprites)
-		
 						
 				
 

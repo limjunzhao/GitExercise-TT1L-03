@@ -72,4 +72,3 @@ class CameraGroup (pygame.sprite.Group):
       for loveletter in loveletter_sprites:
           loveletter.loveletter_update(player)
 
-

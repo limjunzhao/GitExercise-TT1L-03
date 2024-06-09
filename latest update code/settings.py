@@ -83,9 +83,13 @@ npc_data = {
                 'where' : '', 
                 'what' : '',
                 "greeting": 'Hello there dear treveller, would you likde to learn our language?',
-                'img' : 'sprites sheet for maps/sprites/characters/npc/professor/idle/0.png'}
+                'img' : 'sprites sheet for maps/sprites/characters/npc/professor/idle/0.png'},
         
-
+    'Mailman':{'who': '',
+                'where' : '', 
+                'what' : '',
+                "greeting": 'Here is the mail to Mr.Willie',
+                'img' : 'sprites sheet for maps/sprites/characters/npc/professor/idle/0.png'}
 }
 
 #npc dialogue question ask

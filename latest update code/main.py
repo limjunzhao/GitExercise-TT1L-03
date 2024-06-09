@@ -329,7 +329,15 @@ class Game:
                 option_action = self.interface.option()
                 if option_action == "back":
                     self.main_menu = self.interface.main_menu()
-
+    
+    def run(self):
+        while self.running:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.running = False
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        self.running = False  # Exit the main game if ESC is pressed
 
 if __name__ == '__main__':
             game = Game()

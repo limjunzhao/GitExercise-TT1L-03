@@ -184,6 +184,7 @@ class Execution():
 class NPC(Entity):
     interaction_counts = {npc: 0 for npc in npc_data}
 
+
     def __init__(self, npc_name, pos, speech, groups, obstacle_sprites):
         # General setup
         super().__init__(groups)
