@@ -74,10 +74,7 @@ class Level:
 									decor_img = graphics['decors'][decor_index]
 									Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'decor',decor_img)
 					
-									
-							if style == 'loveletter':
-								if col == '267': 
-									Jumbleword((x,y),[self.visible_sprites],self.obstacle_sprites)
+
 									
 
 							if style == 'entities': 
@@ -90,8 +87,7 @@ class Level:
 									elif col == '2': npc_name = 'Amber'
 									elif col == '3': npc_name = 'Officer'
 									elif col == '4': npc_name ='Professor'
-									elif col == '5': npc_name = 'Mailman'
-									
+									elif col == '5': npc_name = 'Alex'
 									NPC(npc_name, (x,y), 'speech', [self.visible_sprites],self.obstacle_sprites)
 						
 				
@@ -100,7 +96,6 @@ class Level:
 		# update and draw the game(display)
 		self.visible_sprites.custom_draw(self.player)
 		self.visible_sprites.npc_update(self.player)
-		self.visible_sprites.loveletter_update(self.player)
 		self.visible_sprites.update()
 
 		

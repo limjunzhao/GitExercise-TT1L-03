@@ -46,7 +46,7 @@ love_letter_font = pygame.font.Font(cursive_font_path, 22)  # Load cursive font
 
 #npc dino dialogue info
 npc_data = {
-    'Maria': {'who': "my name is Maria.",
+    'Maria': {'who': "My name is Maria.",
                 'where' : 'In the morning, I made breakfast for my husband, then proceeded to do house chores until afternoon. After lunch with my husband, I engaged in a pleasant chit-chat with out neighbor, Amber', 
                 'what' : 'I eagerly awaited my husband’s return from work, and once he was back, we cooked dinner together and went to sleep afterwards.',
                 "greeting":'',
@@ -54,7 +54,7 @@ npc_data = {
                 "rawr": "raaawr rawr"
             }, 
 
-    'Willie': {'who': "my name is Willie.",
+    'Willie': {'who': "My name is Willie.",
                 'where' : 'I started my day by having breakfast with my wife Maria, followed by me heading to work, I then head to lunch with my wife and returned to work.', 
                 'what' : 'I came back home from work and got the ingredients ready and cooked dinner with my wife. After that, we went to bed before 10pm.',
                 "greeting":'',
@@ -62,7 +62,7 @@ npc_data = {
                 "rawr": "raaawr rawr"
             },
     
-    'Amber': {'who': "my name is Amber.",
+    'Amber': {'who': "My name is Amber.",
                 'where' : 'In the day, I exercised in the park. And after that I had my coffee and breakfast. Meanwhile I watched TV for the time to pass. During lunch, I ate my leftover dinner from yesterday as my lunch. After lunch, me and Maria had our usual chit-chat but it was shorter than usual. And we were supposed to get groceries after that. So I went to buy the groceries myself and made dinner.', 
                 'what' : 'As night falls, I took my dog for a night walk and went to bed.',
                 "greeting":'',
@@ -78,6 +78,13 @@ npc_data = {
                 'img':'sprites sheet for maps/sprites/characters/npc/officer/idle/0.png',
                 "rawr": "raaawr rawr"
             },
+    'Alex': {'who': 'My name is Alex, just a normal maildino',
+                'where' : 'I reached here 7.00 am morning and start my work instanly. Before that I am on the way from my office which is Dino City Centre', 
+                'what' : 'I am here to send a mail to Mr Willie, here it is...',
+                "greeting": 'Im here to give the letter to Mr Willie',
+                'img' : 'sprites sheet for maps/sprites/characters/npc/alex/idle/0.png',
+                "rawr": "raaawr rawr"},
+
 
     'Professor':{'who': '',
                 'where' : '', 
@@ -85,11 +92,7 @@ npc_data = {
                 "greeting": 'Hello there dear treveller, would you likde to learn our language?',
                 'img' : 'sprites sheet for maps/sprites/characters/npc/professor/idle/0.png'},
         
-    'Mailman':{'who': '',
-                'where' : '', 
-                'what' : '',
-                "greeting": 'Here is the mail to Mr.Willie',
-                'img' : 'sprites sheet for maps/sprites/characters/npc/professor/idle/0.png'}
+    
 }
 
 #npc dialogue question ask

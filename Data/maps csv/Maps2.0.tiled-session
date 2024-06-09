@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
+    "activeFile": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/npc.tsx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -23,11 +23,11 @@
             "scaleInDock": 1
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx": {
-            "scale": 4,
-            "selectedLayer": 14,
+            "scale": 1.5,
+            "selectedLayer": 8,
             "viewCenter": {
-                "x": 1267.125,
-                "y": 703.125
+                "x": 438.33333333333326,
+                "y": 940.9999999999999
             }
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx#house set": {
@@ -147,13 +147,13 @@
     ],
     "project": "Maps2.0.tiled-project",
     "recentFiles": [
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/house set.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Tree_stump.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/rock_bush.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/spr_structures_exterior.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/utils.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/npc.tsx",
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/rock_bush.tsx",
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Tree_stump.tsx",
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/house set.tsx",
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/decors.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/player.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_06.tsx",

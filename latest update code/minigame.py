@@ -2,20 +2,14 @@ import pygame, sys
 from settings import * 
 import random
 import time 
-from entity import Entity
 
-class Jumbleword(Entity):
-    def __init__(self, pos, groups, obstacle_sprites):
-        super().__init__(groups)
+
+class Jumbleword:
+    def __init__(self):
         # Display
         self.display_surface = pygame.display.get_surface()
 
         # General setup
-        self.sprite_type = 'loveletter'
-        self.image = pygame.image.load('sprites sheet for maps/Terrains/12.png').convert_alpha()
-        self.rect = self.image.get_rect(topleft=pos)
-        self.obstacle_sprites = obstacle_sprites
-
         self.word = random.choice(list(word_hints.keys()))
         self.jumbled_word = ''.join(random.sample(self.word, len(self.word)))
         self.score = 0
@@ -194,20 +188,10 @@ class Jumbleword(Entity):
                     for message in messages:
                         self.text_surface = love_letter_font.render(message["text"], True, message["color"])
                         self.display_surface.blit(self.text_surface, message["position"])
-
+                    
             pygame.display.flip()
 
 
-
-    def loveletter_collision(self, player): 
-        if player.hitbox.colliderect(self.rect): 
-            self.run()
-
-
-
-    def loveletter_update(self, player): 
-        self.loveletter_collision(player)
-            
 
 
 
