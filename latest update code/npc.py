@@ -183,6 +183,7 @@ class Execution():
 
 class NPC(Entity):
     interaction_counts = {npc: 0 for npc in npc_data}
+    
 
     def __init__(self, npc_name, pos, speech, groups, obstacle_sprites):
         # General setup
@@ -363,6 +364,8 @@ class NPC(Entity):
                                     pygame.time.wait(1000)  
                         else:
                             if self.npc_name == "Professor":
+                                self.image_icon(self.display_surface, self.dialogue.speech_rect)
+                                self.draw()
                                 self.ask_professor_questions()
                             else:
                                 self.dialogue.render_typewriter_npc_speech(self.display_surface, self.rawr, BLACK, self.dialogue.speech_rect, SPEECH_FONT)

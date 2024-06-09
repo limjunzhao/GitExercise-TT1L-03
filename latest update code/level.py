@@ -40,6 +40,7 @@ class Level:
 					'rocks': import_folder ('sprites sheet for maps/Terrains/rocks_bush'),
 					'npcs': import_folder ('sprites sheet for maps/sprites/characters/players sprites'),
 					'decors' : import_folder ('sprites sheet for maps/Terrains/decors')
+					
 		}
 
 		 
@@ -75,24 +76,25 @@ class Level:
 									Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'decor',decor_img)
 					
 									
-							# if style == 'loveletter':
-							# 	if col == '267': 
-							# 		Jumbleword((x,y),[self.visible_sprites],self.obstacle_sprites)
+							if style == 'loveletter':
+								if col == '267': 
+									Jumbleword((x,y),[self.visible_sprites],self.obstacle_sprites)
 									
 
 							if style == 'entities': 
 								if col == '771':
 									self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
 
-								if style == 'loveletter':
-									if col == '267': 
-										Jumbleword((x,y),[self.visible_sprites],self.obstacle_sprites)
+								
+
 								else: 
 									if col == '0': npc_name = 'Maria'
 									elif col == '1': npc_name ='Willie'
 									elif col == '2': npc_name = 'Amber'
+									elif col == '3': npc_name = 'Officer'
 									elif col == '4': npc_name ='Professor'
-									else: npc_name = 'Officer'
+									elif col == '5': npc_name = ' Mailman'
+									
 									NPC(npc_name, (x,y), 'speech', [self.visible_sprites],self.obstacle_sprites)
 								 
 		

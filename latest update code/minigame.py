@@ -5,15 +5,15 @@ import time
 from entity import Entity
 
 class Jumbleword(Entity):
-    def __init__ (self, pos, groups, obstacle_sprites): 
+    def __init__(self, pos, groups, obstacle_sprites):
         super().__init__(groups)
-        #display 
+        # Display
         self.display_surface = pygame.display.get_surface()
-        
-        #general setup
+
+        # General setup
         self.sprite_type = 'loveletter'
         self.image = pygame.image.load('sprites sheet for maps/Terrains/12.png').convert_alpha()
-        self.rect = self.image.get_rect(topleft = pos)
+        self.rect = self.image.get_rect(topleft=pos)
         self.obstacle_sprites = obstacle_sprites
 
         self.word = random.choice(list(word_hints.keys()))
@@ -24,17 +24,15 @@ class Jumbleword(Entity):
         self.show_love_letter = False  # Flag to control when to show the love letter
         self.hint_active = False
         self.hint_start_time = 0
-        
+
         self.background_image = pygame.image.load('images/loveletter/pixel.png').convert()
         self.background_image = pygame.transform.scale(self.background_image, (WIDTH, HEIGHT))
 
         # Load love letter image
         self.love_letter_image = pygame.image.load('images/loveletter/love_letter_image.png').convert_alpha()
         self.love_letter_image = pygame.transform.scale(self.love_letter_image, (WIDTH, HEIGHT))
-        self.love_letter_image_rect = self.love_letter_image.get_rect(center=  (WIDTH // 2, HEIGHT // 2))
+        self.love_letter_image_rect = self.love_letter_image.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
-    
-    # Functions
     def display_word(self):
         self.text_surface = font.render(self.jumbled_word, True, WHITE)
         self.text_rect = self.text_surface.get_rect(center=(WIDTH / 2, HEIGHT / 2))
@@ -47,13 +45,13 @@ class Jumbleword(Entity):
 
     def display_instructions(self):
         self.instruction_surface = instruction_font.render("Type the correct word and press Enter to submit", True, WHITE)
-        self.instruction_rect = self.instruction_surface.get_rect(midtop=(WIDTH / 2, 200))  # Adjusted position
+        self.instruction_rect = self.instruction_surface.get_rect(midtop=(WIDTH / 2, 200))
         box_height = 300  # Height of the semi-transparent box
-        self.instruction_rect.y = 30 + (box_height - self.instruction_surface.get_height()) // 2  # Position significantly higher in the box
+        self.instruction_rect.y = 30 + (box_height - self.instruction_surface.get_height()) // 2
         self.display_surface.blit(self.instruction_surface, self.instruction_rect)
-        
+
         self.hint_instruction_surface = instruction_font.render("Press Tab for hint", True, WHITE)
-        self.hint_instruction_rect = self.hint_instruction_surface.get_rect(midtop=(WIDTH / 2, 250))  # Adjusted position
+        self.hint_instruction_rect = self.hint_instruction_surface.get_rect(midtop=(WIDTH / 2, 250))
         self.display_surface.blit(self.hint_instruction_surface, self.hint_instruction_rect)
 
     def new_word(self):
@@ -61,7 +59,6 @@ class Jumbleword(Entity):
         self.jumbled_word = ''.join(random.sample(self.word, len(self.word)))
 
     def check_answer(self, answer):
-
         if answer.upper() == self.word:
             if self.score < 5:
                 self.score += 1
@@ -74,12 +71,10 @@ class Jumbleword(Entity):
         self.initial_text1 = instruction_font.render("Press Enter to start the game", True, WHITE)
         self.initial_text_rect1 = self.initial_text1.get_rect(center=(WIDTH / 2, HEIGHT - 100))
         self.display_surface.blit(self.initial_text1, self.initial_text_rect1)
-        
-        self.initial_text2 = instruction_font.render("Welcome to the Love Letter Minigame!", True, WHITE)
-        self.initial_text_rect2 = self.initial_text2.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 100))  # Adjusted position
-        self.display_surface.blit(self.initial_text2, self.initial_text_rect2)
 
-        pygame.display.update()
+        self.initial_text2 = instruction_font.render("Welcome to the Love Letter Minigame!", True, WHITE)
+        self.initial_text_rect2 = self.initial_text2.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 100))
+        self.display_surface.blit(self.initial_text2, self.initial_text_rect2)
 
     def display_instructions_screen(self):
         self.display_surface.blit(self.background_image, (0, 0))
@@ -94,14 +89,12 @@ class Jumbleword(Entity):
         ]
         for i, text in enumerate(instruction_text):
             self.instruction_surface = instruction_font.render(text, True, WHITE)
-            self.instruction_rect = self.instruction_surface.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 40 + (i * 30)))  # Adjusted position
+            self.instruction_rect = self.instruction_surface.get_rect(center=(WIDTH / 2, HEIGHT / 2 - 40 + (i * 30)))
             self.display_surface.blit(self.instruction_surface, self.instruction_rect)
-        
+
         self.start_game_text = instruction_font.render("Press Enter to start the game", True, WHITE)
         self.start_game_rect = self.start_game_text.get_rect(center=(WIDTH / 2, HEIGHT - 100))
         self.display_surface.blit(self.start_game_text, self.start_game_rect)
-
-        pygame.display.update()
 
     def display_hint(self):
         self.hint_text = word_hints[self.word]
@@ -109,7 +102,6 @@ class Jumbleword(Entity):
         self.hint_rect = self.hint_surface.get_rect(center=(WIDTH / 2, HEIGHT / 2 + 120))
         self.display_surface.blit(self.hint_surface, self.hint_rect)
 
-    
     def run (self): 
         running = True
         self.show_initial_screen = True
@@ -122,7 +114,7 @@ class Jumbleword(Entity):
                 self.display_initial_screen()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        running = False
+                        return
 
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
@@ -133,7 +125,7 @@ class Jumbleword(Entity):
                 self.display_instructions_screen()
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        running = False
+                        return
 
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
@@ -145,11 +137,12 @@ class Jumbleword(Entity):
                 # Check for events
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
-                        running = False
+                        return
 
                     elif event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
-                            running = False
+                            return
+
                         elif event.key == pygame.K_RETURN:
                             if self.check_answer(self.input_text):
                                 self.input_text = ""
@@ -211,10 +204,11 @@ class Jumbleword(Entity):
             self.run()
 
 
+
     def loveletter_update(self, player): 
         self.loveletter_collision(player)
-        
-        
+            
+
 
 
 class Morsecode:
