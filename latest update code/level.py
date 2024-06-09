@@ -6,6 +6,7 @@ from camera import CameraGroup
 from support import *
 from random import choice
 from npc import NPC 	
+from minigame import Jumbleword
 
 
 class Level:
@@ -27,14 +28,18 @@ class Level:
 					'tree' : import_csv_layout('Data/maps csv/maps2_Tree.csv'),
 					'house': import_csv_layout('Data/maps csv/maps2_HouseBuilding.csv'),
 					'rock': import_csv_layout('Data/maps csv/maps2_rock_bush.csv'),
-					'entities' : import_csv_layout ('Data/maps csv/maps2_players.csv')
+					'entities' : import_csv_layout ('Data/maps csv/maps2_players.csv'),
+					'loveletter' : import_csv_layout ('Data/maps csv/maps2_mailbox.csv'),
+					'decor': import_csv_layout ('Data/maps csv/maps2_utils.csv')
+
 					
 		}	
 		graphics = {
 					'trees': import_folder('sprites sheet for maps/Terrains/object'),
 					'houses': import_folder ('sprites sheet for maps/Terrains/buildings'),
 					'rocks': import_folder ('sprites sheet for maps/Terrains/rocks_bush'),
-					'npcs': import_folder ('sprites sheet for maps/sprites/characters/players sprites')
+					'npcs': import_folder ('sprites sheet for maps/sprites/characters/players sprites'),
+					'decors' : import_folder ('sprites sheet for maps/Terrains/decors')
 		}
 
 		 
@@ -42,39 +47,49 @@ class Level:
 			for row_index,row in enumerate(layout): #this is to check the row and helps to coordinates the pos.y
 				for col_index, col in enumerate(row): #check each of the column elements (x,p or empty) and helps to coordinate pos.x
 					if col != '-1':
-						x = col_index * TILESIZE #multiply the col and row with the size of our tile so that it can fit
-						y = row_index * TILESIZE
-						if style == 'boundary':
-							Tile((x,y),[self.obstacle_sprites], 'invisible ')	
+							x = col_index * TILESIZE #multiply the col and row with the size of our tile so that it can fit
+							y = row_index * TILESIZE
+							if style == 'boundary':
+								Tile((x,y),[self.obstacle_sprites], 'invisible ')	
 
-						if style == 'tree':
-							tree_index = int(col) 
-							if 0 <= tree_index < len(graphics['trees']):
-								tree_img = graphics['trees'][tree_index]
-								Tile((x,y),[self.visible_sprites],'tree',tree_img)
+							if style == 'tree':
+								tree_index = int(col) 
+								if 0 <= tree_index < len(graphics['trees']):
+									tree_img = graphics['trees'][tree_index]
+									Tile((x,y),[self.visible_sprites],'tree',tree_img)
 
-						if style == 'rock':
-							random_rock_image = choice(graphics['rocks'])
-							Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'rock and bushes',random_rock_image)
+							if style == 'rock':
+								random_rock_image = choice(graphics['rocks'])
+								
 
-						if style == 'house':
-							house_index = int(col) 
-							if 0 <= house_index < len(graphics['houses']):
-								house_img = graphics['houses'][house_index]
-								Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house',house_img)
+							if style == 'house':
+								house_index = int(col) 
+								if 0 <= house_index < len(graphics['houses']):
+									house_img = graphics['houses'][house_index]
+									Tile((x,y),[self.visible_sprites,self.obstacle_sprites],'house',house_img)
 
-						if style == 'entities': 
-							if col == '771':
-								self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
+							if style == 'decor':
+								decor_index = int(col) 
+								if 0 <= decor_index < len(graphics['decors']):
+									decor_img = graphics['decors'][decor_index]
+									Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'decor',decor_img)
+					
 
-							else: 
-								if col == '0': npc_name = 'maria'
-								elif col == '1': npc_name ='willie'
-								elif col == '2': npc_name = 'amber'
-								else: npc_name = 'officer'
-								NPC(npc_name, (x,y), 'speech', [self.visible_sprites],self.obstacle_sprites)
-		
-			
+									
+
+							if style == 'entities': 
+								if col == '771':
+									self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
+
+								else: 
+									if col == '0': npc_name = 'Maria'
+									elif col == '1': npc_name ='Willie'
+									elif col == '2': npc_name = 'Amber'
+									elif col == '3': npc_name = 'Officer'
+									elif col == '4': npc_name ='Professor'
+									elif col == '5': npc_name = 'Alex'
+									NPC(npc_name, (x,y), 'speech', [self.visible_sprites],self.obstacle_sprites)
+						
 				
 
 	def run(self):
@@ -85,4 +100,3 @@ class Level:
 
 		
 		
-

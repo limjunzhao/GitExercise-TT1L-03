@@ -1,6 +1,4 @@
 import pygame 
-from player import Player 
-from npc import NPC, Execution, Dialogue
 from support import *
 
 class CameraGroup (pygame.sprite.Group):
@@ -42,7 +40,7 @@ class CameraGroup (pygame.sprite.Group):
   def custom_draw(self, player): 
 
     self.center_target_camera(player)
-    self.zoom_keyboard_control()
+    #self.zoom_keyboard_control()
     self.internal_surf.fill('#2D99E2')
 
 
@@ -64,3 +62,6 @@ class CameraGroup (pygame.sprite.Group):
       npc_sprites = [sprite for sprite in self.sprites() if hasattr(sprite, 'sprite_type') and sprite.sprite_type == 'npc']
       for npcs in npc_sprites: 
         npcs.npc_update (player) 
+
+
+
