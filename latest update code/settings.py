@@ -83,14 +83,18 @@ npc_data = {
                 'what' : 'I am here to send a mail to Mr Willie, here it is...',
                 "greeting": 'Im here to give the letter to Mr Willie',
                 'img' : 'sprites sheet for maps/sprites/characters/npc/alex/idle/0.png',
-                "rawr": "raaawr rawr"},
+                "rawr": "raaawr rawr"
+                
+            },
 
 
     'Professor':{'who': '',
                 'where' : '', 
                 'what' : '',
                 "greeting": 'Hello there dear treveller, would you likde to learn our language?',
-                'img' : 'sprites sheet for maps/sprites/characters/npc/professor/idle/0.png'},
+                'img' : 'sprites sheet for maps/sprites/characters/npc/professor/idle/0.png'
+                
+            },
         
     
 }
