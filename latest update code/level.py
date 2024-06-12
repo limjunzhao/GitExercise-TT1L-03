@@ -74,12 +74,16 @@ class Level:
 									decor_img = graphics['decors'][decor_index]
 									Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'decor',decor_img)
 					
-
+							
 									
 
 							if style == 'entities': 
 								if col == '771':
 									self.player = Player((x,y),[self.visible_sprites], self.obstacle_sprites)
+								
+								elif col == '6': 
+									dead_body = pygame.image.load('images/dead_body.png')
+									Tile((x,y),[self.visible_sprites],'dead_dino', dead_body)
 
 								else: 
 									if col == '0': npc_name = 'Maria'
