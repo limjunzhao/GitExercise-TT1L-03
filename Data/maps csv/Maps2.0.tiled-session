@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/npc.tsx",
+    "activeFile": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -26,8 +26,8 @@
             "scale": 2,
             "selectedLayer": 8,
             "viewCenter": {
-                "x": 592.25,
-                "y": 916.25
+                "x": 1139.75,
+                "y": 738.75
             }
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx#house set": {
@@ -147,13 +147,13 @@
     ],
     "project": "Maps2.0.tiled-project",
     "recentFiles": [
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/house set.tsx",
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Tree_stump.tsx",
-        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/rock_bush.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/spr_structures_exterior.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/utils.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/npc.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/rock_bush.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Tree_stump.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/house set.tsx",
+        "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/decors.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/player.tsx",
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/ob_house_06.tsx",

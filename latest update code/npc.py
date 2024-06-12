@@ -4,7 +4,7 @@ from entity import Entity
 from support import * 
 from minigame import *
 from button import Button
-win_game_global = False
+win_game_global = True
 
 class Dialogue(): 
     def __init__(self):
@@ -121,6 +121,8 @@ class Execution():
     def __init__(self):
         self.dialogue = Dialogue()
         self.font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
+
+        self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
 
           # Congratulations message surface
         self.congratulations_surface = pygame.Surface((WIDTH, HEIGHT))

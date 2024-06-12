@@ -327,15 +327,20 @@ class Game:
         self.vol = max(0.0, min(1.0, self.vol))
         self.music_sfx.set_volume(self.vol)
         self.button_sfx.set_volume(self.vol)
+    
 
     def run_menu(self):
         while True:
             if self.main_menu == "start":
                 action = self.interface.story_info()
                 if action == "start_game":
-                    result = self.run_game()  # Pass the required argument
+                    self.run_game()  # Pass the required argument
+                    result = self.execution.display_game_over
                     if result == "play_again":
+                        self.reset_game()
                         continue  # Restart the game loop
+                    else:
+                        break  # Exit the game loop if not "play_again"
                     
             elif self.main_menu == "quit":
                 pygame.quit()

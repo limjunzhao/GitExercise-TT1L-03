@@ -18,7 +18,6 @@ RED = (255, 0, 0)  # Red text for incorrect
 FONT_SIZE = 35
 clock = pygame.time.Clock()
 speech_text = ""
-BG = (50, 50, 50)
 
 #morse code mini game 
 FONT_SIZE_GAME = 24
