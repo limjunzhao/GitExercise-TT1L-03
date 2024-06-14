@@ -86,15 +86,15 @@ class Interface:
 
             if vol_up_button.draw(self.screen):
                 self.button_sfx.play()
-                adjust_volume(0.1)
+                self.adjust_volume(0.1)
 
             if vol_down_button.draw(self.screen):
                 self.button_sfx.play()
-                adjust_volume(-0.1)
+                self.adjust_volume(-0.1)
 
             if vol_mute_button.draw(self.screen):
                 self.button_sfx.play()
-                music_sfx.set_volume(0)
+                self.music_sfx.set_volume(0)
 
             if back_button.draw(self.screen):
                 self.button_sfx.play()
@@ -177,11 +177,11 @@ class Interface:
 
             pygame.display.flip()
 
-    def adjust_volume(vol_change):
+    def adjust_volume(self, vol_change):
         global vol
         vol += vol_change 
         vol = max(0.0, min(1.0, vol))
-        music_sfx.set_volume(vol)
+        self.music_sfx.set_volume(vol)
 
 
 
