@@ -24,10 +24,10 @@
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx": {
             "scale": 2,
-            "selectedLayer": 8,
+            "selectedLayer": 1,
             "viewCenter": {
-                "x": 1139.75,
-                "y": 738.75
+                "x": 437.5,
+                "y": 980.5
             }
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx#house set": {
@@ -36,7 +36,7 @@
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tmx/maps2.0.tmx#spr_terrains": {
             "dynamicWrapping": false,
-            "scaleInDock": 1.5,
+            "scaleInDock": 4,
             "scaleInEditor": 5.5
         },
         "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx/Test.tsx": {
@@ -132,7 +132,7 @@
     },
     "last.exportedFilePath": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/maps csv",
     "last.externalTilesetPath": "C:/Users/Lim Jun Zhao/Projects/mystery case/Data/tsx",
-    "last.imagePath": "C:/Users/Lim Jun Zhao/Projects/mystery case/sprites sheet for maps/sprites/characters/players sprites",
+    "last.imagePath": "C:/Users/Lim Jun Zhao/Projects/mystery case/sprites sheet for maps/Terrains/decors",
     "lastUsedTilesetExportFilter": "All Files (*)",
     "map.lastUsedExportFilter": "CSV files (*.csv)",
     "map.lastUsedFormat": "tmx",
