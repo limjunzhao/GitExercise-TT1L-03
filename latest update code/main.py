@@ -26,6 +26,8 @@ class Interface:
         quithover_img = pygame.image.load('images/button/quit_interface_hover.png')
         optionhover_img = pygame.image.load('images/button/opt_hover.png')
         optionstatic_img = pygame.image.load('images/button/opt_static.png')
+        controlshover_img = pygame.image.load('images/button/controls_button.png')
+        controlsstatic_img = pygame.image.load('images/button/controls_static_button.png')
 
         background_image = pygame.image.load('images/background/mane_background1.jpg')
         background_image = pygame.transform.scale(background_image, (WIDTH,HEIGHT))
@@ -39,7 +41,7 @@ class Interface:
         start_button = Button(image_x, 400, startstatic_img, starthover_img, (200, 100))
         quit_button = Button(image_x, 500, quitstatic_img, quithover_img, (200, 100))
         option_button = Button(10, 10, optionstatic_img, optionhover_img, (75, 75))
-        
+        controls_button = Button(image_x, 600, controlsstatic_img, controlshover_img, (200, 100))
         
 
         
@@ -61,6 +63,10 @@ class Interface:
             if quit_button.draw(self.screen):
                 self.button_sfx.play()
                 return "quit"
+            
+            if controls_button.draw(self.screen):
+                self.button_sfx.play()
+                return "controls"
 
             if option_button.draw(self.screen):
                 self.button_sfx.play()
@@ -131,7 +137,37 @@ class Interface:
                     sys.exit()
 
             pygame.display.update()
+
+    def controls(self):
+        # Load images
+        background_image = pygame.image.load('images/background/mane_background1.jpg')
+        background_image = pygame.transform.scale(background_image, (WIDTH, HEIGHT))
+
+        back_button = Button(5, 640, back_static, back_hover, (150, 80))
+
+
+
+        while True:
+            self.screen.fill('grey')
+            self.screen.blit(background_image, (0, 0))
+            draw_rounded_rect(screen, 'light grey', (200, 100, 900, 500), 50)
+            if back_button.draw(self.screen):
+                self.button_sfx.play()
+                return "back"  # Return to main menu
+
+            for info in controls_info:
+                text_surface = pause_font.render(info["controls_text"], True, info["controls_color"])
+                screen.blit(text_surface, info["controls_position"])
+
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+
+            pygame.display.update()
     
+
     def story_info(self):
 
         # Define messages with multiple layers
@@ -354,6 +390,11 @@ class Game:
 
             elif self.main_menu == "option":
                 option_action = self.interface.option()
+                if option_action == "back":
+                    self.main_menu = self.interface.main_menu()
+            
+            elif self.main_menu == "controls":
+                option_action = self.interface.controls()
                 if option_action == "back":
                     self.main_menu = self.interface.main_menu()
     

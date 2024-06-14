@@ -147,3 +147,12 @@ ms_questions = [
           ("Translate 'GAME' to Morse Code", "--. .- -- ."),
           ("Translate 'OPENAI' to Morse Code", "--- .--. . -. .- ..")
       ]
+
+
+controls_info = [
+    {"controls_text": "press 'W' to walk up", "controls_color": (0, 0, 0), "controls_position": (210, 195)},
+    {"controls_text": "press 'S' to walk down", "controls_color": (0, 0, 0), "controls_position": (210, 225)},
+    {"controls_text": "press 'S' to walk left", "controls_color": (0, 0, 0), "controls_position": (210, 255)},
+    {"controls_text": "press 'D' to walk right", "controls_color": (0, 0, 0), "controls_position": (210, 285)},
+    {"controls_text": "press 'Left-Shift' to sprint", "controls_color": (0, 0, 0), "controls_position": (210, 315)},
+]
