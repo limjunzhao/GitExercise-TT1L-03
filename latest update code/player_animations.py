@@ -13,7 +13,7 @@ class animation(Entity):
         self.import_player_assets()
         self.speed = 3
         self.status = 'idle'
-        self.animation_speed = 0.025
+        self.animation_speed = 0.04
         self.obstacle_sprites = obstacle_sprites
         self.frame_index = 0
 
