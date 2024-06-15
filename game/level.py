@@ -83,7 +83,7 @@ class Level:
 								
 								elif col == '6': 
 									dead_body = pygame.image.load('images/dead_body.png')
-									Tile((x,y),[self.visible_sprites],'dead_dino', dead_body)
+									Tile((x,y),[self.visible_sprites, self.obstacle_sprites],'dead_dino', dead_body)
 
 								else: 
 									if col == '0': npc_name = 'Maria'
