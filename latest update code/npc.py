@@ -4,7 +4,7 @@ from entity import Entity
 from support import * 
 from minigame import *
 from button import Button
-win_game_global = False
+win_game_global = True
 
 class Dialogue(): 
     def __init__(self):
@@ -122,12 +122,12 @@ class Execution():
         self.dialogue = Dialogue()
         self.font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
 
-          # Congratulations message surface
+        # Congratulations message surface
         self.congratulations_surface = pygame.Surface((WIDTH, HEIGHT))
         self.congratulations_image = pygame.image.load('images/background/background.jpg')
         self.congratulations_image = pygame.transform.scale(self.congratulations_image, (WIDTH, HEIGHT))
         self.congratulations_surface.blit(self.congratulations_image, (0, 0))
-        self.congratulations_text = self.font.render("Congratulations! You Win!", True, WHITE)
+        self.congratulations_text = self.font.render("Congratulations! You identified the killer Mr.Detective!", True, WHITE)
         self.congratulations_rect = self.congratulations_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
 
         # Game over message surface
@@ -135,14 +135,10 @@ class Execution():
         self.game_over_image = pygame.image.load('images/background/background.jpg')
         self.game_over_image = pygame.transform.scale(self.game_over_image, (WIDTH, HEIGHT))
         self.game_over_surface.blit(self.game_over_image, (0, 0))
-        self.game_over_text = self.font.render("Game Over! You Lose!", True, WHITE)
+        self.game_over_text = self.font.render("You failed to find the killer. Try again before it's too late!", True, WHITE)
         self.game_over_rect = self.game_over_text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
-
-        # Play again button
-        play_again_button_static = pygame.image.load('images/button/play_again.png')
-        play_again_button_hover = pygame.image.load('images/button/play_again_hover.png')
-        button_x = (WIDTH - play_again_button_static.get_width()) // 2 - 50
-        self.game_over_button = Button(button_x, HEIGHT * 0.7, play_again_button_static, play_again_button_hover,(200, 100))
+        
+   
 
     def identify_killer(self,screen):
         killer_dialogue = "Who do you think is the killer?\n A. Maria\n B. Willie\n C. Amber\n D. Officer Marlowe"
@@ -170,14 +166,11 @@ class Execution():
         while True:
             screen.blit(self.game_over_surface, (0, 0))
             screen.blit(self.game_over_text, self.game_over_rect)
-            if self.game_over_button.draw(screen):
-                self.button_sfx.play()
-                return "play_again"
             pygame.display.flip()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
+            pygame.time.delay(2000)
+            pygame.quit()
+            sys.exit()
+
 
 
 
@@ -210,7 +203,6 @@ class NPC(Entity):
         self.icon = npc_info.get('img')
         self.ques = npc_ques
         self.congrats = prof_congrats
-        self.reject = prof_reject
        
         self.status = 'idle'
         self.image = pygame.Surface((16,16))
@@ -311,7 +303,6 @@ class NPC(Entity):
                     return
                 
             elif response == 'B':
-                self.dialogue.render_instant_npc_speech(self.display_surface, self.reject, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                 print('your loss lol')
                 self.question = False
 
