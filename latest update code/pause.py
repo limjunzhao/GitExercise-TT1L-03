@@ -41,9 +41,9 @@ pause_info = [
     {"text": "Storyline recap:", "color": (0, 0, 0), "position": (500, 365)},
     {"text": "You're a detective teleporting to different time zone to solve mystery cases.", "color": (0, 0, 0), "position": (500, 395)},
     {"text": "You're currently in a small town called 'Arcadia' in the dino-verse trying", "color": (0, 0, 0), "position": (500, 425)},
-    {"text": "to solve a murder case which took place not long ago.", "color": (0, 0, 0), "position": (500, 455)},
+    {"text": "to solve a grisly murderer case which took place not long ago.", "color": (0, 0, 0), "position": (500, 455)},
     {"text": "It's 7am in the morning when you discovered the victim's dead body", "color": (0, 0, 0), "position": (500, 485)},
-    {"text": "outside a house / bar.  The early morning tranquility is shattered by the grim ", "color": (0, 0, 0), "position": (500, 515)},
+    {"text": "outside a house.  The early morning tranquility is shattered by the grim ", "color": (0, 0, 0), "position": (500, 515)},
     {"text": "discovery...", "color": (0, 0, 0), "position": (500, 545)},
 ]
 

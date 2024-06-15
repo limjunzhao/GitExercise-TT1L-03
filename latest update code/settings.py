@@ -40,15 +40,15 @@ score_font = pygame.font.Font(None, 24)
 
 #fonts loveletter
 cursive_font_path = 'images/loveletter/font/GreatVibes-Regular.ttf'  # Path to the cursive font file
-love_letter_font = pygame.font.Font(cursive_font_path, 22)  # Load cursive font
+love_letter_font = pygame.font.Font(cursive_font_path, 30)  # Load cursive font
 
 
 
 #npc dino dialogue info
 npc_data = {
     'Maria': {'who': "My name is Maria.",
-                'where' : 'In the morning, I made breakfast for my husband, then proceeded to do house chores until afternoon. After lunch with my husband, I engaged in a pleasant chit-chat with out neighbor, Amber', 
-                'what' : 'I eagerly awaited my husband’s return from work, and once he was back, we cooked dinner together and went to sleep afterwards.',
+                'where' : 'In the morning, I made breakfast for my husband, then proceeded to do house chores until afternoon. After lunch with my husband, I just rested at home and spend my time reading', 
+                'what' : 'I was sick the whole day so i didnt went out. I waited my husband to come home. Later, we cooked dinner together and went to sleep afterwards.',
                 "greeting":'',
                 'img': 'sprites sheet for maps/sprites/characters/npc/maria/idle/0.png',
                 "rawr": "raaawr rawr"
@@ -56,14 +56,14 @@ npc_data = {
 
     'Willie': {'who': "My name is Willie.",
                 'where' : 'I started my day by having breakfast with my wife Maria, followed by me heading to work, I then head to lunch with my wife and returned to work.', 
-                'what' : 'I came back home from work and got the ingredients ready and cooked dinner with my wife. After that, we went to bed before 10pm.',
+                'what' : 'I came back home from the office and got the ingredients ready and cooked dinner with my wife. After that, we went to bed before 10pm.',
                 "greeting":'',
                 'img': 'sprites sheet for maps/sprites/characters/npc/willie/idle/0.png',
                 "rawr": "raaawr rawr"
             },
     
     'Amber': {'who': "My name is Amber.",
-                'where' : 'In the day, I exercised in the park. And after that I had my coffee and breakfast. Meanwhile I watched TV for the time to pass. During lunch, I ate my leftover dinner from yesterday as my lunch. After lunch, me and Maria had our usual chit-chat but it was shorter than usual. And we were supposed to get groceries after that. So I went to buy the groceries myself and made dinner.', 
+                'where' : 'In the day, I exercised in the park. And after that I had my coffee and breakfast. Meanwhile I watched TV for the time to pass. During lunch, I ate my leftover dinner from yesterday. After lunch, I headed to Marias house. Maria told me she was busy for our usual day-to-day chit chat. But i saw her hanging around the backyard somehow. She might be doing her gardening.', 
                 'what' : 'As night falls, I took my dog for a night walk and went to bed.',
                 "greeting":'',
                 'img':'sprites sheet for maps/sprites/characters/npc/amber/idle/0.png',
@@ -79,7 +79,7 @@ npc_data = {
                 "rawr": "raaawr rawr"
             },
     'Alex': {'who': 'My name is Alex, just a normal maildino',
-                'where' : 'I reached here 7.00 am morning and start my work instanly. Before that I am on the way from my office which is Dino City Centre', 
+                'where' : 'I reached here 7.00 am morning and start my work instantly. Before that I am on the way from my office which is Dino City Centre', 
                 'what' : 'I am here to send a mail to Mr Willie, here it is...',
                 "greeting": 'Im here to give the letter to Mr Willie',
                 'img' : 'sprites sheet for maps/sprites/characters/npc/alex/idle/0.png',
@@ -91,7 +91,7 @@ npc_data = {
     'Professor':{'who': '',
                 'where' : '', 
                 'what' : '',
-                "greeting": 'Hello there dear treveller, would you likde to learn our language?',
+                "greeting": 'Hello there dear traveller, would you like to learn our language?',
                 'img' : 'sprites sheet for maps/sprites/characters/npc/professor/idle/0.png'
                 
             },
@@ -102,19 +102,19 @@ npc_data = {
 #npc dialogue question ask
 npc_ques =  ' A. Where were you you yesterday? \n B. Who are you, whats your name? \n C. What did you do last night?'
 prof_congrats = 'Congrats u graduate from Dino School'
-prof_reject = "Alrighty then, remmber knowledge is key."
+prof_reject = "Alrighty then, remember knowledge is key to success."
 # Messages to display
 messages = [
-    {"text": "Dearest Willie,", "color": (0, 0, 0), "position": (380, 200)},
-    {"text": "In your presence, my heart dances to a melody only you", "color": (0, 0, 0), "position": (380, 230)},
-    {"text": "compose. Your laughter is the rhythm that sets my soul", "color": (0, 0, 0), "position": (380, 260)},
-    {"text": "alight. With every glance, you paint the canvas of my world", "color": (0, 0, 0), "position": (380, 290)},
-    {"text": "with hues of affection. I am but a poet entranced by your", "color": (0, 0, 0), "position": (380, 320)},
-    {"text": "verses, lost in the depths of your gaze. In your arms, I find", "color": (0, 0, 0), "position": (380, 350)},
-    {"text": "the solace of home, and in your love, I discover the true", "color": (0, 0, 0), "position": (380, 380)},
-    {"text": "essence of belonging.", "color": (0, 0, 0), "position": (380, 410)},
-    {"text": "Love sidechick,", "color": (0, 0, 0), "position": (380, 440)},
-    {"text": "rawr", "color": (0, 0, 0), "position": (380, 470)},
+    {"text": "Dearest Willie,", "color": (0, 0, 0), "position": (360, 230)},
+    {"text": "In your presence, my heart dances to a melody only you", "color": (0, 0, 0), "position": (360, 260)},
+    {"text": "compose. Your laughter is the rhythm that sets my soul", "color": (0, 0, 0), "position": (360, 290)},
+    {"text": "alight. With every glance, you paint the canvas of my world", "color": (0, 0, 0), "position": (360, 320)},
+    {"text": "with hues of affection. I am but a poet entranced by your", "color": (0, 0, 0), "position": (360, 350)},
+    {"text": "verses, lost in the depths of your gaze. In your arms, I find", "color": (0, 0, 0), "position": (360, 380)},
+    {"text": "the solace of home, and in your love, I discover the true", "color": (0, 0, 0), "position": (360, 410)},
+    {"text": "essence of belonging.", "color": (0, 0, 0), "position": (360, 440)},
+    {"text": "Love sidechick,", "color": (0, 0, 0), "position": (360, 470)},
+    {"text": "rawr", "color": (0, 0, 0), "position": (360, 500)},
 ]
 
 # Words for the jumbled word game and their hints
