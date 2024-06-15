@@ -43,7 +43,7 @@ class animation(Entity):
             'up': (750, 265),
             'down': (750, 295),
             'left': (750, 325),
-            'right': (750, 355),
+            'right': (750, 355)
         }
 
         for status in positions.keys():
