@@ -152,7 +152,7 @@ class Interface:
         while running:
             self.screen.fill('grey')
             self.screen.blit(background_image, (0, 0))
-            draw_rounded_rect(screen,  'light blue', (200, 100, 900, 500), 50)
+            draw_rounded_rect(screen,  'light grey', (200, 100, 900, 500), 50)
             if back_button.draw(self.screen):
                 self.button_sfx.play()
                 return "back"  # Return to main menu
