@@ -6,6 +6,7 @@ from button import Button
 from pause import *
 from npc import Dialogue, Execution, NPC
 from minigame import *
+from player_animations import *
 
 class Interface:
     def __init__(self):
@@ -145,12 +146,13 @@ class Interface:
 
         back_button = Button(5, 640, back_static, back_hover, (150, 80))
 
+        player = animation((100, 100), [], [])
 
-
-        while True:
+        running = True
+        while running:
             self.screen.fill('grey')
             self.screen.blit(background_image, (0, 0))
-            draw_rounded_rect(screen, 'light grey', (200, 100, 900, 500), 50)
+            draw_rounded_rect(screen,  'light blue', (200, 100, 900, 500), 50)
             if back_button.draw(self.screen):
                 self.button_sfx.play()
                 return "back"  # Return to main menu
@@ -165,6 +167,22 @@ class Interface:
                     pygame.quit()
                     sys.exit()
 
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+
+            # Update and animate the player on the main screen
+            player.update()
+            screen.blit(player.image, player.rect.topleft)
+
+            # Animate multiple animations on the new page
+            player.animate_multiple(self.screen)
+
+            # Update the display
+            pygame.display.flip()
+
+            # Cap the frame rate
+            clock.tick(60)
             pygame.display.update()
     
 
