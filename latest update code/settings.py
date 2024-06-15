@@ -156,5 +156,5 @@ controls_info = [
     {"controls_text": "Press 'A' to walk left", "controls_color": (0, 0, 0), "controls_position": (420, 350)},
     {"controls_text": "Press 'D' to walk right", "controls_color": (0, 0, 0), "controls_position": (420, 430)},
     {"controls_text": "Press 'Left-Shift' to sprint", "controls_color": (0, 0, 0), "controls_position": (420, 500)},
-    {"controls_text": "Player:", "controls_color": (0, 0, 0), "controls_position": (10, 135)},
+    {"controls_text": "Player:", "controls_color": (0, 0, 0), "controls_position": (5, 135)},
 ]
