@@ -158,7 +158,7 @@ class Interface:
                 return "back"  # Return to main menu
 
             for info in controls_info:
-                text_surface = pause_font.render(info["controls_text"], True, info["controls_color"])
+                text_surface = controls_font.render(info["controls_text"], True, info["controls_color"])
                 screen.blit(text_surface, info["controls_position"])
 
 

@@ -10,6 +10,7 @@ class animation(Entity):
         self.rect = self.image.get_rect(topleft=pos)
         self.hitbox = self.rect.inflate(-48, -48)
 
+        self.scale_factor = 3 # Define the scale factor
         self.import_player_assets()
         self.speed = 3
         self.status = 'idle'
@@ -22,7 +23,9 @@ class animation(Entity):
         self.animations = {'up': [], 'down': [], 'left': [], 'right': []}
         for animation in self.animations.keys():
             full_path = character_path + animation
-            self.animations[animation] = import_folder(full_path)
+            frames = import_folder(full_path)
+            scaled_frames = [pygame.transform.scale(frame, (int(frame.get_width() * self.scale_factor), int(frame.get_height() * self.scale_factor))) for frame in frames]
+            self.animations[animation] = scaled_frames
 
     def get_status(self):
         if self.direction.x == 0 and self.direction.y == 0:
@@ -36,14 +39,12 @@ class animation(Entity):
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center=self.hitbox.center)
 
-
-
     def animate_multiple(self, surface):
         positions = {
-            'up': (750, 265),
-            'down': (750, 295),
-            'left': (750, 325),
-            'right': (750, 355),
+            'up': (750, 160),
+            'down': (750, 240),
+            'left': (750, 320),
+            'right': (750, 400),
         }
 
         for status in positions.keys():
