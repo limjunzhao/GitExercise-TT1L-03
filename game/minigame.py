@@ -226,32 +226,11 @@ class Morsecode:
         surface.blit(text_surface, position)
         return text_surface.get_width()  # Return the width of the rendered text
 
-    # Learning language screen
-    def display_learning_screen(self):
-        self.display_surface.fill(BLACK)  # Change background to black
-
-        text_base = "Learning Language"
-        text = text_base
-        max_dots = 5
-        clock = pygame.time.Clock()
-        dot_count = 0
-        running = True
-        start_time = time.time()
-
-        while running and time.time() - start_time < 5:  # Display for 5 seconds
-            self.display_surface.fill(BLACK)  # Change background to black
-            text = text_base + '.' * (dot_count % (max_dots + 1))
-            text_width = self.draw_text(self.display_surface, text, ((WIDTH - font_large.size(text)[0]) // 2, HEIGHT // 2), font_large, WHITE)  # Change text to white
-            pygame.display.flip()
-
-            dot_count += 1
-            clock.tick(2)  # Update every half second
-
-        pygame.display.flip()
+    
 
     # Display instructions to start the game
     def display_start_screen(self):
-        self.display_learning_screen()  # Display learning screen first
+
 
         waiting_for_start = True
         while waiting_for_start:
@@ -271,6 +250,47 @@ class Morsecode:
                         waiting_for_start = False
                         return
 
+    # Display instructions screen
+    def display_instructions_screen(self):
+      waiting_for_instructions = True
+      while waiting_for_instructions:
+          self.display_surface.fill(WHITE)
+
+          # Blit the start screen image
+          self.display_surface.blit(self.start_screen_image, (0, 0))
+
+          # Draw the instructions header
+          header = "Instructions:"
+          self.draw_text(self.display_surface, header, (WIDTH // 2 - 180, HEIGHT // 2 - 120), font_game, WHITE)
+
+          # Draw semi-transparent black background
+          instructions_background_rect = pygame.Rect(WIDTH // 2 - 200, HEIGHT // 2 - 100, 400, 240)
+          pygame.draw.rect(self.display_surface, (0, 0, 0, 150), instructions_background_rect)
+
+          instructions = [
+              "1. Complete this minigame to graduate",
+              "2. It's a Morse code-based game",
+              "3. Fill up the words with Morse codes"
+          ]
+          y_offset = HEIGHT // 2 - 80
+          for instruction in instructions:
+              self.draw_text(self.display_surface, instruction, (WIDTH // 2 - 180, y_offset), font_game, WHITE)
+              y_offset += FONT_SIZE_GAME + 10
+
+          # Draw the start message in white
+          self.draw_text(self.display_surface, 'Press Enter to continue', (WIDTH // 2 - 100, HEIGHT // 2 + 100), font_game, WHITE)
+
+          pygame.display.flip()
+
+          for event in pygame.event.get():
+              if event.type == pygame.QUIT:
+                  pygame.quit()
+                  sys.exit()
+              elif event.type == pygame.KEYDOWN:
+                  if event.key == pygame.K_RETURN:
+                      waiting_for_instructions = False
+                      return
+                      
     def display_note_in_game(self): 
         # Blit the start screen image as background
         self.display_surface.blit(self.start_screen_image, (0, 0))

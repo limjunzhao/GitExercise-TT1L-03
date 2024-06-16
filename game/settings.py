@@ -22,7 +22,7 @@ speech_text = ""
 #morse code mini game 
 FONT_SIZE_GAME = 24
 font_game = pygame.font.Font(None, FONT_SIZE_GAME)
-font_large = pygame.font.Font(None, 60)  # Define the learning language font here
+font_large = pygame.font.Font(None, 50)  # Define the learning language font here
 NOTES_WIDTH = 300
 X_OFFSET_RIGHT = 160  # Adjust this value to control the right offset for letters T-Z
 
