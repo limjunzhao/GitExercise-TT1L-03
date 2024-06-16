@@ -10,7 +10,7 @@ from player_animations import *
 
 class Interface:
     def __init__(self):
-        self.screen = pygame.display.set_mode((WIDTH,HEIGHT) )
+        self.screen = pygame.display.set_mode((WIDTH,HEIGHT),pygame.FULLSCREEN )
         self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
         self.font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
         self.music_sfx = pygame.mixer.Sound("images/music/background_music.mp3")

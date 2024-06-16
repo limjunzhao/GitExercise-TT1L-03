@@ -293,8 +293,7 @@ class NPC(Entity):
         for animation in self.animations.keys():
             full_main_path = main_path + animation
             self.animations[animation] = import_folder(full_main_path)
-        print(self.animations[animation])
-
+       
     def animate(self):
         animation = self.animations[self.status]
         # Loop over the frame index
@@ -384,20 +383,20 @@ class NPC(Entity):
 
             # Handle the response
             if response == 'A':
-                print('yay')
+
                 self.question = False
                 self.transition.fade_out()
                 self.execution.display_learning_screen()
                 self.transition.fade_in()
                 if self.morsecode.run() == 'Complete test':
                     win_game_global = True
-                    print("Game completed! Win game set to True.")  # Debug print
+                  
                     return
                 self.dialogue.render_instant_npc_speech(self.display_surface, self.congrats, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                 
             elif response == 'B':
                 self.dialogue.render_instant_npc_speech(self.display_surface, self.reject, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
-                print('your loss lol')
+                
                 self.question = False
                 
 
@@ -427,7 +426,7 @@ class NPC(Entity):
                         self.skip = False
                         npc_index = i
                         NPC.interaction_counts[self.npc_name] += 1
-                        print(f"Interacting with NPC: {self.npc_name}, win_game: {win_game_global}")  # Debug print
+                       
 
                         if win_game_global:
                             if self.npc_name == "Professor":
