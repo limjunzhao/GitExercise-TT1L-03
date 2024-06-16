@@ -193,10 +193,8 @@ class Jumbleword:
 
 
 
-
-
 class Morsecode:
-    def __init__(self): 
+    def __init__(self):
         self.display_surface = pygame.display.get_surface()
 
         # Load the start screen image and scale it to fill the window
@@ -212,28 +210,41 @@ class Morsecode:
         self.CURSOR_MIN_X = NOTES_WIDTH + 20
         self.CURSOR_MAX_X = NOTES_WIDTH + 260  # Adjust this value to set the maximum x-coordinate
 
-        self.question = ms_questions
+        self.question = ['Example Question 1', 'Example Question 2']  # Replace with your questions list
         random.shuffle(self.question)
         self.current_question_index = 0
-        self.current_question, self.answer = self.question[self.current_question_index]
+        self.current_question = self.question[self.current_question_index]
+        self.answer = ''  # Replace with your correct answer variable
         self.current_input = ''
         self.correct = None
 
-        self.win_game = False 
+        self.win_game = False
 
     # Function to draw text on the screen
     def draw_text(self, surface, text, position, font, color=BLACK):
-        self.text_surface = font_game.render(text, True, color)
-        self.display_surface.blit(self.text_surface, position)
-        return self.text_surface.get_width()  # Return the width of the rendered text
+        text_surface = font.render(text, True, color)
+        surface.blit(text_surface, position)
+        return text_surface.get_width()  # Return the width of the rendered text
+
+    # learning language screen
+    def display_learning_screen(self):
+        self.display_surface.fill(WHITE)
+
+        # Draw learning language
+        text = "Learning Language....."
+        text_width = self.draw_text(self.display_surface, text, ((WIDTH - self.draw_text(self.display_surface, text, (0, 0), font_game, WHITE)) // 2, HEIGHT // 2), font_game, BLACK)
+
+        pygame.display.flip()
+
+        # Delay for 5 seconds
+        time.sleep(4)
 
     # Display instructions to start the game
     def display_start_screen(self):
+        self.display_learning_screen()  # Display learning screen first
+
         waiting_for_start = True
         while waiting_for_start:
-            self.display_surface.fill(WHITE)
-
-            # Blit the start screen image
             self.display_surface.blit(self.start_screen_image, (0, 0))
 
             # Draw the start message in white
@@ -248,47 +259,6 @@ class Morsecode:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_RETURN:
                         waiting_for_start = False
-                        return
-
-    # Display instructions screen
-    def display_instructions_screen(self):
-        waiting_for_instructions = True
-        while waiting_for_instructions:
-            self.display_surface.fill(WHITE)
-
-            # Blit the start screen image
-            self.display_surface.blit(self.start_screen_image, (0, 0))
-
-            # Draw the instructions header
-            header = "Instructions:"
-            self.draw_text(self.display_surface, header, (WIDTH // 2 - 180, HEIGHT // 2 - 120), font_game, WHITE)
-
-            # Draw semi-transparent black background
-            instructions_background_rect = pygame.Rect(WIDTH // 2 - 200, HEIGHT // 2 - 100, 400, 240)
-            pygame.draw.rect(self.display_surface, (0, 0, 0, 150), instructions_background_rect)
-
-            instructions = [
-                "1. Complete this minigame to graduate",
-                "2. It's a Morse code-based game",
-                "3. Fill up the words with Morse codes"
-            ]
-            y_offset = HEIGHT // 2 - 80
-            for instruction in instructions:
-                self.draw_text(self.display_surface, instruction, (WIDTH // 2 - 180, y_offset), font_game, WHITE)
-                y_offset += FONT_SIZE_GAME + 10
-
-            # Draw the start message in white
-            self.draw_text(self.display_surface, 'Press Enter to continue', (WIDTH // 2 - 100, HEIGHT // 2 + 100), font_game, WHITE)
-
-            pygame.display.flip()
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN:
-                        waiting_for_instructions = False
                         return
 
     def display_note_in_game(self): 
