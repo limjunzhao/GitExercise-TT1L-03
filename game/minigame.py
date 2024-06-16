@@ -193,7 +193,6 @@ class Jumbleword:
 
 
 
-
 class Morsecode:
     def __init__(self):
         self.display_surface = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -229,7 +228,7 @@ class Morsecode:
 
     # Learning language screen
     def display_learning_screen(self):
-        self.display_surface.fill(WHITE)
+        self.display_surface.fill(BLACK)  # Change background to black
 
         text_base = "Learning Language"
         text = text_base
@@ -240,9 +239,9 @@ class Morsecode:
         start_time = time.time()
 
         while running and time.time() - start_time < 5:  # Display for 5 seconds
-            self.display_surface.fill(WHITE)
+            self.display_surface.fill(BLACK)  # Change background to black
             text = text_base + '.' * (dot_count % (max_dots + 1))
-            text_width = self.draw_text(self.display_surface, text, ((WIDTH - font_large.size(text)[0]) // 2, HEIGHT // 2), font_large, BLACK)
+            text_width = self.draw_text(self.display_surface, text, ((WIDTH - font_large.size(text)[0]) // 2, HEIGHT // 2), font_large, WHITE)  # Change text to white
             pygame.display.flip()
 
             dot_count += 1
