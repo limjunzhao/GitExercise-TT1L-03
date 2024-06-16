@@ -116,7 +116,6 @@ class Dialogue():
             clock.tick(20)
         
 
-
 class Execution():
     def __init__(self):
         self.dialogue = Dialogue()
@@ -193,7 +192,7 @@ class Transition:
             self.fade_surface.set_alpha(alpha)
             self.display_surface.blit(self.fade_surface, (0, 0))
             pygame.display.update()
-            pygame.time.delay(5)
+            pygame.time.delay(3)
         
         for alpha in range(255, 0, -1):  # Alpha ranges from 255 (opaque) to 0 (transparent)
             self.fade_surface.set_alpha(alpha)
@@ -276,7 +275,7 @@ class NPC(Entity):
         self.rect = self.image.get_rect(center=self.hitbox.center)
 
     def draw_npc_name_icon(self, screen, rect):
-        if self.show_npc == True:
+        if self.show_npc == True and self.show_player == False:
             self.name_surface = FONT_NAME.render(self.npc_name, True, WHITE)
             self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 50, self.dialogue.speech_rect.y - 20))
             self.display_surface.blit(self.name_surface, self.name_rect)
@@ -286,10 +285,11 @@ class NPC(Entity):
             self.icon_rect = self.icon_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 10  , self.dialogue.speech_rect.y - 40))
             screen.blit(self.icon_surface, self.icon_rect)
 
+            self.show_npc = False
         
 
     def player_name_icon(self, screen): 
-        if self.show_player == True:
+        if self.show_npc == False and self.show_player == True:
             self.name_surface = FONT_NAME.render('Me', True, WHITE)
             self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 50, self.dialogue.speech_rect.y - 20))
             screen.blit(self.name_surface, self.name_rect)
@@ -301,25 +301,21 @@ class NPC(Entity):
 
 
     def player_ask (self):
-        if self.show_npc == False and self.show_player == True:
-            self.player_name_icon(self.display_surface)
-        
 
         if self.stats == 'first meet':
+            self.player_name_icon(self.display_surface)
             self.dialogue.render_typewriter_npc_speech(self.display_surface, self.detective_dialogue, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
-
-
+            self.show_player = False
 
         elif self.stats == 'ask ques':
+            self.player_name_icon(self.display_surface)
             self.dialogue.render_instant_npc_speech(self.display_surface, self.ques, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
             self.show_player = False
 
 
     def npc_ans(self):
-        if self.show_npc == True and self.show_player == False:
-            self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
 
-
+        self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
         self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
 
 
@@ -412,8 +408,8 @@ class NPC(Entity):
                     if keys[pygame.K_e] and not self.speech_shown:
                         self.speech_shown = True
                         self.question = True
+                        self.show_npc = False   
                         self.show_player = True 
-                        self.show_npc = False
                         self.skip = False
                         npc_index = i
                         NPC.interaction_counts[self.npc_name] += 1
@@ -429,6 +425,7 @@ class NPC(Entity):
                                 #display player dialogue to ask question 
                                 self.stats = 'first meet' 
                                 self.player_ask()
+                                
                                
                                 
                                 for _ in range(3):
@@ -436,7 +433,7 @@ class NPC(Entity):
                                         self.stats = 'ask ques'
                                         self.player_ask()
                                         self.npc_ans()
-
+ 
 
                             elif self.npc_name == 'Officer':
                                

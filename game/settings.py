@@ -19,7 +19,7 @@ FONT_SIZE = 35
 clock = pygame.time.Clock()
 speech_text = ""
 
-#morse code mini game 
+#morse code minigame 
 FONT_SIZE_GAME = 24
 font_game = pygame.font.Font(None, FONT_SIZE_GAME)
 NOTES_WIDTH = 300
