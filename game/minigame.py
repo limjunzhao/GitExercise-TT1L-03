@@ -387,19 +387,11 @@ class Morsecode:
             self.draw_text(self.display_surface, '* make sure to enter space', (NOTES_WIDTH + 20, 20 + FONT_SIZE_GAME + 5 + 30), font_game, BLACK)
 
             # Draw user input
-<<<<<<< HEAD
             self.draw_text(self.display_surface, 'Your Input:', (NOTES_WIDTH + 20, 270), font_game, BLACK)
 
             # Draw line under your input
             pygame.draw.line(self.display_surface, BLACK, (NOTES_WIDTH + 15, 310), (NOTES_WIDTH + 265, 310), 2)
             self.draw_text(self.display_surface, self.current_input, (NOTES_WIDTH + 20, 290), font_game, BLACK)
-=======
-            self.draw_text(self.display_surface, 'Your Input:', (NOTES_WIDTH + 20, 200), font_game, BLACK)
-
-            # Draw line under your input
-            pygame.draw.line(self.display_surface, BLACK, (NOTES_WIDTH + 15, 260), (NOTES_WIDTH + 265, 260), 2)
-            self.draw_text(self.display_surface, self.current_input, (NOTES_WIDTH + 20, 200 + FONT_SIZE_GAME + 5), font_game, BLACK)
->>>>>>> 6e2acf052e7b6bfebeb72db69e5de255ace58224
 
             # Draw cursor
             pygame.draw.line(self.display_surface, BLACK, (self.cursor_x, self.cursor_y), (self.cursor_x, self.cursor_y + FONT_SIZE_GAME), 2)
@@ -407,17 +399,9 @@ class Morsecode:
             # Display correctness
             if self.correct is not None:
                 if self.correct:
-<<<<<<< HEAD
                     self.draw_text(self.display_surface, 'Correct!', (NOTES_WIDTH + 20, 330), font_game, GREEN)
-=======
-                    self.draw_text(self.display_surface, 'Correct!', (NOTES_WIDTH + 20, 300), font_game, GREEN)
->>>>>>> 6e2acf052e7b6bfebeb72db69e5de255ace58224
                 else:
                     self.draw_text(self.display_surface, 'Incorrect, try again.', (NOTES_WIDTH + 20, 330), font_game, RED)
 
             # Update display
-<<<<<<< HEAD
             pygame.display.flip()
-=======
-            pygame.display.flip()
->>>>>>> 6e2acf052e7b6bfebeb72db69e5de255ace58224
