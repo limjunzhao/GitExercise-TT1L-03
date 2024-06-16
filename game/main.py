@@ -14,7 +14,7 @@ class Interface:
         self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
         self.font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
         self.music_sfx = pygame.mixer.Sound("images/music/background_music.mp3")
-        self.vol = 0.1
+        self.vol = 0.05
         self.music_sfx.play(loops = -1)
         self.music_sfx.set_volume(self.vol)
         self.button_sfx.set_volume(self.vol)
@@ -308,9 +308,8 @@ class Game:
         self.music_sfx = self.interface.music_sfx
         self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
         self.spawn_sfx = pygame.mixer.Sound("images/music/Voicy_Undertale Spawn.mp3")  # spawn sound
-        self.vol = 0.1
+        self.vol = 0.05
         self.button_sfx.play()
-        # self.spawn_sfx.play()  # Play spawn sound effect
         self.music_sfx.set_volume(self.vol)
         self.button_sfx.set_volume(self.vol)
 

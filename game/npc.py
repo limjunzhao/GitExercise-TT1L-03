@@ -19,7 +19,7 @@ class Dialogue():
 
 
     def escape_dialogue_text_display (self, screen, text, rect, font, color): 
-        skip_text = "Press TAB key to escape the dialogue"
+        skip_text = "[TAB] to escape the dialogue"
 
         self.text_surface = FONT.render(skip_text, True, BLACK)
         self.text_rect = self.text_surface.get_rect(bottomright = (self.speech_rect.x + 1220, self.speech_rect.y + 170))
@@ -250,6 +250,7 @@ class NPC(Entity):
         # Import Dialogue and Execution 
         self.dialogue = Dialogue()
         self.execution = Execution()
+        self.transition = Transition()
         self.npc_speed = 0.1
         self.morsecode = Morsecode()
         self.jumbleword = Jumbleword()
@@ -367,7 +368,7 @@ class NPC(Entity):
     def ask_professor_questions(self):
         global win_game_global
         questions = [
-            ("Do you wish to learn our language?", ["A: Yes!    B: No.."]),
+            ("Hello there dear treveller, would you likde to learn our language?", ["A: Yes!    B: No.."]),
         ]
 
         for question, choices in questions:
@@ -398,6 +399,7 @@ class NPC(Entity):
                 self.dialogue.render_instant_npc_speech(self.display_surface, self.reject, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                 print('your loss lol')
                 self.question = False
+                
 
             pygame.time.wait(1000)  # Pause to let player read the response
 
