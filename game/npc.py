@@ -4,7 +4,7 @@ from entity import Entity
 from support import * 
 from minigame import *
 from button import Button
-win_game_global = True
+win_game_global = False
 
 class Dialogue(): 
     def __init__(self):
@@ -118,6 +118,7 @@ class Dialogue():
 
 class Execution():
     def __init__(self):
+        self.display_surface = pygame.display.get_surface()
         self.dialogue = Dialogue()
         self.font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
 
@@ -180,6 +181,34 @@ class Execution():
                     pygame.quit()
                     sys.exit()
 
+    # Function to draw text on the screen
+    def draw_text(self, surface, text, position, font, color=BLACK):
+        text_surface = font.render(text, True, color)
+        surface.blit(text_surface, position)
+        return text_surface.get_width()  # Return the width of the rendered text
+
+    # Learning language screen
+    def display_learning_screen(self):
+        self.display_surface.fill(BLACK)  # Change background to black
+
+        text_base = "Learning Language"
+        text = text_base
+        max_dots = 5
+        clock = pygame.time.Clock()
+        dot_count = 0
+        running = True
+        start_time = time.time()
+
+        while running and time.time() - start_time < 5:  # Display for 5 seconds
+            self.display_surface.fill(BLACK)  # Change background to black
+            text = text_base + '.' * (dot_count % (max_dots + 1))
+            text_width = self.draw_text(self.display_surface, text, ((WIDTH - font_large.size(text)[0]) // 2, HEIGHT // 2), font_large, WHITE)  # Change text to white
+            pygame.display.flip()
+
+            dot_count += 1
+            clock.tick(2)  # Update every half second
+
+        pygame.display.flip()
 
 class Transition:
     def __init__ (self): 
@@ -188,7 +217,7 @@ class Transition:
         self.fade_surface.fill(BLACK)
     
     def fade_out(self):
-        for alpha in range(0, 256, 1):  # Alpha ranges from 0 (transparent) to 255 (opaque)
+        for alpha in range(0, 256, 1):  
             self.fade_surface.set_alpha(alpha)
             self.display_surface.blit(self.fade_surface, (0, 0))
             pygame.display.update()
@@ -201,6 +230,10 @@ class Transition:
             self.fade_surface.set_alpha(alpha)
             self.display_surface.blit(self.fade_surface, (0, 0))
             pygame.display.update()
+
+    # Function to fade in
+    def fade_in(self):
+        pass
 
 
 class NPC(Entity):
@@ -233,6 +266,10 @@ class NPC(Entity):
         self.ques = npc_ques
         self.congrats = prof_congrats
        
+
+        self.detective_dialogue = detective_dialogue
+        self.rejected_dialogue = rejected_dialogue
+
         self.status = 'idle'
         self.image = pygame.Surface((16,16))
         self.rect = self.image.get_rect(topleft=pos)
@@ -268,7 +305,7 @@ class NPC(Entity):
         self.rect = self.image.get_rect(center=self.hitbox.center)
 
     def draw_npc_name_icon(self, screen, rect):
-        if self.show_npc and not self.show_player:
+
             self.name_surface = FONT_NAME.render(self.npc_name, True, WHITE)
             self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 50, self.dialogue.speech_rect.y - 20))
             self.display_surface.blit(self.name_surface, self.name_rect)
@@ -282,7 +319,6 @@ class NPC(Entity):
         
 
     def player_name_icon(self, screen): 
-        if self.show_player == True:
             self.name_surface = FONT_NAME.render('Me', True, WHITE)
             self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 50, self.dialogue.speech_rect.y - 20))
             screen.blit(self.name_surface, self.name_rect)
@@ -329,6 +365,7 @@ class NPC(Entity):
                         self.dialogue.render_typewriter_npc_speech(screen, dialogue_what, BLACK, rect, font)
                         if self.npc_name == 'Alex': 
                             self.question = False
+                            self.transition.fade_out()
                             self.jumbleword.run()
                            
                     if event.key == pygame.K_TAB:  # Escape dialogue
@@ -365,6 +402,9 @@ class NPC(Entity):
             if response == 'A':
                 print('yay')
                 self.question = False
+                self.transition.fade_out()
+                self.execution.display_learning_screen()
+                self.transition.fade_in()
                 if self.morsecode.run() == 'Complete test':
                     win_game_global = True
                     print("Game completed! Win game set to True.")  # Debug print
@@ -372,6 +412,7 @@ class NPC(Entity):
                 self.dialogue.render_instant_npc_speech(self.display_surface, self.congrats, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                 
             elif response == 'B':
+                self.dialogue.render_instant_npc_speech(self.display_surface, self.reject, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                 print('your loss lol')
                 self.question = False
 
@@ -448,6 +489,7 @@ class NPC(Entity):
 
                         else:
                             if self.npc_name == "Professor":
+                                self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
                                 self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
                                 self.ask_professor_questions()
 

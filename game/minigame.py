@@ -193,46 +193,47 @@ class Jumbleword:
 
 
 
-
-
 class Morsecode:
-    def __init__ (self): 
-      self.display_surface = pygame.display.get_surface()
+    def __init__(self):
+        self.display_surface = pygame.display.set_mode((WIDTH, HEIGHT))
 
-      # Load the start screen image and scale it to fill the window
-      self.start_screen_image = pygame.image.load('images/morsecode_minigame/library.jpeg')
-      self.start_screen_image = pygame.transform.scale(self.start_screen_image, (WIDTH, HEIGHT))
+        # Load the start screen image and scale it to fill the window
+        self.start_screen_image = pygame.image.load('images/morsecode_minigame/library.jpeg')
+        self.start_screen_image = pygame.transform.scale(self.start_screen_image, (WIDTH, HEIGHT))
 
-      # Game variables
-      # Define cursor position variables
-      self.cursor_x = NOTES_WIDTH + 20
-      self.cursor_y = 220
+        # Game variables
+        # Define cursor position variables
+        self.cursor_x = NOTES_WIDTH + 20
+        self.cursor_y = 220
 
-      # Constants for cursor boundaries
-      self.CURSOR_MIN_X = NOTES_WIDTH + 20
-      self.CURSOR_MAX_X = NOTES_WIDTH + 260  # Adjust this value to set the maximum x-coordinate
+        # Constants for cursor boundaries
+        self.CURSOR_MIN_X = NOTES_WIDTH + 20
+        self.CURSOR_MAX_X = NOTES_WIDTH + 260  # Adjust this value to set the maximum x-coordinate
 
-      self.question = ms_questions
-      random.shuffle(self.question)
-      self.current_question_index = 0
-      self.current_question, self.answer = self.question[self.current_question_index]
-      self.current_input = ''
-      self.correct = None
+        self.question = ['Example Question 1', 'Example Question 2']  # Replace with your questions list
+        random.shuffle(self.question)
+        self.current_question_index = 0
+        self.current_question = self.question[self.current_question_index]
+        self.answer = ''  # Replace with your correct answer variable
+        self.current_input = ''
+        self.correct = None
 
-      self.win_game = False 
+        self.win_game = False
+
     # Function to draw text on the screen
-    def draw_text(self, surface, text, position, font, color = BLACK):
-        self.text_surface = font_game.render(text, True, color)
-        self.display_surface.blit(self.text_surface, position)
-        return self.text_surface.get_width()  # Return the width of the rendered text
+    def draw_text(self, surface, text, position, font, color=BLACK):
+        text_surface = font.render(text, True, color)
+        surface.blit(text_surface, position)
+        return text_surface.get_width()  # Return the width of the rendered text
+
+    
 
     # Display instructions to start the game
     def display_start_screen(self):
+
+
         waiting_for_start = True
         while waiting_for_start:
-            self.display_surface.fill(WHITE)
-
-            # Blit the start screen image
             self.display_surface.blit(self.start_screen_image, (0, 0))
 
             # Draw the start message in white
@@ -289,9 +290,10 @@ class Morsecode:
                   if event.key == pygame.K_RETURN:
                       waiting_for_instructions = False
                       return
-
+                      
     def display_note_in_game(self): 
-        self.display_surface.fill(WHITE)
+        # Blit the start screen image as background
+        self.display_surface.blit(self.start_screen_image, (0, 0))
 
         # Draw Morse code notes on the left side with semi-transparent background
         self.notes_rect = pygame.Rect(10, 10, NOTES_WIDTH + 5, HEIGHT - 20)
@@ -299,22 +301,20 @@ class Morsecode:
 
         y_offset = 20
         x_offset = 20
-        self.draw_text(self.display_surface, 'Morse Code Notes:', (x_offset, y_offset), font_game)
+        self.draw_text(self.display_surface, 'Morse Code Notes:', (x_offset, y_offset), font_game, BLACK)
         y_offset = FONT_SIZE_GAME + 10
         for letter, morse in MORSE_CODE_DICT.items():
             x_offset = 20
             if letter > 'W':
                 x_offset += X_OFFSET_RIGHT
 
-            self.draw_text(self.display_surface, f'{letter}: {morse}', (x_offset, y_offset + 10), font_game)
+            self.draw_text(self.display_surface, f'{letter}: {morse}', (x_offset, y_offset + 10), font_game, BLACK)
             y_offset += FONT_SIZE_GAME + 5
 
             if y_offset > HEIGHT - FONT_SIZE_GAME:
                 y_offset = 30
 
-            
-        
-    def run (self):
+    def run(self):
         # Display start screen
         self.display_start_screen()
 
@@ -324,6 +324,15 @@ class Morsecode:
         running = True
         while running:
             self.display_note_in_game()
+
+            # Draw background rectangle behind the question
+            question_text_width = max(font_game.size(self.current_question)[0], font_game.size('* make sure to enter space')[0])
+            question_background_rect = pygame.Rect(NOTES_WIDTH + 20, 20, question_text_width + 40, 2 * FONT_SIZE_GAME + 5 + 30 + 40)
+            pygame.draw.rect(self.display_surface, (200, 200, 200, 150), question_background_rect)  # Semi-transparent gray background
+
+            # Draw background rectangle behind the input
+            input_background_rect = pygame.Rect(NOTES_WIDTH + 20, 260, question_text_width + 40, FONT_SIZE_GAME + 5 + 40 + 30)
+            pygame.draw.rect(self.display_surface, (200, 200, 200, 150), input_background_rect)  # Semi-transparent gray background
 
             # Event handling
             for event in pygame.event.get():
@@ -345,7 +354,6 @@ class Morsecode:
                         if self.correct:
                             # Move to the next question
                             self.current_question_index += 1
-                            
 
                             if self.current_question_index < len(self.question):
                                 self.current_question, self.answer = self.question[self.current_question_index]
@@ -355,7 +363,7 @@ class Morsecode:
                                 pygame.time.wait(1000)
                                 running = False
                                 return 'Complete test'
-                                
+
                         else:
                             self.current_input = ''  # Clear input box on incorrect answer
                         # Reset cursor position
@@ -364,7 +372,7 @@ class Morsecode:
                     elif event.key == pygame.K_ESCAPE:
                         # Quit the game if Escape key is pressed
                         running = False
-                        return 
+                        return
 
                     else:
                         self.current_input += event.unicode.upper()
@@ -374,28 +382,26 @@ class Morsecode:
                             self.cursor_x = self.CURSOR_MAX_X
 
             # Draw question on the right side
-            self.draw_text(self.display_surface, 'Question:', (NOTES_WIDTH + 20, 20), font_game)
-            self.draw_text(self.display_surface, self.current_question, (NOTES_WIDTH + 20, 20 + FONT_SIZE + 5), font_game)
-            self.draw_text(self.display_surface, '* make sure to enter space', (NOTES_WIDTH + 20, 20 + FONT_SIZE_GAME + 5 + 30), font_game)
+            self.draw_text(self.display_surface, 'Question:', (NOTES_WIDTH + 20, 20), font_game, BLACK)
+            self.draw_text(self.display_surface, self.current_question, (NOTES_WIDTH + 20, 20 + FONT_SIZE + 5), font_game, BLACK)
+            self.draw_text(self.display_surface, '* make sure to enter space', (NOTES_WIDTH + 20, 20 + FONT_SIZE_GAME + 5 + 30), font_game, BLACK)
 
             # Draw user input
-            self.draw_text(self.display_surface, 'Your Input:', (NOTES_WIDTH + 20, 200), font_game)
+            self.draw_text(self.display_surface, 'Your Input:', (NOTES_WIDTH + 20, 270), font_game, BLACK)
 
             # Draw line under your input
-            pygame.draw.line(self.display_surface, BLACK, (NOTES_WIDTH + 15, 260), (NOTES_WIDTH + 265, 260), 2)
-            self.draw_text(self.display_surface, self.current_input, (NOTES_WIDTH + 20, 200 + FONT_SIZE_GAME + 5), font_game)
-            
+            pygame.draw.line(self.display_surface, BLACK, (NOTES_WIDTH + 15, 310), (NOTES_WIDTH + 265, 310), 2)
+            self.draw_text(self.display_surface, self.current_input, (NOTES_WIDTH + 20, 290), font_game, BLACK)
+
             # Draw cursor
             pygame.draw.line(self.display_surface, BLACK, (self.cursor_x, self.cursor_y), (self.cursor_x, self.cursor_y + FONT_SIZE_GAME), 2)
 
             # Display correctness
             if self.correct is not None:
                 if self.correct:
-                    self.draw_text(self.display_surface, 'Correct!', (NOTES_WIDTH + 20, 300), font_game, GREEN)
-                    
+                    self.draw_text(self.display_surface, 'Correct!', (NOTES_WIDTH + 20, 330), font_game, GREEN)
                 else:
-                    self.draw_text(self.display_surface, 'Incorrect, try again.', (NOTES_WIDTH + 20, 300), font_game, RED)
+                    self.draw_text(self.display_surface, 'Incorrect, try again.', (NOTES_WIDTH + 20, 330), font_game, RED)
 
             # Update display
             pygame.display.flip()
-
