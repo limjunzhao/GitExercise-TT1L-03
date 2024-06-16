@@ -19,10 +19,10 @@ FONT_SIZE = 35
 clock = pygame.time.Clock()
 speech_text = ""
 
-#morse code mini game 
+#morse code minigame 
 FONT_SIZE_GAME = 24
 font_game = pygame.font.Font(None, FONT_SIZE_GAME)
-font_large = pygame.font.Font(None, 60)  # Define the learning language font here
+font_large = pygame.font.Font(None, 50)  # Define the learning language font here
 NOTES_WIDTH = 300
 X_OFFSET_RIGHT = 160  # Adjust this value to control the right offset for letters T-Z
 
@@ -101,8 +101,10 @@ npc_data = {
 
 #npc dialogue question ask
 npc_ques =  ' A. Where were you you yesterday? \n B. Who are you, whats your name? \n C. What did you do last night?'
-prof_congrats = 'Congrats you graduate from Dino School'
-prof_reject = "Alrighty then, remmber knowledge is key."
+prof_congrats = 'Congrats to you have graduate from Dino School'
+detective_dialogue = 'I am here to investigate the incidents. Let me ask you a few question.'
+rejected_dialogue = 'Fine, but I believe we will meet again soon..'
+
 # Messages to display
 messages = [
     {"text": "Dearest Willie,", "color": (0, 0, 0), "position": (380, 200)},
