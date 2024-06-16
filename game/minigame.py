@@ -193,9 +193,10 @@ class Jumbleword:
 
 
 
+
 class Morsecode:
     def __init__(self):
-        self.display_surface = pygame.display.get_surface()
+        self.display_surface = pygame.display.set_mode((WIDTH, HEIGHT))
 
         # Load the start screen image and scale it to fill the window
         self.start_screen_image = pygame.image.load('images/morsecode_minigame/library.jpeg')
@@ -226,18 +227,28 @@ class Morsecode:
         surface.blit(text_surface, position)
         return text_surface.get_width()  # Return the width of the rendered text
 
-    # learning language screen
+    # Learning language screen
     def display_learning_screen(self):
         self.display_surface.fill(WHITE)
 
-        # Draw learning language
-        text = "Learning Language....."
-        text_width = self.draw_text(self.display_surface, text, ((WIDTH - self.draw_text(self.display_surface, text, (0, 0), font_game, WHITE)) // 2, HEIGHT // 2), font_game, BLACK)
+        text_base = "Learning Language"
+        text = text_base
+        max_dots = 5
+        clock = pygame.time.Clock()
+        dot_count = 0
+        running = True
+        start_time = time.time()
+
+        while running and time.time() - start_time < 5:  # Display for 5 seconds
+            self.display_surface.fill(WHITE)
+            text = text_base + '.' * (dot_count % (max_dots + 1))
+            text_width = self.draw_text(self.display_surface, text, ((WIDTH - font_large.size(text)[0]) // 2, HEIGHT // 2), font_large, BLACK)
+            pygame.display.flip()
+
+            dot_count += 1
+            clock.tick(2)  # Update every half second
 
         pygame.display.flip()
-
-        # Delay for 5 seconds
-        time.sleep(4)
 
     # Display instructions to start the game
     def display_start_screen(self):
