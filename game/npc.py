@@ -4,7 +4,7 @@ from entity import Entity
 from support import * 
 from minigame import *
 from button import Button
-win_game_global = False
+win_game_global = True
 
 class Dialogue(): 
     def __init__(self):
@@ -306,11 +306,10 @@ class NPC(Entity):
 
     def draw_npc_name_icon(self, screen, rect):
 
-            self.name_surface = FONT_NAME.render(self.npc_name, True, WHITE)
-            self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 50, self.dialogue.speech_rect.y - 20))
-            self.display_surface.blit(self.name_surface, self.name_rect)
+        self.name_surface = FONT_NAME.render(self.npc_name, True, WHITE)
+        self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 50, self.dialogue.speech_rect.y - 20))
+        self.display_surface.blit(self.name_surface, self.name_rect)
 
-    def image_icon (self, screen, rect):
         self.icon_surface = pygame.image.load(self.icon).convert_alpha()
         self.icon_surface = pygame.transform.scale2x(self.icon_surface)
         self.icon_rect = self.icon_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 10  , self.dialogue.speech_rect.y - 40))
@@ -318,22 +317,9 @@ class NPC(Entity):
 
         
 
-    def player_name_icon(self, screen): 
-            self.name_surface = FONT_NAME.render('Me', True, WHITE)
-            self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 50, self.dialogue.speech_rect.y - 20))
-            screen.blit(self.name_surface, self.name_rect)
-
-            self.icon_surface = pygame.image.load('sprites sheet for maps/sprites/characters/player/idle/0.png').convert_alpha()
-            self.icon_surface = pygame.transform.scale2x(self.icon_surface)
-            self.icon_rect = self.icon_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 10  , self.dialogue.speech_rect.y - 40))
-            screen.blit(self.icon_surface, self.icon_rect)
-
 
     def player_ask (self):
-        if self.show_npc == False and self.show_player == True:
-            self.player_name_icon(self.display_surface)
-        
-
+        self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
         if self.stats == 'first meet':
             self.dialogue.render_typewriter_npc_speech(self.display_surface, self.detective_dialogue, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
 
@@ -345,10 +331,7 @@ class NPC(Entity):
 
 
     def npc_ans(self):
-        if self.show_npc == True and self.show_player == False:
-            self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
-
-
+        self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
         self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
 
 
@@ -446,8 +429,7 @@ class NPC(Entity):
 
                         if win_game_global:
                             if self.npc_name == "Professor":
-                                self.image_icon(self.display_surface, self.dialogue.speech_rect)
-                                self.draw()
+                                self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
                                 self.dialogue.render_instant_npc_speech(self.display_surface, self.congrats, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
 
 
@@ -480,16 +462,10 @@ class NPC(Entity):
                                     self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                                     pygame.time.wait(1000)  
 
-                            elif self.npc_name == 'Alex': 
-                                self.image_icon(self.display_surface, self.dialogue.speech_rect)
-                                self.draw_npc_name()
-                                self.dialogue.render_instant_npc_speech(self.display_surface, self.ques, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
-                                self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
                                 
 
                         else:
                             if self.npc_name == "Professor":
-                                self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
                                 self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
                                 self.ask_professor_questions()
 
