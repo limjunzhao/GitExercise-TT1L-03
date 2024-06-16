@@ -102,7 +102,9 @@ npc_data = {
 #npc dialogue question ask
 npc_ques =  ' A. Where were you you yesterday? \n B. Who are you, whats your name? \n C. What did you do last night?'
 prof_congrats = 'Congrats u graduate from Dino School'
-prof_reject = "Alrighty then, remember knowledge is key to success."
+detective_dialogue = 'I am here to investigate the incidents. Let me ask you a few question.'
+rejected_dialogue = 'Fine, but I believe we will meet again soon..'
+
 # Messages to display
 messages = [
     {"text": "Dearest Willie,", "color": (0, 0, 0), "position": (360, 230)},
