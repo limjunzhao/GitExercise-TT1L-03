@@ -200,12 +200,22 @@ class Morsecode:
         # Load the start screen image and scale it to fill the window
         self.start_screen_image = pygame.image.load('images/morsecode_minigame/library.jpeg')
         self.start_screen_image = pygame.transform.scale(self.start_screen_image, (WIDTH, HEIGHT))
+        # Load the start screen image and scale it to fill the window
+        self.start_screen_image = pygame.image.load('images/morsecode_minigame/library.jpeg')
+        self.start_screen_image = pygame.transform.scale(self.start_screen_image, (WIDTH, HEIGHT))
 
         # Game variables
         # Define cursor position variables
         self.cursor_x = NOTES_WIDTH + 20
         self.cursor_y = 220
+        # Game variables
+        # Define cursor position variables
+        self.cursor_x = NOTES_WIDTH + 20
+        self.cursor_y = 220
 
+        # Constants for cursor boundaries
+        self.CURSOR_MIN_X = NOTES_WIDTH + 20
+        self.CURSOR_MAX_X = NOTES_WIDTH + 260  # Adjust this value to set the maximum x-coordinate
         # Constants for cursor boundaries
         self.CURSOR_MIN_X = NOTES_WIDTH + 20
         self.CURSOR_MAX_X = NOTES_WIDTH + 260  # Adjust this value to set the maximum x-coordinate
@@ -217,6 +227,15 @@ class Morsecode:
         self.answer = ''  # Replace with your correct answer variable
         self.current_input = ''
         self.correct = None
+        self.question = ['Example Question 1', 'Example Question 2']  # Replace with your questions list
+        random.shuffle(self.question)
+        self.current_question_index = 0
+        self.current_question = self.question[self.current_question_index]
+        self.answer = ''  # Replace with your correct answer variable
+        self.current_input = ''
+        self.correct = None
+
+        self.win_game = False
 
         self.win_game = False
 
@@ -251,6 +270,8 @@ class Morsecode:
 
     # Display instructions to start the game
     def display_start_screen(self):
+        self.display_learning_screen()  # Display learning screen first
+
         self.display_learning_screen()  # Display learning screen first
 
         waiting_for_start = True

@@ -202,7 +202,7 @@ class Interface:
                 {"text": "Its’s 7am in the morning and you discovered the victim’s body laying",
                 "color": WHITE,
                 "position": (60, 250)},
-                {"text": "(outside a house/bar) and the blood was still damped which means.",
+                {"text": "outside a house and the blood was still damped which means.",
                 "color": WHITE,  
                 "position": (70, 300)},
                 {"text": "the killing happened not long ago",
