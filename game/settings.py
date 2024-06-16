@@ -78,8 +78,8 @@ npc_data = {
                 'img':'sprites sheet for maps/sprites/characters/npc/officer/idle/0.png',
                 "rawr": "raaawr rawr"
             },
-    'Alex': {'who': 'My name is Alex, just a normal maildino',
-                'where' : 'I reached here 7.00 am morning and start my work instanly. Before that I am on the way from my office which is Dino City Centre', 
+    'Alex': {'who': 'My name is Alex, just a normal mail dino',
+                'where' : 'I reached here 7.00am yesterday and start my work instanly. Before that I am on the way from my office which is Dino City Centre', 
                 'what' : 'I am here to send a mail to Mr Willie, here it is...',
                 "greeting": 'Im here to give the letter to Mr Willie',
                 'img' : 'sprites sheet for maps/sprites/characters/npc/alex/idle/0.png',
@@ -91,7 +91,7 @@ npc_data = {
     'Professor':{'who': '',
                 'where' : '', 
                 'what' : '',
-                "greeting": 'Hello there dear treveller, would you likde to learn our language?',
+                "greeting": 'Hello there dear traveller, would you liked to learn our language?',
                 'img' : 'sprites sheet for maps/sprites/characters/npc/professor/idle/0.png'
                 
             },

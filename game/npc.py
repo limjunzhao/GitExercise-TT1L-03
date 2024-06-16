@@ -367,7 +367,7 @@ class NPC(Entity):
     def ask_professor_questions(self):
         global win_game_global
         questions = [
-            ("Hello there dear treveller, would you likde to learn our language?", ["A: Yes!    B: No.."]),
+            ("Hello there dear traveller, would you liked to learn our language?", ["A: Yes!    B: No.."]),
         ]
 
         for question, choices in questions:
@@ -389,10 +389,9 @@ class NPC(Entity):
                 self.execution.display_learning_screen()
                 self.transition.fade_in()
                 if self.morsecode.run() == 'Complete test':
-                    win_game_global = True
-                  
+                    win_game_global = True                  
                     return
-                self.dialogue.render_instant_npc_speech(self.display_surface, self.congrats, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+                
                 
             elif response == 'B':
                 self.dialogue.render_instant_npc_speech(self.display_surface, self.reject, BLACK, self.dialogue.speech_rect, SPEECH_FONT)

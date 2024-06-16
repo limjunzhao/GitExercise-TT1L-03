@@ -10,7 +10,7 @@ from player_animations import *
 
 class Interface:
     def __init__(self):
-        self.screen = pygame.display.set_mode((WIDTH,HEIGHT),pygame.FULLSCREEN )
+        self.screen = pygame.display.set_mode((WIDTH,HEIGHT))
         self.button_sfx = pygame.mixer.Sound("images/music/new_button_sfx.mp3")
         self.font = pygame.font.Font('freesansbold.ttf', FONT_SIZE)
         self.music_sfx = pygame.mixer.Sound("images/music/background_music.mp3")
@@ -202,7 +202,7 @@ class Interface:
                 {"text": "Its’s 7am in the morning and you discovered the victim’s body laying",
                 "color": WHITE,
                 "position": (60, 250)},
-                {"text": "(outside a house/bar) and the blood was still damped which means.",
+                {"text": "outside a house and the blood was still damped which means",
                 "color": WHITE,  
                 "position": (70, 300)},
                 {"text": "the killing happened not long ago",
