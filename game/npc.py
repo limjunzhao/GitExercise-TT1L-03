@@ -4,7 +4,7 @@ from entity import Entity
 from support import * 
 from minigame import *
 from button import Button
-win_game_global = True
+win_game_global = False
 
 class Dialogue(): 
     def __init__(self):
