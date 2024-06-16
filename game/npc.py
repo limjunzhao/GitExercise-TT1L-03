@@ -310,6 +310,7 @@ class NPC(Entity):
                     win_game_global = True
                     print("Game completed! Win game set to True.")  # Debug print
                     return
+                self.dialogue.render_instant_npc_speech(self.display_surface, self.congrats, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                 
             elif response == 'B':
                 print('your loss lol')

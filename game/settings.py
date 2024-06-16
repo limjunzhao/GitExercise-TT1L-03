@@ -100,7 +100,7 @@ npc_data = {
 
 #npc dialogue question ask
 npc_ques =  ' A. Where were you you yesterday? \n B. Who are you, whats your name? \n C. What did you do last night?'
-prof_congrats = 'Congrats u graduate from Dino School'
+prof_congrats = 'Congrats to you have graduate from Dino School'
 
 # Messages to display
 messages = [
