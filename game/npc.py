@@ -212,6 +212,7 @@ class NPC(Entity):
         self.icon = npc_info.get('img')
         self.ques = npc_ques
         self.congrats = prof_congrats
+        self.reject = prof_reject
        
         self.status = 'idle'
         self.image = pygame.Surface((16,16))
@@ -312,6 +313,7 @@ class NPC(Entity):
                     return
                 
             elif response == 'B':
+                self.dialogue.render_instant_npc_speech(self.display_surface, self.reject, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                 print('your loss lol')
                 self.question = False
 

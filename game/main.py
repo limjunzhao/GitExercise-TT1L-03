@@ -386,7 +386,7 @@ class Game:
         self.vol += vol_change 
         self.vol = max(0.0, min(1.0, self.vol))
         self.music_sfx.set_volume(self.vol)
-        self.button_sfx.set_volume(self.vol)
+        self.button_sfx.set_volume(self.vol) 
     
 
     def run_menu(self):
