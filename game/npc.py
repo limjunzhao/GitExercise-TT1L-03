@@ -4,7 +4,7 @@ from entity import Entity
 from support import * 
 from minigame import *
 from button import Button
-win_game_global = False
+win_game_global = True
 
 class Dialogue(): 
     def __init__(self):
@@ -19,7 +19,7 @@ class Dialogue():
 
 
     def escape_dialogue_text_display (self, screen, text, rect, font, color): 
-        skip_text = "Press TAB key to escape the dialogue"
+        skip_text = "[TAB] to escape the dialogue"
 
         self.text_surface = FONT.render(skip_text, True, BLACK)
         self.text_rect = self.text_surface.get_rect(bottomright = (self.speech_rect.x + 1220, self.speech_rect.y + 170))
@@ -182,6 +182,28 @@ class Execution():
                     sys.exit()
 
 
+class Transition:
+    def __init__ (self): 
+        self.display_surface = pygame.display.get_surface()
+        self.fade_surface = pygame.Surface((WIDTH, HEIGHT)).convert()
+        self.fade_surface.fill(BLACK)
+    
+    def fade_out(self):
+        for alpha in range(0, 256, 1):  # Alpha ranges from 0 (transparent) to 255 (opaque)
+            self.fade_surface.set_alpha(alpha)
+            self.display_surface.blit(self.fade_surface, (0, 0))
+            pygame.display.update()
+            pygame.time.delay(5)
+        
+        for alpha in range(255, 0, -1):  # Alpha ranges from 255 (opaque) to 0 (transparent)
+            self.fade_surface.set_alpha(alpha)
+            self.display_surface.blit(self.fade_surface, (0, 0))
+            pygame.display.update()
+
+    # Function to fade in
+    def fade_in(self):
+        pass
+
 
 class NPC(Entity):
     interaction_counts = {npc: 0 for npc in npc_data}
@@ -197,11 +219,14 @@ class NPC(Entity):
         # Import Dialogue and Execution 
         self.dialogue = Dialogue()
         self.execution = Execution()
+        self.transition = Transition()
         self.npc_speed = 0.1
         self.morsecode = Morsecode()
         self.jumbleword = Jumbleword()
-        
+
+
         # Stats  
+        self.stats = ''
         self.npc_name = npc_name
         npc_info = npc_data[self.npc_name]
         self.greeting = npc_info.get('greeting')
@@ -212,8 +237,10 @@ class NPC(Entity):
         self.icon = npc_info.get('img')
         self.ques = npc_ques
         self.congrats = prof_congrats
-        self.reject = prof_reject
-       
+
+        self.detective_dialogue = detective_dialogue
+        self.rejected_dialogue = rejected_dialogue
+
         self.status = 'idle'
         self.image = pygame.Surface((16,16))
         self.rect = self.image.get_rect(topleft=pos)
@@ -224,6 +251,9 @@ class NPC(Entity):
         self.speech_shown = False  # Flag to track if speech is currently shown
         self.question = True  # ans will be false 
         self.skip = False
+        self.show_player = False
+        self.show_npc = False
+        
 
         self.font = pygame.font.Font(None, 36)  # Font for interaction message
         self.interaction_radius = 90  # Radius to show interaction message
@@ -246,16 +276,52 @@ class NPC(Entity):
         self.image = animation[int(self.frame_index)]
         self.rect = self.image.get_rect(center=self.hitbox.center)
 
-    def draw(self):
+    def draw_npc_name_icon(self, screen, rect):
+        if self.show_npc == True:
             self.name_surface = FONT_NAME.render(self.npc_name, True, WHITE)
             self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 50, self.dialogue.speech_rect.y - 20))
             self.display_surface.blit(self.name_surface, self.name_rect)
 
-    def image_icon (self, screen, rect):
-        self.icon_surface = pygame.image.load(self.icon).convert_alpha()
-        self.icon_surface = pygame.transform.scale2x(self.icon_surface)
-        self.icon_rect = self.icon_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 10  , self.dialogue.speech_rect.y - 40))
-        screen.blit(self.icon_surface, self.icon_rect)
+            self.icon_surface = pygame.image.load(self.icon).convert_alpha()
+            self.icon_surface = pygame.transform.scale2x(self.icon_surface)
+            self.icon_rect = self.icon_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 10  , self.dialogue.speech_rect.y - 40))
+            screen.blit(self.icon_surface, self.icon_rect)
+
+        
+
+    def player_name_icon(self, screen): 
+        if self.show_player == True:
+            self.name_surface = FONT_NAME.render('Me', True, WHITE)
+            self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 50, self.dialogue.speech_rect.y - 20))
+            screen.blit(self.name_surface, self.name_rect)
+
+            self.icon_surface = pygame.image.load('sprites sheet for maps/sprites/characters/player/idle/0.png').convert_alpha()
+            self.icon_surface = pygame.transform.scale2x(self.icon_surface)
+            self.icon_rect = self.icon_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 10  , self.dialogue.speech_rect.y - 40))
+            screen.blit(self.icon_surface, self.icon_rect)
+
+
+    def player_ask (self):
+        if self.show_npc == False and self.show_player == True:
+            self.player_name_icon(self.display_surface)
+        
+
+        if self.stats == 'first meet':
+            self.dialogue.render_typewriter_npc_speech(self.display_surface, self.detective_dialogue, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+
+
+
+        elif self.stats == 'ask ques':
+            self.dialogue.render_instant_npc_speech(self.display_surface, self.ques, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+            self.show_player = False
+
+
+    def npc_ans(self):
+        if self.show_npc == True and self.show_player == False:
+            self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
+
+
+        self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
 
 
     def multiple_choice(self, dialogue_where, dialogue_who, dialogue_what, screen, rect, font):
@@ -265,12 +331,17 @@ class NPC(Entity):
                 if self.npc_name == name and event.type == pygame.KEYDOWN: 
                     if event.key == pygame.K_a:  # Ask where
                         self.dialogue.render_typewriter_npc_speech(screen, dialogue_where, BLACK, rect, font)
+                    
                     elif event.key == pygame.K_b:  # Ask who
                         self.dialogue.render_typewriter_npc_speech(screen, dialogue_who, BLACK, rect, font)
+                    
                     elif event.key == pygame.K_c:  # Ask what
                         self.dialogue.render_typewriter_npc_speech(screen, dialogue_what, BLACK, rect, font)
+
                         if self.npc_name == 'Alex': 
                             self.question = False
+                            self.transition.fade_out()
+                            self.transition.fade_in()
                             self.jumbleword.run()
                            
                     if event.key == pygame.K_TAB:  # Escape dialogue
@@ -285,11 +356,11 @@ class NPC(Entity):
                     elif event.key == pygame.K_b:
                         return 'B'
             pygame.time.wait(100)  # Check input every 100 ms
-
+    
     def ask_professor_questions(self):
         global win_game_global
         questions = [
-            ("Do you wish to learn our language?", ["A: Yes!    B: No.."]),
+            ("Hello there dear traveller, would you liked to learn our language?", ["A: Yes!    B: No.."]),
         ]
 
         for question, choices in questions:
@@ -307,14 +378,18 @@ class NPC(Entity):
             if response == 'A':
                 print('yay')
                 self.question = False
+                self.transition.fade_out()
+                self.transition.fade_in()
                 if self.morsecode.run() == 'Complete test':
                     win_game_global = True
                     print("Game completed! Win game set to True.")  # Debug print
-                    return
-                
+                    return win_game_global
+
+                   
             elif response == 'B':
                 self.dialogue.render_instant_npc_speech(self.display_surface, self.reject, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                 print('your loss lol')
+                self.dialogue.render_typewriter_npc_speech(self.display_surface, self.rejected_dialogue, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                 self.question = False
 
             pygame.time.wait(1000)  # Pause to let player read the response
@@ -325,6 +400,7 @@ class NPC(Entity):
         for press in interact:
             text_surface = font.render(press["text"], True, press["color"])
             screen.blit(text_surface, press["position"])
+
 
     def npc_collision(self, player):
         global win_game_global
@@ -338,6 +414,8 @@ class NPC(Entity):
                     if keys[pygame.K_e] and not self.speech_shown:
                         self.speech_shown = True
                         self.question = True
+                        self.show_player = True 
+                        self.show_npc = False
                         self.skip = False
                         npc_index = i
                         NPC.interaction_counts[self.npc_name] += 1
@@ -345,22 +423,26 @@ class NPC(Entity):
 
                         if win_game_global:
                             if self.npc_name == "Professor":
-                                self.image_icon(self.display_surface, self.dialogue.speech_rect)
-                                self.draw()
-                                self.dialogue.render_instant_npc_speech(self.display_surface, self.congrats, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
-
+                                self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
+                                self.dialogue.render_typewriter_npc_speech(self.display_surface, self.congrats, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
+                                
 
                             elif self.npc_name != "Officer":
-                                self.image_icon(self.display_surface, self.dialogue.speech_rect)
-                                self.draw()
+                                #display player dialogue to ask question 
+                                self.stats = 'first meet' 
+                                self.player_ask()
+                               
+                                
                                 for _ in range(3):
-                                    if self.question:
-                                        self.dialogue.render_instant_npc_speech(self.display_surface, self.ques, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
-                                        self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
+                                    if self.question: 
+                                        self.stats = 'ask ques'
+                                        self.player_ask()
+                                        self.npc_ans()
+
 
                             elif self.npc_name == 'Officer':
-                                self.image_icon(self.display_surface, self.dialogue.speech_rect)
-                                self.draw()
+                               
+                                self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
                                 if all(count > 0 for count in self.interaction_counts.values()):
                                     self.execution.identify_killer(self.display_surface)
                                     for event in pygame.event.get():
@@ -370,13 +452,14 @@ class NPC(Entity):
                                                     self.execution.display_congratulations(self.display_surface)
                                                 elif event.key in (pygame.K_b, pygame.K_c, pygame.K_d):
                                                     self.execution.display_game_over(self.display_surface)
+
                                 else:
                                     self.dialogue.render_typewriter_npc_speech(self.display_surface, self.greeting, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                                     pygame.time.wait(1000)  
 
                             elif self.npc_name == 'Alex': 
                                 self.image_icon(self.display_surface, self.dialogue.speech_rect)
-                                self.draw()
+                                self.draw_npc_name()
                                 self.dialogue.render_instant_npc_speech(self.display_surface, self.ques, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
                                 self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
                                 
