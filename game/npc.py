@@ -19,7 +19,7 @@ class Dialogue():
 
 
     def escape_dialogue_text_display (self, screen, text, rect, font, color): 
-        skip_text = "[TAB] to escape the dialogue"
+        skip_text = "[TAB] escape the dialogue"
 
         self.text_surface = FONT.render(skip_text, True, BLACK)
         self.text_rect = self.text_surface.get_rect(bottomright = (self.speech_rect.x + 1220, self.speech_rect.y + 170))
@@ -305,7 +305,6 @@ class NPC(Entity):
         self.rect = self.image.get_rect(center=self.hitbox.center)
 
     def draw_npc_name_icon(self, screen, rect):
-
         self.name_surface = FONT_NAME.render(self.npc_name, True, WHITE)
         self.name_rect = self.name_surface.get_rect(topleft = (self.dialogue.speech_rect.x + 50, self.dialogue.speech_rect.y - 20))
         self.display_surface.blit(self.name_surface, self.name_rect)
@@ -319,7 +318,7 @@ class NPC(Entity):
 
 
     def player_ask (self):
-        self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
+        
         if self.stats == 'first meet':
             self.dialogue.render_typewriter_npc_speech(self.display_surface, self.detective_dialogue, BLACK, self.dialogue.speech_rect, SPEECH_FONT)
 
@@ -331,7 +330,6 @@ class NPC(Entity):
 
 
     def npc_ans(self):
-        self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
         self.multiple_choice(self.ask_where, self.ask_who, self.ask_what, self.display_surface, self.dialogue.speech_rect, SPEECH_FONT)
 
 
@@ -367,7 +365,7 @@ class NPC(Entity):
     def ask_professor_questions(self):
         global win_game_global
         questions = [
-            ("Hello there dear traveller, would you liked to learn our language?", ["A: Yes!    B: No.."]),
+            ("Hello there Dear Traveller, my name is Jeff and they call me Prof. Don't be surprise I can understand your language since that was invented by me hehe. Seems like you are having a hard time understanding my fellow dinos. Would you like to learn our language? ", ["Press 'A': Yes!!!    Press 'B': No.."]),
         ]
 
         for question, choices in questions:
@@ -383,7 +381,6 @@ class NPC(Entity):
 
             # Handle the response
             if response == 'A':
-
                 self.question = False
                 self.transition.fade_out()
                 self.execution.display_learning_screen()
@@ -420,8 +417,6 @@ class NPC(Entity):
                     if keys[pygame.K_e] and not self.speech_shown:
                         self.speech_shown = True
                         self.question = True
-                        self.show_player = True 
-                        self.show_npc = False
                         self.skip = False
                         npc_index = i
                         NPC.interaction_counts[self.npc_name] += 1
@@ -437,7 +432,7 @@ class NPC(Entity):
                                 #display player dialogue to ask question 
                                 self.stats = 'first meet' 
                                 self.player_ask()
-                               
+                                self.draw_npc_name_icon(self.display_surface, self.dialogue.speech_rect)
                                 
                                 for _ in range(3):
                                     if self.question: 

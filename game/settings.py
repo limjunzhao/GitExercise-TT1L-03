@@ -46,7 +46,7 @@ love_letter_font = pygame.font.Font(cursive_font_path, 30)  # Load cursive font
 
 #npc dino dialogue info
 npc_data = {
-    'Maria': {'who': "My name is Maria.",
+    'Maria': {'who': "My name is Maria, a married mother with children of five, and this amazing man beside me is my husband, Willie <3",
                 'where' : 'In the morning, I made breakfast for my husband, then proceeded to do house chores until afternoon. After lunch with my husband, I just rested at home and spend my time reading', 
                 'what' : 'I was sick the whole day so i didnt went out. I waited my husband to come home. Later, we cooked dinner together and went to sleep afterwards.',
                 "greeting":'',
@@ -54,7 +54,7 @@ npc_data = {
                 "rawr": "raaawr rawr"
             }, 
 
-    'Willie': {'who': "My name is Willie.",
+    'Willie': {'who': "My name is Willie. Father of five lil dinos",
                 'where' : 'I started my day by having breakfast with my wife Maria, followed by me heading to work, I then head to lunch with my wife and returned to work.', 
                 'what' : 'I came back home from the office and got the ingredients ready and cooked dinner with my wife. After that, we went to bed before 10pm.',
                 "greeting":'',
@@ -62,7 +62,7 @@ npc_data = {
                 "rawr": "raaawr rawr"
             },
     
-    'Amber': {'who': "My name is Amber.",
+    'Amber': {'who': "My name is Amber. I am the neighbour of my close friend Maria",
                 'where' : 'In the day, I exercised in the park. And after that I had my coffee and breakfast. Meanwhile I watched TV for the time to pass. During lunch, I ate my leftover dinner from yesterday. After lunch, I headed to Marias house. Maria told me she was busy for our usual day-to-day chit chat. But i saw her hanging around the backyard somehow. She might be doing her gardening.', 
                 'what' : 'As night falls, I took my dog for a night walk and went to bed.',
                 "greeting":'',
@@ -79,9 +79,9 @@ npc_data = {
                 "rawr": "raaawr rawr"
             },
     'Alex': {'who': 'My name is Alex, just a normal maildino',
-                'where' : 'I reached here 7.00 am morning and start my work instantly. Before that I am on the way from my office which is Dino City Centre', 
+                'where' : 'I wasnt here last night. I reached here 7.00 am morning and start my work instantly. Before that I am on the way from my office where is Dino City Centre.', 
                 'what' : 'I am here to send a mail to Mr Willie, here it is...',
-                "greeting": 'Im here to give the letter to Mr Willie',
+                "greeting": 'I am here to give the letter to Mr Willie',
                 'img' : 'sprites sheet for maps/sprites/characters/npc/alex/idle/0.png',
                 "rawr": "raaawr rawr"
                 
@@ -101,7 +101,7 @@ npc_data = {
 
 #npc dialogue question ask
 npc_ques =  ' A. Where were you you yesterday? \n B. Who are you, whats your name? \n C. What did you do last night?'
-prof_congrats = 'Congrats u graduate from Dino School'
+prof_congrats = 'Congrats you have finally graduated from Dino School'
 detective_dialogue = 'I am here to investigate the incidents. Let me ask you a few question.'
 rejected_dialogue = 'Fine, but I believe we will meet again soon..'
 
@@ -145,10 +145,10 @@ MORSE_CODE_DICT = {
 
 ms_questions = [
           ("Translate 'HELLO' to Morse Code", ".... . .-.. .-.. ---"),
-          ("Translate 'WORLD' to Morse Code", ".-- --- .-. .-.. -.."),
-          ("Translate 'PYTHON' to Morse Code", ".--. -.-- - .... --- -."),
-          ("Translate 'GAME' to Morse Code", "--. .- -- ."),
-          ("Translate 'OPENAI' to Morse Code", "--- .--. . -. .- ..")
+          ("Translate 'THANKYOU' to Morse Code", "- .... .- -. -.- -.-- --- ..-"),
+          ("Translate 'WELCOME' to Morse Code", ".-- . .-.. -.-. --- -- ."),
+          ("Translate 'WHAT' to Morse Code", ".-- .... .- -"),
+          ("Translate 'MURDER' to Morse Code", "-- ..- .-. -.. . .-.")
       ]
 
 controls_font = pygame.font.Font(None, 40)
